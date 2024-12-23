@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.0.7
+echo Version: 5.0.8
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -282,10 +282,10 @@ goto "Bit2"
 
 :"SureIndex3"
 echo.
-set IndexNumber=
-set /p IndexNumber="Are you sure you want Index %Index%? (Yes/No) "
-if /i "%IndexNumber%"=="Yes" goto "AttachDisk"
-if /i "%IndexNumber%"=="No" goto "Index3"
+set SureIndex=
+set /p SureIndex="Are you sure you want Index %Index%? (Yes/No) "
+if /i "%SureIndex%"=="Yes" goto "AttachDisk"
+if /i "%SureIndex%"=="No" goto "Index3"
 echo Invalid syntax!
 goto "SureIndex3"
 
@@ -305,10 +305,10 @@ goto "Bit2"
 
 :"SureIndex7"
 echo.
-set IndexNumber=
-set /p IndexNumber="Are you sure you want Index %Index%? (Yes/No) "
-if /i "%IndexNumber%"=="Yes" goto "AttachDisk"
-if /i "%IndexNumber%"=="No" goto "Index7"
+set SureIndex=
+set /p SureIndex="Are you sure you want Index %Index%? (Yes/No) "
+if /i "%SureIndex%"=="Yes" goto "AttachDisk"
+if /i "%SureIndex%"=="No" goto "Index7"
 echo Invalid syntax!
 goto "SureIndex7"
 
@@ -332,10 +332,10 @@ goto "Bit2"
 
 :"SureIndex11"
 echo.
-set IndexNumber=
-set /p IndexNumber="Are you sure you want Index %Index%? (Yes/No) "
-if /i "%IndexNumber%"=="Yes" goto "AttachDisk"
-if /i "%IndexNumber%"=="No" goto "Index11"
+set SureIndex=
+set /p SureIndex="Are you sure you want Index %Index%? (Yes/No) "
+if /i "%SureIndex%"=="Yes" goto "AttachDisk"
+if /i "%SureIndex%"=="No" goto "Index11"
 echo Invalid syntax!
 goto "SureIndex11"
 
