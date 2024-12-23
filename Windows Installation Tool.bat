@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.0.6
+echo Version: 5.0.7
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -200,7 +200,7 @@ goto "ESDSWMWIM"
 if exist "%DriveLetter%\sources\install.esd" set Install=install.esd
 if exist "%DriveLetter%\sources\install.swm" set Install=install.swm
 if exist "%DriveLetter%\sources\install.wim" set Install=install.wim
-goto "DISM1"
+goto "bootmgr"
 
 :"32ESDSWMWIM"
 if exist "%DriveLetter%\x86\sources\install.esd" set Install=install.esd
@@ -214,15 +214,18 @@ if exist "%DriveLetter%\x64\sources\install.swm" set Install=install.swm
 if exist "%DriveLetter%\x64\sources\install.wim" set Install=install.wim
 goto "64DISM1"
 
-:"DISM1"
+:"bootmgr"
+set bootmgr=
+if not exist "%DriveLetter%\bootmgr" set bootmgr=Arm64
+goto "DISM1"
+
+"DISM1"
 if exist "%cd%\Index.txt" goto "IndexExist"
+echo.
+echo Getting index details for Windows Disk Image "%DriveLetter%".
 DISM /Get-WimInfo /WimFile:"%DriveLetter%\sources\%Install%" | find /c /i "Index" > "%cd%\Index.txt"
 set /p IndexNumber=< "%cd%\Index.txt"
 del "%cd%\Index.txt" /f /q > nul 2>&1
-set bootmgr=
-if not exist "%DriveLetter%\bootmgr" set bootmgr=Arm64
-echo.
-echo Getting index details for Windows Disk Image "%DriveLetter%".
 DISM /Get-WimInfo /WimFile:"%DriveLetter%\sources\%Install%"
 if not "%errorlevel%"=="0" goto "DriveLetter"
 echo Got index details for Windows Disk Image "%DriveLetter%".
