@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.0.4
+echo Version: 5.0.5
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -170,7 +170,7 @@ goto "DriveLetter"
 if exist "%DriveLetter%\sources" goto "ESDSWMWIM"
 if exist "%DriveLetter%\x86\sources" goto "Bit1"
 if exist "%DriveLetter%\x64\sources" goto "Bit1"
-echo Invalid drive letter!
+echo Drive letter "%DriveLetter%" is not a Windows Disk Image!
 goto "DriveLetter"
 
 :"Bit1"
