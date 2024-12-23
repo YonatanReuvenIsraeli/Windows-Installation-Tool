@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.0.3
+echo Version: 5.0.4
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -554,7 +554,9 @@ set SureBIOSAsk=
 if /i "%BIOSAsk%"=="1" set /p SureBIOSAsk="Are you sure you are installing for Legacy BIOS? (Yes/No) "
 if /i "%BIOSAsk%"=="2" set /p SureBIOSAsk="Are you sure you are installing for UEFI? (Yes/No) "
 if /i "%BIOSAsk%"=="3" set /p SureBIOSAsk="Are you sure you are installing for both? (Yes/No) "
-if /i "%SureBIOSAsk%"=="Yes" goto "fsutil"
+if /i "%SureBIOSAsk%"=="Yes" if /i "%BIOSAsk%"=="1" goto "DiskPartWindows"
+if /i "%SureBIOSAsk%"=="Yes" if /i "%BIOSAsk%"=="2" goto "fsutil"
+if /i "%SureBIOSAsk%"=="Yes" if /i "%BIOSAsk%"=="3" goto "DiskPartWindows"
 if /i "%SureBIOSAsk%"=="No" goto "BIOSAsk"
 echo Invalid syntax!
 goto "SureBIOSAsk"
@@ -592,12 +594,10 @@ echo Partitioning and formating disk %Disk%.
 if /i "%BIOSAsk%"=="1" (echo convert mbr) >> %cd%\DiskPart.txt
 if /i "%BIOSAsk%"=="2" (echo convert gpt) >> %cd%\DiskPart.txt
 if /i "%BIOSAsk%"=="3" (echo convert mbr) >> %cd%\DiskPart.txt
-if /i "%BIOSAsk%"=="1" if /i "%fsutil%"=="0" (echo create partition primary size=100) >> %cd%\DiskPart.txt
-if /i "%BIOSAsk%"=="1" if /i "%fsutil%"=="1" (echo create partition primary size=260) >> %cd%\DiskPart.txt
+if /i "%BIOSAsk%"=="1" if /i (echo create partition primary size=100) >> %cd%\DiskPart.txt
 if /i "%BIOSAsk%"=="2" if /i "%fsutil%"=="0" (echo create partition efi size=100) >> %cd%\DiskPart.txt
 if /i "%BIOSAsk%"=="2" if /i "%fsutil%"=="1" (echo create partition efi size=260) >> %cd%\DiskPart.txt
-if /i "%BIOSAsk%"=="3" if /i "%fsutil%"=="0" (echo create partition primary size=100) >> %cd%\DiskPart.txt
-if /i "%BIOSAsk%"=="3" if /i "%fsutil%"=="1" (echo create partition primary size=260) >> %cd%\DiskPart.txt
+if /i "%BIOSAsk%"=="3" (echo create partition primary size=100) >> %cd%\DiskPart.txt
 (echo format quick fs=FAT32 label="System")  >> %cd%\DiskPart.txt
 (echo assign letter="%FAT32%") >> %cd%\DiskPart.txt
 if /i "%BIOSAsk%"=="1" (echo active) >> %cd%\DiskPart.txt
