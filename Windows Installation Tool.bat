@@ -2,12 +2,12 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.0.8
+echo Version: 5.0.9
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
-echo Sponsor: https://github.com/sponsors/YonatanReuvenIsraeli 
-net session > nul 2>&1
+echo Sponsor: https://github.com/sponsors/YonatanReuvenIsraeli
+"%windir%\System32\net.exe" session > nul 2>&1
 if not "%errorlevel%"=="0" goto "NotAdministrator"
 goto "Start"
 
@@ -223,10 +223,10 @@ goto "DISM1"
 if exist "%cd%\Index.txt" goto "IndexExist"
 echo.
 echo Getting index details for Windows Disk Image "%DriveLetter%".
-DISM /Get-WimInfo /WimFile:"%DriveLetter%\sources\%Install%" | find /c /i "Index" > "%cd%\Index.txt"
+"%windir%\System32\Dism.exe" /Get-WimInfo /WimFile:"%DriveLetter%\sources\%Install%" | find /c /i "Index" > "%cd%\Index.txt"
 set /p IndexNumber=< "%cd%\Index.txt"
 del "%cd%\Index.txt" /f /q > nul 2>&1
-DISM /Get-WimInfo /WimFile:"%DriveLetter%\sources\%Install%"
+"%windir%\System32\Dism.exe" /Get-WimInfo /WimFile:"%DriveLetter%\sources\%Install%"
 if not "%errorlevel%"=="0" goto "DriveLetter"
 echo Got index details for Windows Disk Image "%DriveLetter%".
 if "%Index%"=="True" goto "IndexDone"
@@ -257,7 +257,7 @@ goto "Start"
 :"32DISM1"
 echo.
 echo Getting index details for Windows Disk Image "%DriveLetter%".
-DISM /Get-WimInfo /WimFile:"%DriveLetter%\x86\sources\%Install%"
+"%windir%\System32\Dism.exe" /Get-WimInfo /WimFile:"%DriveLetter%\x86\sources\%Install%"
 if not "%errorlevel%"=="0" goto "DriveLetter"
 echo Got index details for Windows Disk Image "%DriveLetter%".
 goto "Index7"
@@ -265,7 +265,7 @@ goto "Index7"
 :"64DISM1"
 echo.
 echo Getting index details for Windows Disk Image "%DriveLetter%".
-DISM /Get-WimInfo /WimFile:"%DriveLetter%\x64\sources\%Install%"
+"%windir%\System32\Dism.exe" /Get-WimInfo /WimFile:"%DriveLetter%\x64\sources\%Install%"
 if not "%errorlevel%"=="0" goto "DriveLetter"
 echo Got index details for Windows Disk Image "%DriveLetter%".
 goto "Index7"
@@ -356,7 +356,7 @@ echo.
 echo Finding disks attached to this PC.
 (echo list disk) > "%cd%\DiskPart.txt"
 (echo exit) >> "%cd%\DiskPart.txt"
-DiskPart /s "%cd%\DiskPart.txt" 2>&1
+"%windir%\System32\diskpart.exe" /s "%cd%\DiskPart.txt" 2>&1
 if not "%errorlevel%"=="0" goto "DiskError"
 del "%cd%\DiskPart.txt" /f /q > nul 2>&1
 echo Disks attached to this PC found.
@@ -568,7 +568,7 @@ goto "SureBIOSAsk"
 if exist "%cd%\fsutil.txt" goto "fsutilExist"
 echo.
 echo Getting disk %Disk% details.
-fsutil fsinfo sectorinfo \\.\PhysicalDrive%Disk% | find /i /c "PhysicalBytesPerSectorForAtomicity :                    4096" > %cd%\fsutil.txt
+"%windir%\System32\fsutil.exe" fsinfo sectorinfo \\.\PhysicalDrive%Disk% | find /i /c "PhysicalBytesPerSectorForAtomicity :                    4096" > %cd%\fsutil.txt
 set /p fsutil=< "%cd%\fsutil.txt"
 echo Got disk %Disk% details.
 del "%cd%\fsutil.txt" /f /q > nul 2>&1
@@ -618,7 +618,7 @@ if /i "%BIOSAsk%"=="2" (echo set id="de94bba4-06d1-4d40-a16a-bfd50179d6ac") >> %
 if /i "%BIOSAsk%"=="3" (echo set id=27) >> %cd%\DiskPart.txt
 if /i "%BIOSAsk%"=="2" (echo gpt attributes=0x8000000000000001) >> %cd%\DiskPart.txt
 (echo exit) >> %cd%\DiskPart.txt
-DiskPart /s "%cd%\DiskPart.txt" > nul 2>&1
+"%windir%\System32\diskpart.exe" /s "%cd%\DiskPart.txt" > nul 2>&1
 if not "%errorlevel%"=="0" goto "DiskPartErrorDiskPartWindows"
 del "%cd%\DiskPart.txt" /f /q > nul 2>&1
 echo Disk %Disk% partitioned and formated.
@@ -655,7 +655,7 @@ if /i not "%bootmgr%"=="Arm64" (echo active) >> "%cd%\DiskPart.txt"
 (echo assign letter=%NTFS%) >> "%cd%\DiskPart.txt"
 (echo attributes vol set nodefaultdriveletter) >> "%cd%\DiskPart.txt"
 (echo exit) >> "%cd%\DiskPart.txt"
-DiskPart /s "%cd%\DiskPart.txt" > nul 2>&1
+"%windir%\System32\diskpart.exe" /s "%cd%\DiskPart.txt" > nul 2>&1
 if not "%errorlevel%"=="0" goto "DiskPartToGoError"
 del "%cd%\DiskPart.txt" /f /q > nul 2>&1
 echo Disk %Disk% partitioned and formated.
@@ -682,7 +682,7 @@ goto "DISM2"
 :"DISM2"
 echo.
 echo Installing Windows.
-DISM /Apply-Image /ImageFile:"%DriveLetter%\sources\%Install%" /Index:%Index% /ApplyDir:%NTFS%
+"%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%DriveLetter%\sources\%Install%" /Index:%Index% /ApplyDir:%NTFS%
 if not "%errorlevel%"=="0" goto "BitDetection"
 echo Windows installed.
 if /i "%bootmgr%"=="Arm64" goto "BootloaderUEFI"
@@ -694,7 +694,7 @@ if /i "%BIOSAsk%"=="3" goto "BootloaderBoth"
 :"32DISM2"
 echo.
 echo Installing Windows.
-DISM /Apply-Image /ImageFile:"%DriveLetter%\x86\sources\%Install%" /Index:%Index% /ApplyDir:%NTFS%
+"%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%DriveLetter%\x86\sources\%Install%" /Index:%Index% /ApplyDir:%NTFS%
 if not "%errorlevel%"=="0" goto "BitDetection"
 echo Windows installed.
 if /i "%bootmgr%"=="Arm64" goto "BootloaderUEFI"
@@ -706,7 +706,7 @@ if /i "%BIOSAsk%"=="3" goto "BootloaderBoth"
 :"64DISM2"
 echo.
 echo Installing Windows.
-DISM /Apply-Image /ImageFile:"%DriveLetter%\x64\sources\%Install%" /Index:%Index% /ApplyDir:%NTFS%
+"%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%DriveLetter%\x64\sources\%Install%" /Index:%Index% /ApplyDir:%NTFS%
 if not "%errorlevel%"=="0" goto "BitDetection"
 echo Windows installed.
 if /i "%bootmgr%"=="Arm64" goto "BootloaderUEFI"
@@ -719,12 +719,12 @@ if /i "%BIOSAsk%"=="3" goto "BootloaderBoth"
 if exist "%cd%\DiskPart.txt" goto "DiskPartExistBootloaderBIOS"
 echo.
 echo Creating bootloader.
-BCDBoot "%NTFS%\Windows" /s "%FAT32%" /f ALL > nul 2>&1
+"%windir%\System32\bcdboot.exe" "%NTFS%\Windows" /s "%FAT32%" /f ALL > nul 2>&1
 if not "%errorlevel%"=="0" goto "BootloaderErrorBIOS"
 (echo sel vol %FAT32%) > "%cd%\DiskPart.txt"
 (echo remove letter=%FAT32%) >> "%cd%\DiskPart.txt"
 (echo exit) >> "%cd%\DiskPart.txt"
-DiskPart /s "%cd%\DiskPart.txt" > nul 2>&1
+"%windir%\System32\diskpart.exe" /s "%cd%\DiskPart.txt" > nul 2>&1
 if not "%errorlevel%"=="0" goto "BootloaderErrorBIOS"
 del "%cd%\DiskPart.txt" /f /q > nul 2>&1
 echo Bootloader created.
@@ -749,12 +749,12 @@ goto "BootloaderBIOS"
 if exist "%cd%\DiskPart.txt" goto "DiskPartExistBootloaderUEFI"
 echo.
 echo Creating bootloader.
-BCDBoot "%NTFS%\Windows" /s "%FAT32%" /f UEFI > nul 2>&1
+"%windir%\System32\bcdboot.exe" "%NTFS%\Windows" /s "%FAT32%" /f UEFI > nul 2>&1
 if not "%errorlevel%"=="0" goto "BootloaderErrorUEFI"
 (echo sel vol %FAT32%) > "%cd%\DiskPart.txt"
 (echo remove letter=%FAT32%) >> "%cd%\DiskPart.txt"
 (echo exit) >> "%cd%\DiskPart.txt"
-DiskPart /s "%cd%\DiskPart.txt" > nul 2>&1
+"%windir%\System32\diskpart.exe" /s "%cd%\DiskPart.txt" > nul 2>&1
 if not "%errorlevel%"=="0" goto "BootloaderErrorUEFI"
 del "%cd%\DiskPart.txt" /f /q > nul 2>&1
 echo Bootloader created.
@@ -779,12 +779,12 @@ goto "BootloaderUEFI"
 if exist "%cd%\DiskPart.txt" goto "DiskPartExistBootloaderBoth"
 echo.
 echo Creating bootloader.
-BCDBoot "%NTFS%\Windows" /s "%FAT32%" /f All > nul 2>&1
+"%windir%\System32\bcdboot.exe" "%NTFS%\Windows" /s "%FAT32%" /f All > nul 2>&1
 if not "%errorlevel%"=="0" goto "BootloaderErrorBoth"
 (echo sel vol %FAT32%) > "%cd%\DiskPart.txt"
 (echo remove letter=%FAT32%) >> "%cd%\DiskPart.txt"
 (echo exit) >> "%cd%\DiskPart.txt"
-DiskPart /s "%cd%\DiskPart.txt" > nul 2>&1
+"%windir%\System32\diskpart.exe" /s "%cd%\DiskPart.txt" > nul 2>&1
 if not "%errorlevel%"=="0" goto "BootloaderErrorBoth"
 del "%cd%\DiskPart.txt" /f /q > nul 2>&1
 echo Bootloader created.
@@ -921,12 +921,12 @@ echo.
 echo Creating recovery partition.
 md "%Recovery%\Recovery\WindowsRE"
 copy "%NTFS%\Windows\System32\Recovery\winre.wim" "%Recovery%\Recovery\WindowsRE\winre.wim" /y /v > nul 2>&1
-reagentc /setreimage /path "%Recovery%\Recovery\WindowsRE" /target "%NTFS%\Windows" > nul 2>&1
+"%windir%\System32\ReAgentc.exe" /setreimage /path "%Recovery%\Recovery\WindowsRE" /target "%NTFS%\Windows" > nul 2>&1
 if not "%errorlevel%"=="0" goto "RecoveryError"
 (echo sel vol %Recovery%) > "%cd%\DiskPart.txt"
 (echo remove letter=%Recovery%) >> "%cd%\DiskPart.txt"
 (echo exit) >> "%cd%\DiskPart.txt"
-DiskPart /s "%cd%\DiskPart.txt" > nul 2>&1
+"%windir%\System32\diskpart.exe" /s "%cd%\DiskPart.txt" > nul 2>&1
 if not "%errorlevel%"=="0" goto "RecoveryError"
 del "%cd%\DiskPart.txt" /f /q > nul 2>&1
 echo Recovery partition created.
