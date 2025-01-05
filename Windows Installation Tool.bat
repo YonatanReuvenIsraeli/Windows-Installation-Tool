@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.0.9
+echo Version: 5.0.10
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -351,14 +351,14 @@ set DiskPart=
 goto "Disk"
 
 :"Disk"
-if exist "%cd%\DiskPart.txt" goto "DiskPartExistDisk"
+if exist "%cd%\diskpart.txt" goto "DiskPartExistDisk"
 echo.
 echo Finding disks attached to this PC.
-(echo list disk) > "%cd%\DiskPart.txt"
-(echo exit) >> "%cd%\DiskPart.txt"
-"%windir%\System32\diskpart.exe" /s "%cd%\DiskPart.txt" 2>&1
+(echo list disk) > "%cd%\diskpart.txt"
+(echo exit) >> "%cd%\diskpart.txt"
+"%windir%\System32\diskpart.exe" /s "%cd%\diskpart.txt" 2>&1
 if not "%errorlevel%"=="0" goto "DiskError"
-del "%cd%\DiskPart.txt" /f /q > nul 2>&1
+del "%cd%\diskpart.txt" /f /q > nul 2>&1
 echo Disks attached to this PC found.
 echo.
 set Disk=
@@ -368,12 +368,12 @@ goto "SureDisk"
 :"DiskPartExistDisk"
 set DiskPart=True
 echo.
-echo Please temporary rename to something else or temporary move to another location "%cd%\DiskPart.txt" in order for this batch file to proceed. "%cd%\DiskPart.txt" is not a system file. Press any key to continue when "%cd%\DiskPart.txt" is renamed to something else or moved to another location. This batch file will let you know when you can rename it back to its original name or move it back to its original location.
+echo Please temporary rename to something else or temporary move to another location "%cd%\diskpart.txt" in order for this batch file to proceed. "%cd%\diskpart.txt" is not a system file. Press any key to continue when "%cd%\diskpart.txt" is renamed to something else or moved to another location. This batch file will let you know when you can rename it back to its original name or move it back to its original location.
 pause > nul 2>&1
 goto "Disk"
 
 :"DiskError"
-del "%cd%\DiskPart.txt" /f /q > nul 2>&1
+del "%cd%\diskpart.txt" /f /q > nul 2>&1
 echo There has been an error! Press any key to try again.
 pause > nul 2>&1
 goto "AttachDisk"
@@ -589,87 +589,87 @@ pause > nul 2>&1
 goto "DiskPartWindows"
 
 :"DiskPartWindows"
-if exist "%cd%\DiskPart.txt" goto "DiskPartExistDiskPartWindows"
+if exist "%cd%\diskpart.txt" goto "DiskPartExistDiskPartWindows"
 echo.
 echo Partitioning and formating disk %Disk%.
-(echo select disk %Disk%) > %cd%\DiskPart.txt
-(echo clean) >> %cd%\DiskPart.txt
-if /i "%BIOSAsk%"=="1" (echo convert mbr) >> %cd%\DiskPart.txt
-if /i "%BIOSAsk%"=="2" (echo convert gpt) >> %cd%\DiskPart.txt
-if /i "%BIOSAsk%"=="3" (echo convert mbr) >> %cd%\DiskPart.txt
-if /i "%BIOSAsk%"=="1" if /i (echo create partition primary size=100) >> %cd%\DiskPart.txt
-if /i "%BIOSAsk%"=="2" if /i "%fsutil%"=="0" (echo create partition efi size=100) >> %cd%\DiskPart.txt
-if /i "%BIOSAsk%"=="2" if /i "%fsutil%"=="1" (echo create partition efi size=260) >> %cd%\DiskPart.txt
-if /i "%BIOSAsk%"=="3" (echo create partition primary size=100) >> %cd%\DiskPart.txt
-(echo format quick fs=FAT32 label="System")  >> %cd%\DiskPart.txt
-(echo assign letter="%FAT32%") >> %cd%\DiskPart.txt
-if /i "%BIOSAsk%"=="1" (echo active) >> %cd%\DiskPart.txt
-if /i "%BIOSAsk%"=="3" (echo active) >> %cd%\DiskPart.txt
-if /i "%BIOSAsk%"=="2" (echo create partition msr size=16) >> %cd%\DiskPart.txt
-(echo create partition primary) >> %cd%\DiskPart.txt
-(echo shrink minimum=500) >> %cd%\DiskPart.txt
-(echo format quick fs=ntfs label="Windows") >> %cd%\DiskPart.txt
-(echo assign letter="%NTFS%") >> %cd%\DiskPart.txt
-(echo create partition primary) >> %cd%\DiskPart.txt
-(echo format quick fs=ntfs label="Recovery") >> %cd%\DiskPart.txt
-(echo assign letter="%Recovery%") >> %cd%\DiskPart.txt
-if /i "%BIOSAsk%"=="1" (echo set id=27) >> %cd%\DiskPart.txt
-if /i "%BIOSAsk%"=="2" (echo set id="de94bba4-06d1-4d40-a16a-bfd50179d6ac") >> %cd%\DiskPart.txt
-if /i "%BIOSAsk%"=="3" (echo set id=27) >> %cd%\DiskPart.txt
-if /i "%BIOSAsk%"=="2" (echo gpt attributes=0x8000000000000001) >> %cd%\DiskPart.txt
-(echo exit) >> %cd%\DiskPart.txt
-"%windir%\System32\diskpart.exe" /s "%cd%\DiskPart.txt" > nul 2>&1
+(echo select disk %Disk%) > %cd%\diskpart.txt
+(echo clean) >> %cd%\diskpart.txt
+if /i "%BIOSAsk%"=="1" (echo convert mbr) >> %cd%\diskpart.txt
+if /i "%BIOSAsk%"=="2" (echo convert gpt) >> %cd%\diskpart.txt
+if /i "%BIOSAsk%"=="3" (echo convert mbr) >> %cd%\diskpart.txt
+if /i "%BIOSAsk%"=="1" if /i (echo create partition primary size=100) >> %cd%\diskpart.txt
+if /i "%BIOSAsk%"=="2" if /i "%fsutil%"=="0" (echo create partition efi size=100) >> %cd%\diskpart.txt
+if /i "%BIOSAsk%"=="2" if /i "%fsutil%"=="1" (echo create partition efi size=260) >> %cd%\diskpart.txt
+if /i "%BIOSAsk%"=="3" (echo create partition primary size=100) >> %cd%\diskpart.txt
+(echo format quick fs=FAT32 label="System")  >> %cd%\diskpart.txt
+(echo assign letter="%FAT32%") >> %cd%\diskpart.txt
+if /i "%BIOSAsk%"=="1" (echo active) >> %cd%\diskpart.txt
+if /i "%BIOSAsk%"=="3" (echo active) >> %cd%\diskpart.txt
+if /i "%BIOSAsk%"=="2" (echo create partition msr size=16) >> %cd%\diskpart.txt
+(echo create partition primary) >> %cd%\diskpart.txt
+(echo shrink minimum=500) >> %cd%\diskpart.txt
+(echo format quick fs=ntfs label="Windows") >> %cd%\diskpart.txt
+(echo assign letter="%NTFS%") >> %cd%\diskpart.txt
+(echo create partition primary) >> %cd%\diskpart.txt
+(echo format quick fs=ntfs label="Recovery") >> %cd%\diskpart.txt
+(echo assign letter="%Recovery%") >> %cd%\diskpart.txt
+if /i "%BIOSAsk%"=="1" (echo set id=27) >> %cd%\diskpart.txt
+if /i "%BIOSAsk%"=="2" (echo set id="de94bba4-06d1-4d40-a16a-bfd50179d6ac") >> %cd%\diskpart.txt
+if /i "%BIOSAsk%"=="3" (echo set id=27) >> %cd%\diskpart.txt
+if /i "%BIOSAsk%"=="2" (echo gpt attributes=0x8000000000000001) >> %cd%\diskpart.txt
+(echo exit) >> %cd%\diskpart.txt
+"%windir%\System32\diskpart.exe" /s "%cd%\diskpart.txt" > nul 2>&1
 if not "%errorlevel%"=="0" goto "DiskPartErrorDiskPartWindows"
-del "%cd%\DiskPart.txt" /f /q > nul 2>&1
+del "%cd%\diskpart.txt" /f /q > nul 2>&1
 echo Disk %Disk% partitioned and formated.
 goto "Bit3"
 
 :"DiskPartExistDiskDiskPartWindows"
 set DiskPart=True
 echo.
-echo Please temporary rename to something else or temporary move to another location "%cd%\DiskPart.txt" in order for this batch file to proceed. "%cd%\DiskPart.txt" is not a system file. Press any key to continue when "%cd%\DiskPart.txt" is renamed to something else or moved to another location. This batch file will let you know when you can rename it back to its original name or move it back to its original location.
+echo Please temporary rename to something else or temporary move to another location "%cd%\diskpart.txt" in order for this batch file to proceed. "%cd%\diskpart.txt" is not a system file. Press any key to continue when "%cd%\diskpart.txt" is renamed to something else or moved to another location. This batch file will let you know when you can rename it back to its original name or move it back to its original location.
 pause > nul 2>&1
 goto "DiskPartWindows"
 
 :"DiskPartErrorDiskPartWindows"
-del "%cd%\DiskPart.txt" /f /q > nul 2>&1
+del "%cd%\diskpart.txt" /f /q > nul 2>&1
 echo Error formating and partitioning disk %Disk%. Disk %Disk% may not exist! Disk %Disk% may be smaller than 64 GB! Press any key to try again.
 pause > nul 2>&1
 goto "Disk"
 
 :"DiskPartToGo"
-if exist "%cd%\DiskPart.txt" goto "DiskPartExistDiskPartToGo"
+if exist "%cd%\diskpart.txt" goto "DiskPartExistDiskPartToGo"
 echo.
 echo Partitioning and formating disk %Disk%.
-(echo sel disk %Disk%) > "%cd%\DiskPart.txt"
-(echo clean) >> "%cd%\DiskPart.txt"
-if /i not "%bootmgr%"=="Arm64" (echo convert mbr) >> "%cd%\DiskPart.txt"
-if /i "%bootmgr%"=="Arm64" "%DriveLetter%\bootmgr" (echo convert gpt) >> "%cd%\DiskPart.txt"
-if /i not "%bootmgr%"=="Arm64" (echo create partition Primary size=350) >> "%cd%\DiskPart.txt"
-if /i "%bootmgr%"=="Arm64" (echo create partition efi size=350) >> "%cd%\DiskPart.txt"
-(echo format fs=FAT32 label="WTG-System" quick) >> "%cd%\DiskPart.txt"
-(echo assign letter=%FAT32%) >> "%cd%\DiskPart.txt"
-if /i not "%bootmgr%"=="Arm64" (echo active) >> "%cd%\DiskPart.txt"
-(echo create partition Primary) >> "%cd%\DiskPart.txt"
-(echo format fs=NTFS label="WTG-Windows" quick) >> "%cd%\DiskPart.txt"
-(echo assign letter=%NTFS%) >> "%cd%\DiskPart.txt"
-(echo attributes vol set nodefaultdriveletter) >> "%cd%\DiskPart.txt"
-(echo exit) >> "%cd%\DiskPart.txt"
-"%windir%\System32\diskpart.exe" /s "%cd%\DiskPart.txt" > nul 2>&1
+(echo sel disk %Disk%) > "%cd%\diskpart.txt"
+(echo clean) >> "%cd%\diskpart.txt"
+if /i not "%bootmgr%"=="Arm64" (echo convert mbr) >> "%cd%\diskpart.txt"
+if /i "%bootmgr%"=="Arm64" "%DriveLetter%\bootmgr" (echo convert gpt) >> "%cd%\diskpart.txt"
+if /i not "%bootmgr%"=="Arm64" (echo create partition Primary size=350) >> "%cd%\diskpart.txt"
+if /i "%bootmgr%"=="Arm64" (echo create partition efi size=350) >> "%cd%\diskpart.txt"
+(echo format fs=FAT32 label="WTG-System" quick) >> "%cd%\diskpart.txt"
+(echo assign letter=%FAT32%) >> "%cd%\diskpart.txt"
+if /i not "%bootmgr%"=="Arm64" (echo active) >> "%cd%\diskpart.txt"
+(echo create partition Primary) >> "%cd%\diskpart.txt"
+(echo format fs=NTFS label="WTG-Windows" quick) >> "%cd%\diskpart.txt"
+(echo assign letter=%NTFS%) >> "%cd%\diskpart.txt"
+(echo attributes vol set nodefaultdriveletter) >> "%cd%\diskpart.txt"
+(echo exit) >> "%cd%\diskpart.txt"
+"%windir%\System32\diskpart.exe" /s "%cd%\diskpart.txt" > nul 2>&1
 if not "%errorlevel%"=="0" goto "DiskPartToGoError"
-del "%cd%\DiskPart.txt" /f /q > nul 2>&1
+del "%cd%\diskpart.txt" /f /q > nul 2>&1
 echo Disk %Disk% partitioned and formated.
 goto "Bit3"
 
 :"DiskPartExistDiskPartToGo"
 set DiskPart=True
 echo.
-echo Please temporary rename to something else or temporary move to another location "%cd%\DiskPart.txt" in order for this batch file to proceed. "%cd%\DiskPart.txt" is not a system file. Press any key to continue when "%cd%\DiskPart.txt" is renamed to something else or moved to another location. This batch file will let you know when you can rename it back to its original name or move it back to its original location.
+echo Please temporary rename to something else or temporary move to another location "%cd%\diskpart.txt" in order for this batch file to proceed. "%cd%\diskpart.txt" is not a system file. Press any key to continue when "%cd%\diskpart.txt" is renamed to something else or moved to another location. This batch file will let you know when you can rename it back to its original name or move it back to its original location.
 pause > nul 2>&1
 goto "DiskPartToGo"
 
 :"DiskPartToGoError"
-del "%cd%\DiskPart.txt" /f /q > nul 2>&1
+del "%cd%\diskpart.txt" /f /q > nul 2>&1
 echo Error formating and partitioning disk %Disk%. Disk %Disk% may not exist! Disk %Disk% may be smaller than 64 GB! Press any key to try again.
 pause > nul 2>&1
 goto "Disk"
@@ -716,17 +716,17 @@ if /i "%BIOSAsk%"=="2" goto "BootloaderUEFI"
 if /i "%BIOSAsk%"=="3" goto "BootloaderBoth"
 
 :"BootloaderBIOS"
-if exist "%cd%\DiskPart.txt" goto "DiskPartExistBootloaderBIOS"
+if exist "%cd%\diskpart.txt" goto "DiskPartExistBootloaderBIOS"
 echo.
 echo Creating bootloader.
 "%windir%\System32\bcdboot.exe" "%NTFS%\Windows" /s "%FAT32%" /f ALL > nul 2>&1
 if not "%errorlevel%"=="0" goto "BootloaderErrorBIOS"
-(echo sel vol %FAT32%) > "%cd%\DiskPart.txt"
-(echo remove letter=%FAT32%) >> "%cd%\DiskPart.txt"
-(echo exit) >> "%cd%\DiskPart.txt"
-"%windir%\System32\diskpart.exe" /s "%cd%\DiskPart.txt" > nul 2>&1
+(echo sel vol %FAT32%) > "%cd%\diskpart.txt"
+(echo remove letter=%FAT32%) >> "%cd%\diskpart.txt"
+(echo exit) >> "%cd%\diskpart.txt"
+"%windir%\System32\diskpart.exe" /s "%cd%\diskpart.txt" > nul 2>&1
 if not "%errorlevel%"=="0" goto "BootloaderErrorBIOS"
-del "%cd%\DiskPart.txt" /f /q > nul 2>&1
+del "%cd%\diskpart.txt" /f /q > nul 2>&1
 echo Bootloader created.
 if /i "%Windows%"=="2" if /i "%DiskPart%"=="True" goto "DiskPartDone"
 if /i "%Windows%"=="2" goto "SANPolicy"
@@ -735,28 +735,28 @@ goto "Recovery"
 :"DiskPartExistBootloaderBIOS"
 set DiskPart=True
 echo.
-echo Please temporary rename to something else or temporary move to another location "%cd%\DiskPart.txt" in order for this batch file to proceed. "%cd%\DiskPart.txt" is not a system file. Press any key to continue when "%cd%\DiskPart.txt" is renamed to something else or moved to another location. This batch file will let you know when you can rename it back to its original name or move it back to its original location.
+echo Please temporary rename to something else or temporary move to another location "%cd%\diskpart.txt" in order for this batch file to proceed. "%cd%\diskpart.txt" is not a system file. Press any key to continue when "%cd%\diskpart.txt" is renamed to something else or moved to another location. This batch file will let you know when you can rename it back to its original name or move it back to its original location.
 pause > nul 2>&1
 goto "BootloaderBIOS"
 
 :"BootloaderErrorBIOS"
-del "%cd%\DiskPart.txt" /f /q > nul 2>&1
+del "%cd%\diskpart.txt" /f /q > nul 2>&1
 echo Error creating the bootloader! Press any key to try again.
 pause > nul 2>&1
 goto "BootloaderBIOS"
 
 :"BootloaderUEFI"
-if exist "%cd%\DiskPart.txt" goto "DiskPartExistBootloaderUEFI"
+if exist "%cd%\diskpart.txt" goto "DiskPartExistBootloaderUEFI"
 echo.
 echo Creating bootloader.
 "%windir%\System32\bcdboot.exe" "%NTFS%\Windows" /s "%FAT32%" /f UEFI > nul 2>&1
 if not "%errorlevel%"=="0" goto "BootloaderErrorUEFI"
-(echo sel vol %FAT32%) > "%cd%\DiskPart.txt"
-(echo remove letter=%FAT32%) >> "%cd%\DiskPart.txt"
-(echo exit) >> "%cd%\DiskPart.txt"
-"%windir%\System32\diskpart.exe" /s "%cd%\DiskPart.txt" > nul 2>&1
+(echo sel vol %FAT32%) > "%cd%\diskpart.txt"
+(echo remove letter=%FAT32%) >> "%cd%\diskpart.txt"
+(echo exit) >> "%cd%\diskpart.txt"
+"%windir%\System32\diskpart.exe" /s "%cd%\diskpart.txt" > nul 2>&1
 if not "%errorlevel%"=="0" goto "BootloaderErrorUEFI"
-del "%cd%\DiskPart.txt" /f /q > nul 2>&1
+del "%cd%\diskpart.txt" /f /q > nul 2>&1
 echo Bootloader created.
 if /i "%Windows%"=="2" if /i "%DiskPart%"=="True" goto "DiskPartDone"
 if /i "%Windows%"=="2" goto "SANPolicy"
@@ -765,28 +765,28 @@ goto "Recovery"
 :"DiskPartExistBootloaderUEFI"
 set DiskPart=True
 echo.
-echo Please temporary rename to something else or temporary move to another location "%cd%\DiskPart.txt" in order for this batch file to proceed. "%cd%\DiskPart.txt" is not a system file. Press any key to continue when "%cd%\DiskPart.txt" is renamed to something else or moved to another location. This batch file will let you know when you can rename it back to its original name or move it back to its original location.
+echo Please temporary rename to something else or temporary move to another location "%cd%\diskpart.txt" in order for this batch file to proceed. "%cd%\diskpart.txt" is not a system file. Press any key to continue when "%cd%\diskpart.txt" is renamed to something else or moved to another location. This batch file will let you know when you can rename it back to its original name or move it back to its original location.
 pause > nul 2>&1
 goto "BootloaderUEFI"
 
 :"BootloaderErrorUEFI"
-del "%cd%\DiskPart.txt" /f /q > nul 2>&1
+del "%cd%\diskpart.txt" /f /q > nul 2>&1
 echo Error creating the bootloader! Press any key to try again.
 pause > nul 2>&1
 goto "BootloaderUEFI"
 
 :"BootloaderBoth"
-if exist "%cd%\DiskPart.txt" goto "DiskPartExistBootloaderBoth"
+if exist "%cd%\diskpart.txt" goto "DiskPartExistBootloaderBoth"
 echo.
 echo Creating bootloader.
 "%windir%\System32\bcdboot.exe" "%NTFS%\Windows" /s "%FAT32%" /f All > nul 2>&1
 if not "%errorlevel%"=="0" goto "BootloaderErrorBoth"
-(echo sel vol %FAT32%) > "%cd%\DiskPart.txt"
-(echo remove letter=%FAT32%) >> "%cd%\DiskPart.txt"
-(echo exit) >> "%cd%\DiskPart.txt"
-"%windir%\System32\diskpart.exe" /s "%cd%\DiskPart.txt" > nul 2>&1
+(echo sel vol %FAT32%) > "%cd%\diskpart.txt"
+(echo remove letter=%FAT32%) >> "%cd%\diskpart.txt"
+(echo exit) >> "%cd%\diskpart.txt"
+"%windir%\System32\diskpart.exe" /s "%cd%\diskpart.txt" > nul 2>&1
 if not "%errorlevel%"=="0" goto "BootloaderErrorBoth"
-del "%cd%\DiskPart.txt" /f /q > nul 2>&1
+del "%cd%\diskpart.txt" /f /q > nul 2>&1
 echo Bootloader created.
 if /i "%Windows%"=="2" if /i "%DiskPart%"=="True" goto "DiskPartDone"
 if /i "%Windows%"=="2" goto "SANPolicy"
@@ -795,12 +795,12 @@ goto "Recovery"
 :"DiskPartExistBootloaderBoth"
 set DiskPart=True
 echo.
-echo Please temporary rename to something else or temporary move to another location "%cd%\DiskPart.txt" in order for this batch file to proceed. "%cd%\DiskPart.txt" is not a system file. Press any key to continue when "%cd%\DiskPart.txt" is renamed to something else or moved to another location. This batch file will let you know when you can rename it back to its original name or move it back to its original location.
+echo Please temporary rename to something else or temporary move to another location "%cd%\diskpart.txt" in order for this batch file to proceed. "%cd%\diskpart.txt" is not a system file. Press any key to continue when "%cd%\diskpart.txt" is renamed to something else or moved to another location. This batch file will let you know when you can rename it back to its original name or move it back to its original location.
 pause > nul 2>&1
 goto "BootloaderBoth"
 
 :"BootloaderErrorBoth"
-del "%cd%\DiskPart.txt" /f /q > nul 2>&1
+del "%cd%\diskpart.txt" /f /q > nul 2>&1
 echo Error creating the bootloader! Press any key to try again.
 pause > nul 2>&1
 goto "BootloaderBoth"
@@ -923,12 +923,12 @@ md "%Recovery%\Recovery\WindowsRE"
 copy "%NTFS%\Windows\System32\Recovery\winre.wim" "%Recovery%\Recovery\WindowsRE\winre.wim" /y /v > nul 2>&1
 "%windir%\System32\ReAgentc.exe" /setreimage /path "%Recovery%\Recovery\WindowsRE" /target "%NTFS%\Windows" > nul 2>&1
 if not "%errorlevel%"=="0" goto "RecoveryError"
-(echo sel vol %Recovery%) > "%cd%\DiskPart.txt"
-(echo remove letter=%Recovery%) >> "%cd%\DiskPart.txt"
-(echo exit) >> "%cd%\DiskPart.txt"
-"%windir%\System32\diskpart.exe" /s "%cd%\DiskPart.txt" > nul 2>&1
+(echo sel vol %Recovery%) > "%cd%\diskpart.txt"
+(echo remove letter=%Recovery%) >> "%cd%\diskpart.txt"
+(echo exit) >> "%cd%\diskpart.txt"
+"%windir%\System32\diskpart.exe" /s "%cd%\diskpart.txt" > nul 2>&1
 if not "%errorlevel%"=="0" goto "RecoveryError"
-del "%cd%\DiskPart.txt" /f /q > nul 2>&1
+del "%cd%\diskpart.txt" /f /q > nul 2>&1
 echo Recovery partition created.
 if /i "%DiskPart%"=="True" goto "DiskPartDone"
 if /i "%BIOSAsk%"=="1" goto "DoneBIOS"
@@ -942,7 +942,7 @@ goto "Recovery"
 
 :"DiskPartDone"
 echo.
-echo You can now rename or move back the file back to "%cd%\DiskPart.txt". Press any key to continue.
+echo You can now rename or move back the file back to "%cd%\diskpart.txt". Press any key to continue.
 pause > nul 2>&1
 if /i "%Windows%"=="2" goto "SANPolicy"
 if /i "%BIOSAsk%"=="1" goto "DoneBIOS"
