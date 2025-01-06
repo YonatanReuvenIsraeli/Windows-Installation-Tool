@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.0.12
+echo Version: 5.0.13
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -601,7 +601,7 @@ echo Partitioning and formating disk %Disk%.
 if /i "%BIOSAsk%"=="1" (echo convert mbr) >> %cd%\diskpart.txt
 if /i "%BIOSAsk%"=="2" (echo convert gpt) >> %cd%\diskpart.txt
 if /i "%BIOSAsk%"=="3" (echo convert mbr) >> %cd%\diskpart.txt
-if /i "%BIOSAsk%"=="1" if /i (echo create partition primary size=100) >> %cd%\diskpart.txt
+if /i "%BIOSAsk%"=="1" (echo create partition primary size=100) >> %cd%\diskpart.txt
 if /i "%BIOSAsk%"=="2" if /i "%fsutil%"=="0" (echo create partition efi size=100) >> %cd%\diskpart.txt
 if /i "%BIOSAsk%"=="2" if /i "%fsutil%"=="1" (echo create partition efi size=260) >> %cd%\diskpart.txt
 if /i "%BIOSAsk%"=="3" (echo create partition primary size=100) >> %cd%\diskpart.txt
