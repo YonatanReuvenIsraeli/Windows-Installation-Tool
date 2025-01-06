@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.0.13
+echo Version: 5.0.14
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -611,7 +611,7 @@ if /i "%BIOSAsk%"=="1" (echo active) >> %cd%\diskpart.txt
 if /i "%BIOSAsk%"=="3" (echo active) >> %cd%\diskpart.txt
 if /i "%BIOSAsk%"=="2" (echo create partition msr size=16) >> %cd%\diskpart.txt
 (echo create partition primary) >> %cd%\diskpart.txt
-(echo shrink minimum=500) >> %cd%\diskpart.txt
+(echo shrink minimum=750) >> %cd%\diskpart.txt
 (echo format quick fs=ntfs label="Windows") >> %cd%\diskpart.txt
 (echo assign letter="%NTFS%") >> %cd%\diskpart.txt
 (echo create partition primary) >> %cd%\diskpart.txt
@@ -648,7 +648,7 @@ echo Partitioning and formating disk %Disk%.
 (echo sel disk %Disk%) > "%cd%\diskpart.txt"
 (echo clean) >> "%cd%\diskpart.txt"
 if /i not "%bootmgr%"=="Arm64" (echo convert mbr) >> "%cd%\diskpart.txt"
-if /i "%bootmgr%"=="Arm64" "%DriveLetter%\bootmgr" (echo convert gpt) >> "%cd%\diskpart.txt"
+if /i "%bootmgr%"=="Arm64" (echo convert gpt) >> "%cd%\diskpart.txt"
 if /i not "%bootmgr%"=="Arm64" (echo create partition Primary size=350) >> "%cd%\diskpart.txt"
 if /i "%bootmgr%"=="Arm64" (echo create partition efi size=350) >> "%cd%\diskpart.txt"
 (echo format fs=FAT32 label="WTG-System" quick) >> "%cd%\diskpart.txt"
@@ -923,7 +923,7 @@ goto "DoneBoth"
 :"Recovery"
 echo.
 echo Creating recovery partition.
-md "%Recovery%\Recovery\WindowsRE"
+md "%Recovery%\Recovery\WindowsRE" > nul 2>&1
 copy "%NTFS%\Windows\System32\Recovery\winre.wim" "%Recovery%\Recovery\WindowsRE\winre.wim" /y /v > nul 2>&1
 "%windir%\System32\ReAgentc.exe" /setreimage /path "%Recovery%\Recovery\WindowsRE" /target "%NTFS%\Windows" > nul 2>&1
 if not "%errorlevel%"=="0" goto "RecoveryError"
