@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.0.10
+echo Version: 5.0.11
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -219,7 +219,7 @@ set bootmgr=
 if not exist "%DriveLetter%\bootmgr" set bootmgr=Arm64
 goto "DISM1"
 
-"DISM1"
+:"DISM1"
 if exist "%cd%\Index.txt" goto "IndexExist"
 echo.
 echo Getting index details for Windows Disk Image "%DriveLetter%".
