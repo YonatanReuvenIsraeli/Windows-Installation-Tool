@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.0.11
+echo Version: 5.0.12
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -200,7 +200,7 @@ goto "ESDSWMWIM"
 if exist "%DriveLetter%\sources\install.esd" set Install=install.esd
 if exist "%DriveLetter%\sources\install.swm" set Install=install.swm
 if exist "%DriveLetter%\sources\install.wim" set Install=install.wim
-goto "bootmgr"
+goto "IndexSet"
 
 :"32ESDSWMWIM"
 if exist "%DriveLetter%\x86\sources\install.esd" set Install=install.esd
@@ -214,7 +214,11 @@ if exist "%DriveLetter%\x64\sources\install.swm" set Install=install.swm
 if exist "%DriveLetter%\x64\sources\install.wim" set Install=install.wim
 goto "64DISM1"
 
-:"bootmgr"
+:"IndexSet"
+set Index=
+goto "bootmgrSet"
+
+:"bootmgrSet"
 set bootmgr=
 if not exist "%DriveLetter%\bootmgr" set bootmgr=Arm64
 goto "DISM1"
