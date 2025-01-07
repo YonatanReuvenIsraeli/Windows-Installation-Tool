@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.0.21
+echo Version: 5.0.22
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -809,6 +809,39 @@ echo Error creating the bootloader! Press any key to try again.
 pause > nul 2>&1
 goto "BootloaderBoth"
 
+:"Recovery"
+echo.
+echo Creating recovery partition files.
+if not exist "%Recovery%\Recovery\WindowsRE" md "%Recovery%\Recovery\WindowsRE" > nul 2>&1
+if not exist "%Recovery%\Recovery\WindowsRE\winre.wim" copy "%NTFS%\Windows\System32\Recovery\winre.wim" "%Recovery%\Recovery\WindowsRE\winre.wim" /y /v > nul 2>&1
+"%NTFS%\Windows\System32\ReAgentc.exe" /setreimage /path "%Recovery%\Recovery\WindowsRE" /target "%NTFS%\Windows" > nul 2>&1
+if not "%errorlevel%"=="0" goto "RecoveryError"
+(echo sel vol %Recovery%) > "%cd%\diskpart.txt"
+(echo remove letter=%Recovery%) >> "%cd%\diskpart.txt"
+(echo exit) >> "%cd%\diskpart.txt"
+"%windir%\System32\diskpart.exe" /s "%cd%\diskpart.txt" > nul 2>&1
+if not "%errorlevel%"=="0" goto "RecoveryError"
+del "%cd%\diskpart.txt" /f /q > nul 2>&1
+echo Recovery partition created.
+if /i "%DiskPart%"=="True" goto "DiskPartDone"
+if /i "%BIOSAsk%"=="1" goto "DoneBIOS"
+if /i "%BIOSAsk%"=="2" goto "DoneUEFI"
+if /i "%BIOSAsk%"=="3" goto "DoneBoth"
+
+:"RecoveryError"
+echo There has been an error creating the recovery partition files! Press any key to try again!
+pause > nul 2>&1
+goto "Recovery"
+
+:"DiskPartDone"
+echo.
+echo You can now rename or move back the file back to "%cd%\diskpart.txt". Press any key to continue.
+pause > nul 2>&1
+if /i "%Windows%"=="2" goto "SANPolicy"
+if /i "%BIOSAsk%"=="1" goto "DoneBIOS"
+if /i "%BIOSAsk%"=="2" goto "DoneUEFI"
+if /i "%BIOSAsk%"=="3" goto "DoneBoth"
+
 :"SANPolicy"
 echo.
 echo Applying SAN policy.
@@ -919,39 +952,6 @@ echo Creating "unattended.xml" file in Sysprep folder.
 echo "unattended.xml" file created in Sysprep folder.
 if /i "%bootmgr%"=="Arm64" goto "DoneUEFI"
 goto "DoneBoth"
-
-:"Recovery"
-echo.
-echo Creating recovery partition.
-if not exist "%Recovery%\Recovery\WindowsRE" md "%Recovery%\Recovery\WindowsRE" > nul 2>&1
-if not exist "%Recovery%\Recovery\WindowsRE\winre.wim" copy "%NTFS%\Windows\System32\Recovery\winre.wim" "%Recovery%\Recovery\WindowsRE\winre.wim" /y /v > nul 2>&1
-"%NTFS%\Windows\System32\ReAgentc.exe" /setreimage /path "%Recovery%\Recovery\WindowsRE" /target "%NTFS%\Windows" > nul 2>&1
-if not "%errorlevel%"=="0" goto "RecoveryError"
-(echo sel vol %Recovery%) > "%cd%\diskpart.txt"
-(echo remove letter=%Recovery%) >> "%cd%\diskpart.txt"
-(echo exit) >> "%cd%\diskpart.txt"
-"%windir%\System32\diskpart.exe" /s "%cd%\diskpart.txt" > nul 2>&1
-if not "%errorlevel%"=="0" goto "RecoveryError"
-del "%cd%\diskpart.txt" /f /q > nul 2>&1
-echo Recovery partition created.
-if /i "%DiskPart%"=="True" goto "DiskPartDone"
-if /i "%BIOSAsk%"=="1" goto "DoneBIOS"
-if /i "%BIOSAsk%"=="2" goto "DoneUEFI"
-if /i "%BIOSAsk%"=="3" goto "DoneBoth"
-
-:"RecoveryError"
-echo There has been an error creating the recovery partition! Press any key to try again!
-pause > nul 2>&1
-goto "Recovery"
-
-:"DiskPartDone"
-echo.
-echo You can now rename or move back the file back to "%cd%\diskpart.txt". Press any key to continue.
-pause > nul 2>&1
-if /i "%Windows%"=="2" goto "SANPolicy"
-if /i "%BIOSAsk%"=="1" goto "DoneBIOS"
-if /i "%BIOSAsk%"=="2" goto "DoneUEFI"
-if /i "%BIOSAsk%"=="3" goto "DoneBoth"
 
 :"DoneBIOS"
 endlocal
