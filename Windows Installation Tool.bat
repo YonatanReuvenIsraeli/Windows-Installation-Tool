@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.0.18
+echo Version: 5.0.19
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -611,7 +611,7 @@ if /i "%BIOSAsk%"=="1" (echo active) >> %cd%\diskpart.txt
 if /i "%BIOSAsk%"=="3" (echo active) >> %cd%\diskpart.txt
 if /i "%BIOSAsk%"=="2" (echo create partition msr size=16) >> %cd%\diskpart.txt
 (echo create partition primary) >> %cd%\diskpart.txt
-(echo shrink minimum=750) >> %cd%\diskpart.txt
+(echo shrink minimum=900) >> %cd%\diskpart.txt
 (echo format quick fs=ntfs label="Windows") >> %cd%\diskpart.txt
 (echo assign letter="%NTFS%") >> %cd%\diskpart.txt
 (echo create partition primary) >> %cd%\diskpart.txt
