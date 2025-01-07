@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.0.17
+echo Version: 5.0.18
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -862,7 +862,7 @@ goto "SANPolicy"
 
 :"Unattended"
 echo.
-echo Creating unattended.xml file in Sysprep folder.
+echo Creating "unattended.xml" file in Sysprep folder.
 (echo ^<?xml version="1.0" encoding="utf-8"?^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
 (echo ^<unattend xmlns="urn:schemas-microsoft-com:unattend"^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
 (echo     ^<settings pass="oobeSystem"^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
@@ -916,7 +916,7 @@ echo Creating unattended.xml file in Sysprep folder.
 (echo         ^</component^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
 (echo     ^</settings^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
 (echo ^</unattend^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-echo unattended.xml file created in Sysprep folder.
+echo "unattended.xml" file created in Sysprep folder.
 if /i "%bootmgr%"=="Arm64" goto "DoneUEFI"
 goto "DoneBoth"
 
