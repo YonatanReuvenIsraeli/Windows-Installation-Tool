@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.0.22
+echo Version: 5.0.23
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -814,7 +814,7 @@ echo.
 echo Creating recovery partition files.
 if not exist "%Recovery%\Recovery\WindowsRE" md "%Recovery%\Recovery\WindowsRE" > nul 2>&1
 if not exist "%Recovery%\Recovery\WindowsRE\winre.wim" copy "%NTFS%\Windows\System32\Recovery\winre.wim" "%Recovery%\Recovery\WindowsRE\winre.wim" /y /v > nul 2>&1
-"%NTFS%\Windows\System32\ReAgentc.exe" /setreimage /path "%Recovery%\Recovery\WindowsRE" /target "%NTFS%\Windows" > nul 2>&1
+"%windir%\System32\ReAgentc.exe" /setreimage /path "%Recovery%\Recovery\WindowsRE" /target "%NTFS%\Windows" > nul 2>&1
 if not "%errorlevel%"=="0" goto "RecoveryError"
 (echo sel vol %Recovery%) > "%cd%\diskpart.txt"
 (echo remove letter=%Recovery%) >> "%cd%\diskpart.txt"
