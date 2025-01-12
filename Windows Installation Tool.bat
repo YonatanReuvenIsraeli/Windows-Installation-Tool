@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.0.26
+echo Version: 5.0.27
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -596,32 +596,32 @@ goto "DiskPartWindows"
 if exist "diskpart.txt" goto "DiskPartExistDiskPartWindows"
 echo.
 echo Partitioning and formating disk %Disk%.
-(echo select disk %Disk%) > diskpart.txt
-(echo clean) >> diskpart.txt
-if /i "%BIOSAsk%"=="1" (echo convert mbr) >> diskpart.txt
-if /i "%BIOSAsk%"=="2" (echo convert gpt) >> diskpart.txt
-if /i "%BIOSAsk%"=="3" (echo convert mbr) >> diskpart.txt
-if /i "%BIOSAsk%"=="1" (echo create partition primary size=100) >> diskpart.txt
-if /i "%BIOSAsk%"=="2" if /i "%fsutil%"=="0" (echo create partition efi size=100) >> diskpart.txt
-if /i "%BIOSAsk%"=="2" if /i "%fsutil%"=="1" (echo create partition efi size=260) >> diskpart.txt
-if /i "%BIOSAsk%"=="3" (echo create partition primary size=100) >> diskpart.txt
-(echo format quick fs=FAT32 label="System")  >> diskpart.txt
-(echo assign letter="%FAT32%") >> diskpart.txt
-if /i "%BIOSAsk%"=="1" (echo active) >> diskpart.txt
-if /i "%BIOSAsk%"=="3" (echo active) >> diskpart.txt
-if /i "%BIOSAsk%"=="2" (echo create partition msr size=16) >> diskpart.txt
-(echo create partition primary) >> diskpart.txt
-(echo shrink minimum=990) >> diskpart.txt
-(echo format quick fs=ntfs label="Windows") >> diskpart.txt
-(echo assign letter="%NTFS%") >> diskpart.txt
-(echo create partition primary) >> diskpart.txt
-(echo format quick fs=ntfs label="Recovery") >> diskpart.txt
-(echo assign letter="%Recovery%") >> diskpart.txt
-if /i "%BIOSAsk%"=="1" (echo set id=27) >> diskpart.txt
-if /i "%BIOSAsk%"=="2" (echo set id="de94bba4-06d1-4d40-a16a-bfd50179d6ac") >> diskpart.txt
-if /i "%BIOSAsk%"=="3" (echo set id=27) >> diskpart.txt
-if /i "%BIOSAsk%"=="2" (echo gpt attributes=0x8000000000000001) >> diskpart.txt
-(echo exit) >> diskpart.txt
+(echo select disk %Disk%) > "diskpart.txt"
+(echo clean) >> "diskpart.txt"
+if /i "%BIOSAsk%"=="1" (echo convert mbr) >> "diskpart.txt"
+if /i "%BIOSAsk%"=="2" (echo convert gpt) >> "diskpart.txt"
+if /i "%BIOSAsk%"=="3" (echo convert mbr) >> "diskpart.txt"
+if /i "%BIOSAsk%"=="1" (echo create partition primary size=100) >> "diskpart.txt"
+if /i "%BIOSAsk%"=="2" if /i "%fsutil%"=="0" (echo create partition efi size=100) >> "diskpart.txt"
+if /i "%BIOSAsk%"=="2" if /i "%fsutil%"=="1" (echo create partition efi size=260) >> "diskpart.txt"
+if /i "%BIOSAsk%"=="3" (echo create partition primary size=100) >> "diskpart.txt"
+(echo format quick fs=FAT32 label="System")  >> "diskpart.txt"
+(echo assign letter="%FAT32%") >> "diskpart.txt"
+if /i "%BIOSAsk%"=="1" (echo active) >> "diskpart.txt"
+if /i "%BIOSAsk%"=="3" (echo active) >> "diskpart.txt"
+if /i "%BIOSAsk%"=="2" (echo create partition msr size=16) >> "diskpart.txt"
+(echo create partition primary) >> "diskpart.txt"
+(echo shrink minimum=990) >> "diskpart.txt"
+(echo format quick fs=ntfs label="Windows") >> "diskpart.txt"
+(echo assign letter="%NTFS%") >> "diskpart.txt"
+(echo create partition primary) >> "diskpart.txt"
+(echo format quick fs=ntfs label="Recovery") >> "diskpart.txt"
+(echo assign letter="%Recovery%") >> "diskpart.txt"
+if /i "%BIOSAsk%"=="1" (echo set id=27) >> "diskpart.txt"
+if /i "%BIOSAsk%"=="2" (echo set id="de94bba4-06d1-4d40-a16a-bfd50179d6ac") >> "diskpart.txt"
+if /i "%BIOSAsk%"=="3" (echo set id=27) >> "diskpart.txt"
+if /i "%BIOSAsk%"=="2" (echo gpt attributes=0x8000000000000001) >> "diskpart.txt"
+(echo exit) >> "diskpart.txt"
 "%windir%\System32\diskpart.exe" /s "diskpart.txt" > nul 2>&1
 if not "%errorlevel%"=="0" goto "DiskPartErrorDiskPartWindows"
 del "diskpart.txt" /f /q > nul 2>&1
