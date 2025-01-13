@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.1.2
+echo Version: 5.1.3
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -572,7 +572,7 @@ goto "SureBIOSAsk"
 if exist "fsutil.txt" goto "fsutilExist"
 echo.
 echo Getting disk %Disk% details.
-"%windir%\System32\fsutil.exe" fsinfo sectorinfo \\.\PhysicalDrive%Disk% | find /i /c "PhysicalBytesPerSectorForAtomicity :                    4096" > fsutil.txt
+"%windir%\System32\fsutil.exe" fsinfo sectorinfo \\.\PhysicalDrive%Disk% | find /i /c "PhysicalBytesPerSectorForAtomicity :                    4096" > "fsutil.txt"
 set /p fsutil=< "fsutil.txt"
 echo Got disk %Disk% details.
 del "fsutil.txt" /f /q > nul 2>&1
