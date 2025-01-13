@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.0.27
+echo Version: 5.1.0
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -484,7 +484,7 @@ goto "NTFS"
 
 :"WindowsCheck"
 if /i "%Windows%"=="1" goto "RecoveryDriveLetter"
-if /i "%Windows%"=="2" goto "DiskPartToGo"
+if /i "%Windows%"=="2" goto "BIOSSet"
 
 :"RecoveryDriveLetter"
 echo.
@@ -641,16 +641,21 @@ echo Error formating and partitioning disk %Disk%. Disk %Disk% may not exist! Di
 pause > nul 2>&1
 goto "Disk"
 
+:"BIOSSet"
+if /i "%bootmgr%"=="Arm64" set BIOSAsk=2
+if /i not "%bootmgr%"=="Arm64" set BIOSAsk=3
+goto "DiskPartToGo"
+
 :"DiskPartToGo"
 if exist "diskpart.txt" goto "DiskPartExistDiskPartToGo"
 echo.
 echo Partitioning and formating disk %Disk%.
 (echo sel disk %Disk%) > "diskpart.txt"
 (echo clean) >> "diskpart.txt"
-if /i not "%bootmgr%"=="Arm64" (echo convert mbr) >> "diskpart.txt"
-if /i "%bootmgr%"=="Arm64" (echo convert gpt) >> "diskpart.txt"
-if /i not "%bootmgr%"=="Arm64" (echo create partition Primary size=350) >> "diskpart.txt"
-if /i "%bootmgr%"=="Arm64" (echo create partition efi size=350) >> "diskpart.txt"
+if /i "%BIOSAsk%"=="3"=="Arm64" (echo convert mbr) >> "diskpart.txt"
+if /i "%BIOSAsk%"=="2" (echo convert gpt) >> "diskpart.txt"
+if /i "%BIOSAsk%"=="3" (echo create partition Primary size=350) >> "diskpart.txt"
+if /i "%BIOSAsk%"=="2" (echo create partition efi size=350) >> "diskpart.txt"
 (echo format fs=FAT32 label="WTG-System" quick) >> "diskpart.txt"
 (echo assign letter=%FAT32%) >> "diskpart.txt"
 if /i not "%bootmgr%"=="Arm64" (echo active) >> "diskpart.txt"
@@ -689,11 +694,7 @@ echo Installing Windows.
 "%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%DriveLetter%\sources\%Install%" /Index:%Index% /ApplyDir:"%NTFS%"
 if not "%errorlevel%"=="0" goto "BitDetection"
 echo Windows installed.
-if /i "%bootmgr%"=="Arm64" goto "BootloaderUEFI"
-if /i "%Windows%"=="2" goto "BootloaderBoth"
-if /i "%BIOSAsk%"=="1" goto "BootloaderBIOS"
-if /i "%BIOSAsk%"=="2" goto "BootloaderUEFI"
-if /i "%BIOSAsk%"=="3" goto "BootloaderBoth"
+goto "Bootloader"
 
 :"32DISM2"
 echo.
@@ -701,11 +702,7 @@ echo Installing Windows.
 "%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%DriveLetter%\x86\sources\%Install%" /Index:%Index% /ApplyDir:"%NTFS%"
 if not "%errorlevel%"=="0" goto "BitDetection"
 echo Windows installed.
-if /i "%bootmgr%"=="Arm64" goto "BootloaderUEFI"
-if /i "%Windows%"=="2" goto "BootloaderBoth"
-if /i "%BIOSAsk%"=="1" goto "BootloaderBIOS"
-if /i "%BIOSAsk%"=="2" goto "BootloaderUEFI"
-if /i "%BIOSAsk%"=="3" goto "BootloaderBoth"
+goto "Bootloader"
 
 :"64DISM2"
 echo.
@@ -713,101 +710,39 @@ echo Installing Windows.
 "%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%DriveLetter%\x64\sources\%Install%" /Index:%Index% /ApplyDir:"%NTFS%"
 if not "%errorlevel%"=="0" goto "BitDetection"
 echo Windows installed.
-if /i "%bootmgr%"=="Arm64" goto "BootloaderUEFI"
-if /i "%Windows%"=="2" goto "BootloaderBoth"
-if /i "%BIOSAsk%"=="1" goto "BootloaderBIOS"
-if /i "%BIOSAsk%"=="2" goto "BootloaderUEFI"
-if /i "%BIOSAsk%"=="3" goto "BootloaderBoth"
+goto "Bootloader"
 
-:"BootloaderBIOS"
-if exist "diskpart.txt" goto "DiskPartExistBootloaderBIOS"
+:"Bootloader"
+if exist "diskpart.txt" goto "DiskPartExistBootloader"
 echo.
 echo Creating bootloader.
-"%windir%\System32\bcdboot.exe" "%NTFS%\Windows" /s "%FAT32%" /f ALL > nul 2>&1
-if not "%errorlevel%"=="0" goto "BootloaderErrorBIOS"
+if /i "%BIOSAsk%"=="1" "%windir%\System32\bcdboot.exe" "%NTFS%\Windows" /s "%FAT32%" /f BIOS > nul 2>&1
+if /i "%BIOSAsk%"=="2" "%windir%\System32\bcdboot.exe" "%NTFS%\Windows" /s "%FAT32%" /f UEFI > nul 2>&1
+if /i "%BIOSAsk%"=="3" "%windir%\System32\bcdboot.exe" "%NTFS%\Windows" /s "%FAT32%" /f ALL > nul 2>&1
+if not "%errorlevel%"=="0" goto "BootloaderError"
 (echo sel vol %FAT32%) > "diskpart.txt"
 (echo remove letter=%FAT32%) >> "diskpart.txt"
 (echo exit) >> "diskpart.txt"
 "%windir%\System32\diskpart.exe" /s "diskpart.txt" > nul 2>&1
-if not "%errorlevel%"=="0" goto "BootloaderErrorBIOS"
+if not "%errorlevel%"=="0" goto "BootloaderError"
 del "diskpart.txt" /f /q > nul 2>&1
 echo Bootloader created.
 if /i "%Windows%"=="2" if /i "%DiskPart%"=="True" goto "DiskPartDone"
 if /i "%Windows%"=="2" goto "SANPolicy"
 goto "Recovery"
 
-:"DiskPartExistBootloaderBIOS"
+:"DiskPartExistBootloader"
 set DiskPart=True
 echo.
 echo Please temporary rename to something else or temporary move to another location "diskpart.txt" in order for this batch file to proceed. "diskpart.txt" is not a system file. "diskpart.txt" is located in the folder you ran this batch file from. Press any key to continue when "diskpart.txt" is renamed to something else or moved to another location. This batch file will let you know when you can rename it back to its original name or move it back to its original location.
 pause > nul 2>&1
-goto "BootloaderBIOS"
+goto "Bootloader"
 
-:"BootloaderErrorBIOS"
+:"BootloaderError"
 del "diskpart.txt" /f /q > nul 2>&1
 echo Error creating the bootloader! Press any key to try again.
 pause > nul 2>&1
-goto "BootloaderBIOS"
-
-:"BootloaderUEFI"
-if exist "diskpart.txt" goto "DiskPartExistBootloaderUEFI"
-echo.
-echo Creating bootloader.
-"%windir%\System32\bcdboot.exe" "%NTFS%\Windows" /s "%FAT32%" /f UEFI > nul 2>&1
-if not "%errorlevel%"=="0" goto "BootloaderErrorUEFI"
-(echo sel vol %FAT32%) > "diskpart.txt"
-(echo remove letter=%FAT32%) >> "diskpart.txt"
-(echo exit) >> "diskpart.txt"
-"%windir%\System32\diskpart.exe" /s "diskpart.txt" > nul 2>&1
-if not "%errorlevel%"=="0" goto "BootloaderErrorUEFI"
-del "diskpart.txt" /f /q > nul 2>&1
-echo Bootloader created.
-if /i "%Windows%"=="2" if /i "%DiskPart%"=="True" goto "DiskPartDone"
-if /i "%Windows%"=="2" goto "SANPolicy"
-goto "Recovery"
-
-:"DiskPartExistBootloaderUEFI"
-set DiskPart=True
-echo.
-echo Please temporary rename to something else or temporary move to another location "diskpart.txt" in order for this batch file to proceed. "diskpart.txt" is not a system file. "diskpart.txt" is located in the folder you ran this batch file from. Press any key to continue when "diskpart.txt" is renamed to something else or moved to another location. This batch file will let you know when you can rename it back to its original name or move it back to its original location.
-pause > nul 2>&1
-goto "BootloaderUEFI"
-
-:"BootloaderErrorUEFI"
-del "diskpart.txt" /f /q > nul 2>&1
-echo Error creating the bootloader! Press any key to try again.
-pause > nul 2>&1
-goto "BootloaderUEFI"
-
-:"BootloaderBoth"
-if exist "diskpart.txt" goto "DiskPartExistBootloaderBoth"
-echo.
-echo Creating bootloader.
-"%windir%\System32\bcdboot.exe" "%NTFS%\Windows" /s "%FAT32%" /f All > nul 2>&1
-if not "%errorlevel%"=="0" goto "BootloaderErrorBoth"
-(echo sel vol %FAT32%) > "diskpart.txt"
-(echo remove letter=%FAT32%) >> "diskpart.txt"
-(echo exit) >> "diskpart.txt"
-"%windir%\System32\diskpart.exe" /s "diskpart.txt" > nul 2>&1
-if not "%errorlevel%"=="0" goto "BootloaderErrorBoth"
-del "diskpart.txt" /f /q > nul 2>&1
-echo Bootloader created.
-if /i "%Windows%"=="2" if /i "%DiskPart%"=="True" goto "DiskPartDone"
-if /i "%Windows%"=="2" goto "SANPolicy"
-goto "Recovery"
-
-:"DiskPartExistBootloaderBoth"
-set DiskPart=True
-echo.
-echo Please temporary rename to something else or temporary move to another location "diskpart.txt" in order for this batch file to proceed. "diskpart.txt" is not a system file. "diskpart.txt" is located in the folder you ran this batch file from. Press any key to continue when "diskpart.txt" is renamed to something else or moved to another location. This batch file will let you know when you can rename it back to its original name or move it back to its original location.
-pause > nul 2>&1
-goto "BootloaderBoth"
-
-:"BootloaderErrorBoth"
-del "diskpart.txt" /f /q > nul 2>&1
-echo Error creating the bootloader! Press any key to try again.
-pause > nul 2>&1
-goto "BootloaderBoth"
+goto "Bootloader"
 
 :"Recovery"
 echo.
@@ -950,7 +885,7 @@ echo Creating "unattended.xml" file in Sysprep folder.
 (echo     ^</settings^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
 (echo ^</unattend^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
 echo "unattended.xml" file created in Sysprep folder.
-if /i "%bootmgr%"=="Arm64" goto "DoneUEFI"
+if /i "%BIOSAsk%"=="2" goto "DoneUEFI"
 goto "DoneBoth"
 
 :"DoneBIOS"
