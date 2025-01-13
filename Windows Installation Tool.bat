@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.1.4
+echo Version: 5.1.5
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -386,101 +386,101 @@ goto "AttachDisk"
 echo.
 set SureDisk=
 set /p SureDisk="All data on disk %Disk% will be deleted! Are you sure disk %Disk% is the correct disk number? (Yes/No) "
-if /i "%SureDisk%"=="Yes" goto "FAT32"
+if /i "%SureDisk%"=="Yes" goto "System"
 if /i "%SureDisk%"=="No" goto "Disk"
 echo Invalid syntax!
 goto "SureDisk"
 
-:"FAT32"
+:"System"
 echo.
-set FAT32=
-set /p FAT32="Please enter an unused drive letter. (A:-Z:) "
-if /i "%FAT32%"=="%DriveLetter%" goto "SameDriveLetterFAT32DriveLetter"
-if exist "%FAT32%" goto "ExistFAT32"
-if /i "%FAT32%"=="A:" goto "NTFS"
-if /i "%FAT32%"=="B:" goto "NTFS"
-if /i "%FAT32%"=="C:" goto "NTFS"
-if /i "%FAT32%"=="D:" goto "NTFS"
-if /i "%FAT32%"=="E:" goto "NTFS"
-if /i "%FAT32%"=="F:" goto "NTFS"
-if /i "%FAT32%"=="G:" goto "NTFS"
-if /i "%FAT32%"=="H:" goto "NTFS"
-if /i "%FAT32%"=="I:" goto "NTFS"
-if /i "%FAT32%"=="J:" goto "NTFS"
-if /i "%FAT32%"=="K:" goto "NTFS"
-if /i "%FAT32%"=="L:" goto "NTFS"
-if /i "%FAT32%"=="M:" goto "NTFS"
-if /i "%FAT32%"=="N:" goto "NTFS"
-if /i "%FAT32%"=="O:" goto "NTFS"
-if /i "%FAT32%"=="P:" goto "NTFS"
-if /i "%FAT32%"=="Q:" goto "NTFS"
-if /i "%FAT32%"=="R:" goto "NTFS"
-if /i "%FAT32%"=="S:" goto "NTFS"
-if /i "%FAT32%"=="T:" goto "NTFS"
-if /i "%FAT32%"=="U:" goto "NTFS"
-if /i "%FAT32%"=="V:" goto "NTFS"
-if /i "%FAT32%"=="W:" goto "NTFS"
-if /i "%FAT32%"=="X:" goto "NTFS"
-if /i "%FAT32%"=="Y:" goto "NTFS"
-if /i "%FAT32%"=="Z:" goto "NTFS"
+set System=
+set /p System="Please enter an unused drive letter. (A:-Z:) "
+if /i "%System%"=="%DriveLetter%" goto "SameDriveLetterSystemDriveLetter"
+if exist "%System%" goto "ExistSystem"
+if /i "%System%"=="A:" goto "Windows"
+if /i "%System%"=="B:" goto "Windows"
+if /i "%System%"=="C:" goto "Windows"
+if /i "%System%"=="D:" goto "Windows"
+if /i "%System%"=="E:" goto "Windows"
+if /i "%System%"=="F:" goto "Windows"
+if /i "%System%"=="G:" goto "Windows"
+if /i "%System%"=="H:" goto "Windows"
+if /i "%System%"=="I:" goto "Windows"
+if /i "%System%"=="J:" goto "Windows"
+if /i "%System%"=="K:" goto "Windows"
+if /i "%System%"=="L:" goto "Windows"
+if /i "%System%"=="M:" goto "Windows"
+if /i "%System%"=="N:" goto "Windows"
+if /i "%System%"=="O:" goto "Windows"
+if /i "%System%"=="P:" goto "Windows"
+if /i "%System%"=="Q:" goto "Windows"
+if /i "%System%"=="R:" goto "Windows"
+if /i "%System%"=="S:" goto "Windows"
+if /i "%System%"=="T:" goto "Windows"
+if /i "%System%"=="U:" goto "Windows"
+if /i "%System%"=="V:" goto "Windows"
+if /i "%System%"=="W:" goto "Windows"
+if /i "%System%"=="X:" goto "Windows"
+if /i "%System%"=="Y:" goto "Windows"
+if /i "%System%"=="Z:" goto "Windows"
 echo Invalid syntax!
-goto "FAT32"
+goto "System"
 
-:"SameDriveLetterFAT32DriveLetter"
-echo Unused drive letter ("%FAT32%") is the same as Windows Disk Image drive letter ("%DriveLetter%")! Please try again.
-goto "FAT32"
+:"SameDriveLetterSystemDriveLetter"
+echo Unused drive letter ("%System%") is the same as Windows Disk Image drive letter ("%DriveLetter%")! Please try again.
+goto "System"
 
-:"ExistFAT32"
-echo "%FAT32%" exists! Please try again.
-goto "FAT32"
+:"ExistSystem"
+echo "%System%" exists! Please try again.
+goto "System"
 
-:"NTFS"
+:"Windows"
 echo.
-set NTFS=
-set /p NTFS="Please enter another unused drive letter. (A:-Z:) "
-if /i "%NTFS%"=="%DriveLetter%" goto "SameDriveLetterNTFSDriveLetter"
-if /i "%NTFS%"=="%FAT32%" goto "SameDriveLetterNTFSFAT32"
-if exist "%NTFS%" goto "ExistNTFS"
-if /i "%NTFS%"=="A:" goto "WindowsCheck"
-if /i "%NTFS%"=="B:" goto "WindowsCheck"
-if /i "%NTFS%"=="C:" goto "WindowsCheck"
-if /i "%NTFS%"=="D:" goto "WindowsCheck"
-if /i "%NTFS%"=="E:" goto "WindowsCheck"
-if /i "%NTFS%"=="F:" goto "WindowsCheck"
-if /i "%NTFS%"=="G:" goto "WindowsCheck"
-if /i "%NTFS%"=="H:" goto "WindowsCheck"
-if /i "%NTFS%"=="I:" goto "WindowsCheck"
-if /i "%NTFS%"=="J:" goto "WindowsCheck"
-if /i "%NTFS%"=="K:" goto "WindowsCheck"
-if /i "%NTFS%"=="L:" goto "WindowsCheck"
-if /i "%NTFS%"=="M:" goto "WindowsCheck"
-if /i "%NTFS%"=="N:" goto "WindowsCheck"
-if /i "%NTFS%"=="O:" goto "WindowsCheck"
-if /i "%NTFS%"=="P:" goto "WindowsCheck"
-if /i "%NTFS%"=="Q:" goto "WindowsCheck"
-if /i "%NTFS%"=="R:" goto "WindowsCheck"
-if /i "%NTFS%"=="S:" goto "WindowsCheck"
-if /i "%NTFS%"=="T:" goto "WindowsCheck"
-if /i "%NTFS%"=="U:" goto "WindowsCheck"
-if /i "%NTFS%"=="V:" goto "WindowsCheck"
-if /i "%NTFS%"=="W:" goto "WindowsCheck"
-if /i "%NTFS%"=="X:" goto "WindowsCheck"
-if /i "%NTFS%"=="Y:" goto "WindowsCheck"
-if /i "%NTFS%"=="Z:" goto "WindowsCheck"
+set Windows=
+set /p Windows="Please enter another unused drive letter. (A:-Z:) "
+if /i "%Windows%"=="%DriveLetter%" goto "SameDriveLetterWindowsDriveLetter"
+if /i "%Windows%"=="%System%" goto "SameDriveLetterWindowsSystem"
+if exist "%Windows%" goto "ExistWindows"
+if /i "%Windows%"=="A:" goto "WindowsCheck"
+if /i "%Windows%"=="B:" goto "WindowsCheck"
+if /i "%Windows%"=="C:" goto "WindowsCheck"
+if /i "%Windows%"=="D:" goto "WindowsCheck"
+if /i "%Windows%"=="E:" goto "WindowsCheck"
+if /i "%Windows%"=="F:" goto "WindowsCheck"
+if /i "%Windows%"=="G:" goto "WindowsCheck"
+if /i "%Windows%"=="H:" goto "WindowsCheck"
+if /i "%Windows%"=="I:" goto "WindowsCheck"
+if /i "%Windows%"=="J:" goto "WindowsCheck"
+if /i "%Windows%"=="K:" goto "WindowsCheck"
+if /i "%Windows%"=="L:" goto "WindowsCheck"
+if /i "%Windows%"=="M:" goto "WindowsCheck"
+if /i "%Windows%"=="N:" goto "WindowsCheck"
+if /i "%Windows%"=="O:" goto "WindowsCheck"
+if /i "%Windows%"=="P:" goto "WindowsCheck"
+if /i "%Windows%"=="Q:" goto "WindowsCheck"
+if /i "%Windows%"=="R:" goto "WindowsCheck"
+if /i "%Windows%"=="S:" goto "WindowsCheck"
+if /i "%Windows%"=="T:" goto "WindowsCheck"
+if /i "%Windows%"=="U:" goto "WindowsCheck"
+if /i "%Windows%"=="V:" goto "WindowsCheck"
+if /i "%Windows%"=="W:" goto "WindowsCheck"
+if /i "%Windows%"=="X:" goto "WindowsCheck"
+if /i "%Windows%"=="Y:" goto "WindowsCheck"
+if /i "%Windows%"=="Z:" goto "WindowsCheck"
 echo Invalid syntax!
-goto "NTFS"
+goto "Windows"
 
-:"SameDriveLetterNTFSDriveLetter"
-echo Second unused drive letter ("%NTFS%") is the same as Windows Disk Image drive letter ("%DriveLetter%")! Please try again.
-goto "NTFS"
+:"SameDriveLetterWindowsDriveLetter"
+echo Second unused drive letter ("%Windows%") is the same as Windows Disk Image drive letter ("%DriveLetter%")! Please try again.
+goto "Windows"
 
-:"SameDriveLetterNTFSFAT32"
-echo Second unused drive letter ("%NTFS%") same as First unused drive letter ("%FAT32%"). Please try again.
-goto "NTFS"
+:"SameDriveLetterWindowsSystem"
+echo Second unused drive letter ("%Windows%") same as First unused drive letter ("%System%"). Please try again.
+goto "Windows"
 
-:"ExistNTFS"
-echo "%NTFS%" exists! Please try again.
-goto "NTFS"
+:"ExistWindows"
+echo "%Windows%" exists! Please try again.
+goto "Windows"
 
 :"WindowsCheck"
 if /i "%Windows%"=="1" goto "RecoveryDriveLetter"
@@ -491,8 +491,8 @@ echo.
 set Recovery=
 set /p Recovery="Please enter a third unused drive letter. (A:-Z:) "
 if /i "%Recovery%"=="%DriveLetter%" goto "SameDriveLetterRecovery"
-if /i "%Recovery%"=="%FAT32%" goto "SameDriveLetterRecoveryFAT32"
-if /i "%Recovery%"=="%NTFS%" goto "SameDriveLetterRecoveryNTFS"
+if /i "%Recovery%"=="%System%" goto "SameDriveLetterRecoverySystem"
+if /i "%Recovery%"=="%Windows%" goto "SameDriveLetterRecoveryWindows"
 if exist "%Recovery%" goto "ExistRecoveryDriveLetter"
 if /i "%Recovery%"=="A:" goto "BIOSAsk"
 if /i "%Recovery%"=="B:" goto "BIOSAsk"
@@ -527,12 +527,12 @@ goto "RecoveryDriveLetter"
 echo Third unused drive letter ("%Recovery%") is the same as Windows Disk Image drive letter ("%DriveLetter%")! Please try again.
 goto "RecoveryDriveLetter"
 
-:"SameDriveLetterRecoveryFAT32"
-echo Third unused drive letter ("%Recovery%") same as first unused drive letter ("%FAT32%"). Please try again.
+:"SameDriveLetterRecoverySystem"
+echo Third unused drive letter ("%Recovery%") same as first unused drive letter ("%System%"). Please try again.
 goto "RecoveryDriveLetter"
 
-:"SameDriveLetterRecoveryNTFS"
-echo Third unused drive letter ("%Recovery%") same as second unused drive letter ("%NTFS%"). Please try again.
+:"SameDriveLetterRecoveryWindows"
+echo Third unused drive letter ("%Recovery%") same as second unused drive letter ("%Windows%"). Please try again.
 goto "RecoveryDriveLetter"
 
 :"ExistRecoveryDriveLetter"
@@ -606,14 +606,14 @@ if /i "%BIOSAsk%"=="2" if /i "%fsutil%"=="0" (echo create partition efi size=100
 if /i "%BIOSAsk%"=="2" if /i "%fsutil%"=="1" (echo create partition efi size=260) >> "diskpart.txt"
 if /i "%BIOSAsk%"=="3" (echo create partition primary size=100) >> "diskpart.txt"
 (echo format quick fs=fat32 label="System")  >> "diskpart.txt"
-(echo assign letter="%FAT32%") >> "diskpart.txt"
+(echo assign letter="%System%") >> "diskpart.txt"
 if /i "%BIOSAsk%"=="1" (echo active) >> "diskpart.txt"
 if /i "%BIOSAsk%"=="3" (echo active) >> "diskpart.txt"
 if /i "%BIOSAsk%"=="2" (echo create partition msr size=16) >> "diskpart.txt"
 (echo create partition primary) >> "diskpart.txt"
 (echo shrink minimum=990) >> "diskpart.txt"
 (echo format quick fs=ntfs label="Windows") >> "diskpart.txt"
-(echo assign letter="%NTFS%") >> "diskpart.txt"
+(echo assign letter="%Windows%") >> "diskpart.txt"
 (echo create partition primary) >> "diskpart.txt"
 (echo format quick fs=ntfs label="Recovery") >> "diskpart.txt"
 (echo assign letter="%Recovery%") >> "diskpart.txt"
@@ -657,11 +657,11 @@ if /i "%BIOSAsk%"=="2" (echo convert gpt) >> "diskpart.txt"
 if /i "%BIOSAsk%"=="3" (echo create partition Primary size=350) >> "diskpart.txt"
 if /i "%BIOSAsk%"=="2" (echo create partition efi size=350) >> "diskpart.txt"
 (echo format fs=fat32 label="WTG-System" quick) >> "diskpart.txt"
-(echo assign letter=%FAT32%) >> "diskpart.txt"
+(echo assign letter=%System%) >> "diskpart.txt"
 if /i not "%bootmgr%"=="Arm64" (echo active) >> "diskpart.txt"
 (echo create partition Primary) >> "diskpart.txt"
 (echo format fs=NTFS label="WTG-Windows" quick) >> "diskpart.txt"
-(echo assign letter=%NTFS%) >> "diskpart.txt"
+(echo assign letter=%Windows%) >> "diskpart.txt"
 (echo attributes vol set nodefaultdriveletter) >> "diskpart.txt"
 (echo exit) >> "diskpart.txt"
 "%windir%\System32\diskpart.exe" /s "diskpart.txt" > nul 2>&1
@@ -692,7 +692,7 @@ goto "DISM2"
 echo.
 if /i "%Windows%"=="1" echo Installing Windows.
 if /i "%Windows%"=="2" echo Installing Windows To Go.
-"%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%DriveLetter%\sources\%Install%" /Index:%Index% /ApplyDir:"%NTFS%"
+"%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%DriveLetter%\sources\%Install%" /Index:%Index% /ApplyDir:"%Windows%"
 if not "%errorlevel%"=="0" goto "BitDetection"
 if /i "%Windows%"=="1" echo Windows installed.
 if /i "%Windows%"=="2" echo Windows To Go installed.
@@ -702,7 +702,7 @@ goto "Bootloader"
 echo.
 if /i "%Windows%"=="1" echo Installing Windows.
 if /i "%Windows%"=="2" echo Installing Windows To Go.
-"%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%DriveLetter%\x86\sources\%Install%" /Index:%Index% /ApplyDir:"%NTFS%"
+"%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%DriveLetter%\x86\sources\%Install%" /Index:%Index% /ApplyDir:"%Windows%"
 if not "%errorlevel%"=="0" goto "BitDetection"
 if /i "%Windows%"=="1" echo Windows installed.
 if /i "%Windows%"=="2" echo Windows To Go installed.
@@ -712,7 +712,7 @@ goto "Bootloader"
 echo.
 if /i "%Windows%"=="1" echo Installing Windows.
 if /i "%Windows%"=="2" echo Installing Windows To Go.
-"%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%DriveLetter%\x64\sources\%Install%" /Index:%Index% /ApplyDir:"%NTFS%"
+"%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%DriveLetter%\x64\sources\%Install%" /Index:%Index% /ApplyDir:"%Windows%"
 if not "%errorlevel%"=="0" goto "BitDetection"
 if /i "%Windows%"=="1" echo Windows installed.
 if /i "%Windows%"=="2" echo Windows To Go installed.
@@ -721,9 +721,9 @@ goto "Bootloader"
 :"Bootloader"
 echo.
 echo Creating bootloader.
-if /i "%BIOSAsk%"=="1" "%windir%\System32\bcdboot.exe" "%NTFS%\Windows" /s "%FAT32%" /f BIOS > nul 2>&1
-if /i "%BIOSAsk%"=="2" "%windir%\System32\bcdboot.exe" "%NTFS%\Windows" /s "%FAT32%" /f UEFI > nul 2>&1
-if /i "%BIOSAsk%"=="3" "%windir%\System32\bcdboot.exe" "%NTFS%\Windows" /s "%FAT32%" /f ALL > nul 2>&1
+if /i "%BIOSAsk%"=="1" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f BIOS > nul 2>&1
+if /i "%BIOSAsk%"=="2" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f UEFI > nul 2>&1
+if /i "%BIOSAsk%"=="3" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f ALL > nul 2>&1
 if not "%errorlevel%"=="0" goto "BootloaderError"
 goto "DiskPartBootloader"
 
@@ -735,8 +735,8 @@ goto "Bootloader"
 
 :"DiskPartBootloader"
 if exist "diskpart.txt" goto "DiskPartExistBootloader"
-(echo sel vol %FAT32%) > "diskpart.txt"
-(echo remove letter=%FAT32%) >> "diskpart.txt"
+(echo sel vol %System%) > "diskpart.txt"
+(echo remove letter=%System%) >> "diskpart.txt"
 (echo exit) >> "diskpart.txt"
 "%windir%\System32\diskpart.exe" /s "diskpart.txt" > nul 2>&1
 if not "%errorlevel%"=="0" goto "BootloaderError"
@@ -756,8 +756,8 @@ goto "DiskPartBootloader"
 echo.
 echo Creating recovery partition files.
 if not exist "%Recovery%\Recovery\WindowsRE" md "%Recovery%\Recovery\WindowsRE" > nul 2>&1
-if not exist "%Recovery%\Recovery\WindowsRE\winre.wim" copy "%NTFS%\Windows\System32\Recovery\winre.wim" "%Recovery%\Recovery\WindowsRE\winre.wim" /y /v > nul 2>&1
-"%windir%\System32\ReAgentc.exe" /setreimage /path "%Recovery%\Recovery\WindowsRE" /target "%NTFS%\Windows" > nul 2>&1
+if not exist "%Recovery%\Recovery\WindowsRE\winre.wim" copy "%Windows%\Windows\System32\Recovery\winre.wim" "%Recovery%\Recovery\WindowsRE\winre.wim" /y /v > nul 2>&1
+"%windir%\System32\ReAgentc.exe" /setreimage /path "%Recovery%\Recovery\WindowsRE" /target "%Windows%\Windows" > nul 2>&1
 if not "%errorlevel%"=="0" goto "RecoveryError"
 goto "DiskPartRecovery"
 
@@ -798,45 +798,45 @@ if /i "%BIOSAsk%"=="3" goto "DoneBoth"
 :"SANPolicy"
 echo.
 echo Applying SAN policy.
-(echo ^<?xml version="1.0" encoding="utf-8" standalone="yes"?^>) >> "%NTFS%\san_policy.xml"
-(echo ^<unattend xmlns="urn:schemas-microsoft-com:unattend"^>) >> "%NTFS%\san_policy.xml"
-(echo   ^<settings pass="offlineServicing"^>) >> "%NTFS%\san_policy.xml"
-(echo     ^<component) >> "%NTFS%\san_policy.xml"
-(echo         xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State") >> "%NTFS%\san_policy.xml"
-(echo         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance") >> "%NTFS%\san_policy.xml"
-(echo         language="neutral") >> "%NTFS%\san_policy.xml"
-(echo         name="Microsoft-Windows-PartitionManager") >> "%NTFS%\san_policy.xml"
-(echo         processorArchitecture="arm64") >> "%NTFS%\san_policy.xml"
-(echo         publicKeyToken="31bf3856ad364e35") >> "%NTFS%\san_policy.xml"
-(echo         versionScope="nonSxS") >> "%NTFS%\san_policy.xml"
-(echo         ^>) >> "%NTFS%\san_policy.xml"
-(echo       ^<SanPolicy^>4^</SanPolicy^>) >> "%NTFS%\san_policy.xml"
-(echo     ^</component^>) >> "%NTFS%\san_policy.xml"
-(echo     ^<component) >> "%NTFS%\san_policy.xml"
-(echo         xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State") >> "%NTFS%\san_policy.xml"
-(echo         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance") >> "%NTFS%\san_policy.xml"
-(echo         language="neutral") >> "%NTFS%\san_policy.xml"
-(echo         name="Microsoft-Windows-PartitionManager") >> "%NTFS%\san_policy.xml"
-(echo         processorArchitecture="amd64") >> "%NTFS%\san_policy.xml"
-(echo         publicKeyToken="31bf3856ad364e35") >> "%NTFS%\san_policy.xml"
-(echo         versionScope="nonSxS") >> "%NTFS%\san_policy.xml"
-(echo         ^>) >> "%NTFS%\san_policy.xml"
-(echo       ^<SanPolicy^>4^</SanPolicy^>) >> "%NTFS%\san_policy.xml"
-(echo     ^</component^>) >> "%NTFS%\san_policy.xml"
-(echo     ^<component) >> "%NTFS%\san_policy.xml"
-(echo         xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State") >> "%NTFS%\san_policy.xml"
-(echo         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance") >> "%NTFS%\san_policy.xml"
-(echo         language="neutral") >> "%NTFS%\san_policy.xml"
-(echo         name="Microsoft-Windows-PartitionManager") >> "%NTFS%\san_policy.xml"
-(echo         processorArchitecture="x86") >> "%NTFS%\san_policy.xml"
-(echo         publicKeyToken="31bf3856ad364e35") >> "%NTFS%\san_policy.xml"
-(echo         versionScope="nonSxS") >> "%NTFS%\san_policy.xml"
-(echo         ^>) >> "%NTFS%\san_policy.xml"
-(echo       ^<SanPolicy^>4^</SanPolicy^>) >> "%NTFS%\san_policy.xml"
-(echo     ^</component^>) >> "%NTFS%\san_policy.xml"
-(echo   ^</settings^>) >> "%NTFS%\san_policy.xml"
-(echo ^</unattend^>) >> "%NTFS%\san_policy.xml"
-DISM /Image:%NTFS% /Apply-Unattend:%NTFS%\san_policy.xml
+(echo ^<?xml version="1.0" encoding="utf-8" standalone="yes"?^>) >> "%Windows%\san_policy.xml"
+(echo ^<unattend xmlns="urn:schemas-microsoft-com:unattend"^>) >> "%Windows%\san_policy.xml"
+(echo   ^<settings pass="offlineServicing"^>) >> "%Windows%\san_policy.xml"
+(echo     ^<component) >> "%Windows%\san_policy.xml"
+(echo         xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State") >> "%Windows%\san_policy.xml"
+(echo         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance") >> "%Windows%\san_policy.xml"
+(echo         language="neutral") >> "%Windows%\san_policy.xml"
+(echo         name="Microsoft-Windows-PartitionManager") >> "%Windows%\san_policy.xml"
+(echo         processorArchitecture="arm64") >> "%Windows%\san_policy.xml"
+(echo         publicKeyToken="31bf3856ad364e35") >> "%Windows%\san_policy.xml"
+(echo         versionScope="nonSxS") >> "%Windows%\san_policy.xml"
+(echo         ^>) >> "%Windows%\san_policy.xml"
+(echo       ^<SanPolicy^>4^</SanPolicy^>) >> "%Windows%\san_policy.xml"
+(echo     ^</component^>) >> "%Windows%\san_policy.xml"
+(echo     ^<component) >> "%Windows%\san_policy.xml"
+(echo         xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State") >> "%Windows%\san_policy.xml"
+(echo         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance") >> "%Windows%\san_policy.xml"
+(echo         language="neutral") >> "%Windows%\san_policy.xml"
+(echo         name="Microsoft-Windows-PartitionManager") >> "%Windows%\san_policy.xml"
+(echo         processorArchitecture="amd64") >> "%Windows%\san_policy.xml"
+(echo         publicKeyToken="31bf3856ad364e35") >> "%Windows%\san_policy.xml"
+(echo         versionScope="nonSxS") >> "%Windows%\san_policy.xml"
+(echo         ^>) >> "%Windows%\san_policy.xml"
+(echo       ^<SanPolicy^>4^</SanPolicy^>) >> "%Windows%\san_policy.xml"
+(echo     ^</component^>) >> "%Windows%\san_policy.xml"
+(echo     ^<component) >> "%Windows%\san_policy.xml"
+(echo         xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State") >> "%Windows%\san_policy.xml"
+(echo         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance") >> "%Windows%\san_policy.xml"
+(echo         language="neutral") >> "%Windows%\san_policy.xml"
+(echo         name="Microsoft-Windows-PartitionManager") >> "%Windows%\san_policy.xml"
+(echo         processorArchitecture="x86") >> "%Windows%\san_policy.xml"
+(echo         publicKeyToken="31bf3856ad364e35") >> "%Windows%\san_policy.xml"
+(echo         versionScope="nonSxS") >> "%Windows%\san_policy.xml"
+(echo         ^>) >> "%Windows%\san_policy.xml"
+(echo       ^<SanPolicy^>4^</SanPolicy^>) >> "%Windows%\san_policy.xml"
+(echo     ^</component^>) >> "%Windows%\san_policy.xml"
+(echo   ^</settings^>) >> "%Windows%\san_policy.xml"
+(echo ^</unattend^>) >> "%Windows%\san_policy.xml"
+DISM /Image:%Windows% /Apply-Unattend:%Windows%\san_policy.xml
 if not "%errorlevel%"=="0" goto "SANError"
 echo SAN policy applied.
 goto "Unattended"
@@ -849,59 +849,59 @@ goto "SANPolicy"
 :"Unattended"
 echo.
 echo Creating "unattended.xml" file in Sysprep folder.
-(echo ^<?xml version="1.0" encoding="utf-8"?^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo ^<unattend xmlns="urn:schemas-microsoft-com:unattend"^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo     ^<settings pass="oobeSystem"^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo         ^<component name="Microsoft-Windows-Shell-Setup" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="Arm64" xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo             ^<OOBE^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo                 ^<HideEULAPage^>true^</HideEULAPage^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo                 ^<ProtectYourPC^>1^</ProtectYourPC^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo                 ^<NetworkLocation^>Work^</NetworkLocation^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo             ^</OOBE^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo         ^</component^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo         ^<component name="Microsoft-Windows-International-Core" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="Arm64"^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo           ^<InputLocale^>en-US^</InputLocale^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo           ^<SystemLocale^>en-US^</SystemLocale^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo           ^<UILanguage^>en-US^</UILanguage^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo           ^<UserLocale^>en-US^</UserLocale^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo         ^</component^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo         ^<component name="Microsoft-Windows-WinRE-RecoveryAgent" processorArchitecture="arm64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo             ^<UninstallWindowsRE^>true^</UninstallWindowsRE^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo         ^</component^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo         ^<component name="Microsoft-Windows-Shell-Setup" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="AMD64" xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo             ^<OOBE^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo                 ^<HideEULAPage^>true^</HideEULAPage^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo                 ^<ProtectYourPC^>1^</ProtectYourPC^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo                 ^<NetworkLocation^>Work^</NetworkLocation^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo             ^</OOBE^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo         ^</component^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo         ^<component name="Microsoft-Windows-International-Core" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="AMD64"^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo           ^<InputLocale^>en-US^</InputLocale^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo           ^<SystemLocale^>en-US^</SystemLocale^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo           ^<UILanguage^>en-US^</UILanguage^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo           ^<UserLocale^>en-US^</UserLocale^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo         ^</component^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo         ^<component name="Microsoft-Windows-WinRE-RecoveryAgent" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo             ^<UninstallWindowsRE^>true^</UninstallWindowsRE^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo         ^</component^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo         ^<component name="Microsoft-Windows-Shell-Setup" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="X86" xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo             ^<OOBE^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo                 ^<HideEULAPage^>true^</HideEULAPage^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo                 ^<ProtectYourPC^>1^</ProtectYourPC^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo                 ^<NetworkLocation^>Work^</NetworkLocation^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo             ^</OOBE^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo         ^</component^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo         ^<component name="Microsoft-Windows-International-Core" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="x86"^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo           ^<InputLocale^>en-US^</InputLocale^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo           ^<SystemLocale^>en-US^</SystemLocale^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo           ^<UILanguage^>en-US^</UILanguage^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo           ^<UserLocale^>en-US^</UserLocale^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo         ^</component^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo         ^<component name="Microsoft-Windows-WinRE-RecoveryAgent" processorArchitecture="x86" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo             ^<UninstallWindowsRE^>true^</UninstallWindowsRE^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo         ^</component^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo     ^</settings^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
-(echo ^</unattend^>) >> %NTFS%\Windows\System32\Sysprep\unattend.xml
+(echo ^<?xml version="1.0" encoding="utf-8"?^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo ^<unattend xmlns="urn:schemas-microsoft-com:unattend"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo     ^<settings pass="oobeSystem"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo         ^<component name="Microsoft-Windows-Shell-Setup" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="Arm64" xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo             ^<OOBE^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo                 ^<HideEULAPage^>true^</HideEULAPage^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo                 ^<ProtectYourPC^>1^</ProtectYourPC^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo                 ^<NetworkLocation^>Work^</NetworkLocation^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo             ^</OOBE^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo         ^</component^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo         ^<component name="Microsoft-Windows-International-Core" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="Arm64"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           ^<InputLocale^>en-US^</InputLocale^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           ^<SystemLocale^>en-US^</SystemLocale^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           ^<UILanguage^>en-US^</UILanguage^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           ^<UserLocale^>en-US^</UserLocale^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo         ^</component^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo         ^<component name="Microsoft-Windows-WinRE-RecoveryAgent" processorArchitecture="arm64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo             ^<UninstallWindowsRE^>true^</UninstallWindowsRE^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo         ^</component^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo         ^<component name="Microsoft-Windows-Shell-Setup" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="AMD64" xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo             ^<OOBE^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo                 ^<HideEULAPage^>true^</HideEULAPage^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo                 ^<ProtectYourPC^>1^</ProtectYourPC^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo                 ^<NetworkLocation^>Work^</NetworkLocation^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo             ^</OOBE^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo         ^</component^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo         ^<component name="Microsoft-Windows-International-Core" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="AMD64"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           ^<InputLocale^>en-US^</InputLocale^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           ^<SystemLocale^>en-US^</SystemLocale^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           ^<UILanguage^>en-US^</UILanguage^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           ^<UserLocale^>en-US^</UserLocale^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo         ^</component^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo         ^<component name="Microsoft-Windows-WinRE-RecoveryAgent" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo             ^<UninstallWindowsRE^>true^</UninstallWindowsRE^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo         ^</component^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo         ^<component name="Microsoft-Windows-Shell-Setup" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="X86" xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo             ^<OOBE^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo                 ^<HideEULAPage^>true^</HideEULAPage^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo                 ^<ProtectYourPC^>1^</ProtectYourPC^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo                 ^<NetworkLocation^>Work^</NetworkLocation^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo             ^</OOBE^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo         ^</component^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo         ^<component name="Microsoft-Windows-International-Core" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="x86"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           ^<InputLocale^>en-US^</InputLocale^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           ^<SystemLocale^>en-US^</SystemLocale^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           ^<UILanguage^>en-US^</UILanguage^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           ^<UserLocale^>en-US^</UserLocale^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo         ^</component^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo         ^<component name="Microsoft-Windows-WinRE-RecoveryAgent" processorArchitecture="x86" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo             ^<UninstallWindowsRE^>true^</UninstallWindowsRE^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo         ^</component^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo     ^</settings^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo ^</unattend^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
 echo "unattended.xml" file created in Sysprep folder.
 if /i "%BIOSAsk%"=="2" goto "DoneUEFI"
 goto "DoneBoth"
