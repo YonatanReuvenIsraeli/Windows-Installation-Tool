@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.1.0
+echo Version: 5.1.1
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -713,13 +713,22 @@ echo Windows installed.
 goto "Bootloader"
 
 :"Bootloader"
-if exist "diskpart.txt" goto "DiskPartExistBootloader"
 echo.
 echo Creating bootloader.
 if /i "%BIOSAsk%"=="1" "%windir%\System32\bcdboot.exe" "%NTFS%\Windows" /s "%FAT32%" /f BIOS > nul 2>&1
 if /i "%BIOSAsk%"=="2" "%windir%\System32\bcdboot.exe" "%NTFS%\Windows" /s "%FAT32%" /f UEFI > nul 2>&1
 if /i "%BIOSAsk%"=="3" "%windir%\System32\bcdboot.exe" "%NTFS%\Windows" /s "%FAT32%" /f ALL > nul 2>&1
 if not "%errorlevel%"=="0" goto "BootloaderError"
+goto "DiskPartBootloader"
+
+:"BootloaderError"
+del "diskpart.txt" /f /q > nul 2>&1
+echo Error creating the bootloader! Press any key to try again.
+pause > nul 2>&1
+goto "Bootloader"
+
+:"DiskPartBootloader"
+if exist "diskpart.txt" goto "DiskPartExistBootloader"
 (echo sel vol %FAT32%) > "diskpart.txt"
 (echo remove letter=%FAT32%) >> "diskpart.txt"
 (echo exit) >> "diskpart.txt"
@@ -733,16 +742,9 @@ goto "Recovery"
 
 :"DiskPartExistBootloader"
 set DiskPart=True
-echo.
 echo Please temporary rename to something else or temporary move to another location "diskpart.txt" in order for this batch file to proceed. "diskpart.txt" is not a system file. "diskpart.txt" is located in the folder you ran this batch file from. Press any key to continue when "diskpart.txt" is renamed to something else or moved to another location. This batch file will let you know when you can rename it back to its original name or move it back to its original location.
 pause > nul 2>&1
-goto "Bootloader"
-
-:"BootloaderError"
-del "diskpart.txt" /f /q > nul 2>&1
-echo Error creating the bootloader! Press any key to try again.
-pause > nul 2>&1
-goto "Bootloader"
+goto "DiskPartBootloader"
 
 :"Recovery"
 echo.
@@ -751,6 +753,15 @@ if not exist "%Recovery%\Recovery\WindowsRE" md "%Recovery%\Recovery\WindowsRE" 
 if not exist "%Recovery%\Recovery\WindowsRE\winre.wim" copy "%NTFS%\Windows\System32\Recovery\winre.wim" "%Recovery%\Recovery\WindowsRE\winre.wim" /y /v > nul 2>&1
 "%windir%\System32\ReAgentc.exe" /setreimage /path "%Recovery%\Recovery\WindowsRE" /target "%NTFS%\Windows" > nul 2>&1
 if not "%errorlevel%"=="0" goto "RecoveryError"
+goto "DiskPartRecovery"
+
+:"RecoveryError"
+echo There has been an error creating the recovery partition files! Press any key to try again!
+pause > nul 2>&1
+goto "Recovery"
+
+:"DiskPartRecovery"
+if exist "diskpart.txt" goto "DiskPartExistRecovery"
 (echo sel vol %Recovery%) > "diskpart.txt"
 (echo remove letter=%Recovery%) >> "diskpart.txt"
 (echo exit) >> "diskpart.txt"
@@ -763,10 +774,11 @@ if /i "%BIOSAsk%"=="1" goto "DoneBIOS"
 if /i "%BIOSAsk%"=="2" goto "DoneUEFI"
 if /i "%BIOSAsk%"=="3" goto "DoneBoth"
 
-:"RecoveryError"
-echo There has been an error creating the recovery partition files! Press any key to try again!
+:"DiskPartExistRecovery"
+set DiskPart=True
+echo Please temporary rename to something else or temporary move to another location "diskpart.txt" in order for this batch file to proceed. "diskpart.txt" is not a system file. "diskpart.txt" is located in the folder you ran this batch file from. Press any key to continue when "diskpart.txt" is renamed to something else or moved to another location. This batch file will let you know when you can rename it back to its original name or move it back to its original location.
 pause > nul 2>&1
-goto "Recovery"
+goto "DiskPartRecovery"
 
 :"DiskPartDone"
 echo.
