@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.1.1
+echo Version: 5.1.2
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -690,26 +690,32 @@ goto "DISM2"
 
 :"DISM2"
 echo.
-echo Installing Windows.
+if /i "%Windows%"=="1" echo Installing Windows.
+if /i "%Windows%"=="2" echo Installing Windows To Go.
 "%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%DriveLetter%\sources\%Install%" /Index:%Index% /ApplyDir:"%NTFS%"
 if not "%errorlevel%"=="0" goto "BitDetection"
-echo Windows installed.
+if /i "%Windows%"=="1" echo Windows installed.
+if /i "%Windows%"=="2" echo Windows To Go installed.
 goto "Bootloader"
 
 :"32DISM2"
 echo.
-echo Installing Windows.
+if /i "%Windows%"=="1" echo Installing Windows.
+if /i "%Windows%"=="2" echo Installing Windows To Go.
 "%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%DriveLetter%\x86\sources\%Install%" /Index:%Index% /ApplyDir:"%NTFS%"
 if not "%errorlevel%"=="0" goto "BitDetection"
-echo Windows installed.
+if /i "%Windows%"=="1" echo Windows installed.
+if /i "%Windows%"=="2" echo Windows To Go installed.
 goto "Bootloader"
 
 :"64DISM2"
 echo.
-echo Installing Windows.
+if /i "%Windows%"=="1" echo Installing Windows.
+if /i "%Windows%"=="2" echo Installing Windows To Go.
 "%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%DriveLetter%\x64\sources\%Install%" /Index:%Index% /ApplyDir:"%NTFS%"
 if not "%errorlevel%"=="0" goto "BitDetection"
-echo Windows installed.
+if /i "%Windows%"=="1" echo Windows installed.
+if /i "%Windows%"=="2" echo Windows To Go installed.
 goto "Bootloader"
 
 :"Bootloader"
