@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.1.3
+echo Version: 5.1.4
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -605,7 +605,7 @@ if /i "%BIOSAsk%"=="1" (echo create partition primary size=100) >> "diskpart.txt
 if /i "%BIOSAsk%"=="2" if /i "%fsutil%"=="0" (echo create partition efi size=100) >> "diskpart.txt"
 if /i "%BIOSAsk%"=="2" if /i "%fsutil%"=="1" (echo create partition efi size=260) >> "diskpart.txt"
 if /i "%BIOSAsk%"=="3" (echo create partition primary size=100) >> "diskpart.txt"
-(echo format quick fs=FAT32 label="System")  >> "diskpart.txt"
+(echo format quick fs=fat32 label="System")  >> "diskpart.txt"
 (echo assign letter="%FAT32%") >> "diskpart.txt"
 if /i "%BIOSAsk%"=="1" (echo active) >> "diskpart.txt"
 if /i "%BIOSAsk%"=="3" (echo active) >> "diskpart.txt"
@@ -656,7 +656,7 @@ if /i "%BIOSAsk%"=="3"=="Arm64" (echo convert mbr) >> "diskpart.txt"
 if /i "%BIOSAsk%"=="2" (echo convert gpt) >> "diskpart.txt"
 if /i "%BIOSAsk%"=="3" (echo create partition Primary size=350) >> "diskpart.txt"
 if /i "%BIOSAsk%"=="2" (echo create partition efi size=350) >> "diskpart.txt"
-(echo format fs=FAT32 label="WTG-System" quick) >> "diskpart.txt"
+(echo format fs=fat32 label="WTG-System" quick) >> "diskpart.txt"
 (echo assign letter=%FAT32%) >> "diskpart.txt"
 if /i not "%bootmgr%"=="Arm64" (echo active) >> "diskpart.txt"
 (echo create partition Primary) >> "diskpart.txt"
