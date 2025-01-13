@@ -1,4 +1,4 @@
-# Windows Installation Tool v5.1.7
+# Windows Installation Tool v5.1.8
 Install Windows onto an external drive.
 
 ## Windows Install Types
