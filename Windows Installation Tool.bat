@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.1.7
+echo Version: 5.1.8
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -909,7 +909,7 @@ goto "DoneBoth"
 :"DoneBIOS"
 endlocal
 echo.
-echo Your Windows To Go is ready! It is bootable with Legacy BIOS only. Press any key to close this batch file.
+echo Your Windows To Go is ready! It is bootable with legacy BIOS only. Press any key to close this batch file.
 pause > nul 2>&1
 exit
 
@@ -923,6 +923,6 @@ exit
 :"DoneBoth"
 endlocal
 echo.
-echo Your Windows To Go is ready! It is bootable with Legacy BIOS and UEFI. Press any key to close this batch file.
+echo Your Windows To Go is ready! It is bootable with legacy BIOS and UEFI. Press any key to close this batch file.
 pause > nul 2>&1
 exit
