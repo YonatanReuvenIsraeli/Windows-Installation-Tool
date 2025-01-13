@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.1.5
+echo Version: 5.1.6
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -26,22 +26,22 @@ echo.
 echo [1] Install Windows.
 echo [2] Install Windows To Go.
 echo.
-set Windows=
-set /p Windows="What do you want to do? (1-2) "
-if /i "%Windows%"=="1" goto "SureWindows"
-if /i "%Windows%"=="2" goto "SureWindows"
+set WindowsType=
+set /p WindowsType="What do you want to do? (1-2) "
+if /i "%WindowsType%"=="1" goto "SureWindowsType"
+if /i "%WindowsType%"=="2" goto "SureWindowsType"
 echo Invalid syntax!
 goto "Start"
 
-:"SureWindows"
+:"SureWindowsType"
 echo.
 set SureWindows=
-if /i "%Windows%"=="1" set /p SureWindows="Are you sure you want to install Windows? (Yes/No) "
-if /i "%Windows%"=="2" set /p SureWindows="Are you sure you want to install Windows To Go? (Yes/No) "
-if /i "%SureWindows%"=="Yes" goto "Download"
-if /i "%SureWindows%"=="No" goto "Start"
+if /i "%WindowsType%"=="1" set /p SureWindows="Are you sure you want to install Windows? (Yes/No) "
+if /i "%WindowsType%"=="2" set /p SureWindows="Are you sure you want to install Windows To Go? (Yes/No) "
+if /i "%SureWindowsType%"=="Yes" goto "Download"
+if /i "%SureWindowsType%"=="No" goto "Start"
 echo Invalid syntax!
-goto "SureWindows"
+goto "SureWindowsType"
 
 :"Download"
 echo.
@@ -345,8 +345,8 @@ goto "SureIndex11"
 
 :"AttachDisk"
 echo.
-if /i "%Windows%"=="1" echo Please attach an SSD or a HDD then press any key to continue.
-if /i "%Windows%"=="2" echo Please attach an external SSD or a WTG certifed drive then press any key to continue.
+if /i "%WindowsType%"=="1" echo Please attach an SSD or a HDD then press any key to continue.
+if /i "%WindowsType%"=="2" echo Please attach an external SSD or a WTG certifed drive then press any key to continue.
 pause > nul 2>&1
 goto "DiskPartSet"
 
@@ -483,8 +483,8 @@ echo "%Windows%" exists! Please try again.
 goto "Windows"
 
 :"WindowsCheck"
-if /i "%Windows%"=="1" goto "RecoveryDriveLetter"
-if /i "%Windows%"=="2" goto "BIOSSet"
+if /i "%WindowsType%"=="1" goto "RecoveryDriveLetter"
+if /i "%WindowsType%"=="2" goto "BIOSSet"
 
 :"RecoveryDriveLetter"
 echo.
@@ -690,32 +690,32 @@ goto "DISM2"
 
 :"DISM2"
 echo.
-if /i "%Windows%"=="1" echo Installing Windows.
-if /i "%Windows%"=="2" echo Installing Windows To Go.
+if /i "%WindowsType%"=="1" echo Installing Windows.
+if /i "%WindowsType%"=="2" echo Installing Windows To Go.
 "%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%DriveLetter%\sources\%Install%" /Index:%Index% /ApplyDir:"%Windows%"
 if not "%errorlevel%"=="0" goto "BitDetection"
-if /i "%Windows%"=="1" echo Windows installed.
-if /i "%Windows%"=="2" echo Windows To Go installed.
+if /i "%WindowsType%"=="1" echo Windows installed.
+if /i "%WindowsType%"=="2" echo Windows To Go installed.
 goto "Bootloader"
 
 :"32DISM2"
 echo.
-if /i "%Windows%"=="1" echo Installing Windows.
-if /i "%Windows%"=="2" echo Installing Windows To Go.
+if /i "%WindowsType%"=="1" echo Installing Windows.
+if /i "%WindowsType%"=="2" echo Installing Windows To Go.
 "%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%DriveLetter%\x86\sources\%Install%" /Index:%Index% /ApplyDir:"%Windows%"
 if not "%errorlevel%"=="0" goto "BitDetection"
-if /i "%Windows%"=="1" echo Windows installed.
-if /i "%Windows%"=="2" echo Windows To Go installed.
+if /i "%WindowsType%"=="1" echo Windows installed.
+if /i "%WindowsType%"=="2" echo Windows To Go installed.
 goto "Bootloader"
 
 :"64DISM2"
 echo.
-if /i "%Windows%"=="1" echo Installing Windows.
-if /i "%Windows%"=="2" echo Installing Windows To Go.
+if /i "%WindowsType%"=="1" echo Installing Windows.
+if /i "%WindowsType%"=="2" echo Installing Windows To Go.
 "%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%DriveLetter%\x64\sources\%Install%" /Index:%Index% /ApplyDir:"%Windows%"
 if not "%errorlevel%"=="0" goto "BitDetection"
-if /i "%Windows%"=="1" echo Windows installed.
-if /i "%Windows%"=="2" echo Windows To Go installed.
+if /i "%WindowsType%"=="1" echo Windows installed.
+if /i "%WindowsType%"=="2" echo Windows To Go installed.
 goto "Bootloader"
 
 :"Bootloader"
@@ -742,8 +742,8 @@ if exist "diskpart.txt" goto "DiskPartExistBootloader"
 if not "%errorlevel%"=="0" goto "BootloaderError"
 del "diskpart.txt" /f /q > nul 2>&1
 echo Bootloader created.
-if /i "%Windows%"=="2" if /i "%DiskPart%"=="True" goto "DiskPartDone"
-if /i "%Windows%"=="2" goto "SANPolicy"
+if /i "%WindowsType%"=="2" if /i "%DiskPart%"=="True" goto "DiskPartDone"
+if /i "%WindowsType%"=="2" goto "SANPolicy"
 goto "Recovery"
 
 :"DiskPartExistBootloader"
@@ -790,7 +790,7 @@ goto "DiskPartRecovery"
 echo.
 echo You can now rename or move back the file back to "diskpart.txt". Press any key to continue.
 pause > nul 2>&1
-if /i "%Windows%"=="2" goto "SANPolicy"
+if /i "%WindowsType%"=="2" goto "SANPolicy"
 if /i "%BIOSAsk%"=="1" goto "DoneBIOS"
 if /i "%BIOSAsk%"=="2" goto "DoneUEFI"
 if /i "%BIOSAsk%"=="3" goto "DoneBoth"
