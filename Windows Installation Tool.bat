@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.1.9
+echo Version: 5.1.10
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -639,7 +639,7 @@ goto "DiskPartWindows"
 
 :"DiskPartErrorDiskPartWindows"
 del "diskpart.txt" /f /q > nul 2>&1
-set DiskPartErrorWindowsToGoError=True
+set DiskPartWindowsError=True
 echo Error formating and partitioning disk %Disk%. Disk %Disk% may not exist! Disk %Disk% may be smaller than 64 GB! Press any key to try again.
 pause > nul 2>&1
 goto "Disk"
@@ -682,6 +682,7 @@ goto "DiskPartToGo"
 
 :"DiskPartToGoError"
 del "diskpart.txt" /f /q > nul 2>&1
+set DiskPartToGoError=True
 echo Error formating and partitioning disk %Disk%. Disk %Disk% may not exist! Disk %Disk% may be smaller than 64 GB! Press any key to try again.
 pause > nul 2>&1
 goto "Disk"
