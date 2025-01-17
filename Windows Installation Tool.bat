@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.1.13
+echo Version: 5.1.14
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -917,7 +917,7 @@ echo Your Windows is ready! It is bootable with legacy BIOS only. Press any key 
 pause > nul 2>&1
 exit
 
-:"DoneUEFIWindws"
+:"DoneUEFIWindows"
 endlocal
 echo.
 echo Your Windows is ready! It is bootable with UEFI only. Press any key to close this batch file.
