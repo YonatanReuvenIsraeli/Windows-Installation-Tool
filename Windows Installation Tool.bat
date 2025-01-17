@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.1.11
+echo Version: 5.1.12
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -780,9 +780,7 @@ if not "%errorlevel%"=="0" goto "RecoveryError"
 del "diskpart.txt" /f /q > nul 2>&1
 echo Recovery partition created.
 if /i "%DiskPart%"=="True" goto "DiskPartDone"
-if /i "%BIOSAsk%"=="1" goto "DoneBIOS"
-if /i "%BIOSAsk%"=="2" goto "DoneUEFI"
-if /i "%BIOSAsk%"=="3" goto "DoneBothWindows"
+goto "Done"
 
 :"DiskPartExistRecovery"
 set DiskPart=True
@@ -795,9 +793,7 @@ echo.
 echo You can now rename or move back the file back to "diskpart.txt". Press any key to continue.
 pause > nul 2>&1
 if /i "%WindowsType%"=="2" goto "SANPolicy"
-if /i "%BIOSAsk%"=="1" goto "DoneBIOS"
-if /i "%BIOSAsk%"=="2" goto "DoneUEFI"
-if /i "%BIOSAsk%"=="3" goto "DoneBothWindows"
+goto "Done"
 
 :"SANPolicy"
 echo.
@@ -907,33 +903,14 @@ echo Creating "unattended.xml" file in Sysprep folder.
 (echo     ^</settings^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
 (echo ^</unattend^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
 echo "unattended.xml" file created in Sysprep folder.
-if /i "%BIOSAsk%"=="2" goto "DoneUEFI"
-goto "DoneBothWindowsToGo"
+goto "Done"
 
-:"DoneBIOS"
+:"Done"
 endlocal
 echo.
-echo Your Windows is ready! It is bootable with legacy BIOS only. Press any key to close this batch file.
-pause > nul 2>&1
-exit
-
-:"DoneUEFI"
-endlocal
-echo.
-echo Your Windows is ready! It is bootable with UEFI only. Press any key to close this batch file.
-pause > nul 2>&1
-exit
-
-:"DoneBothWindows"
-endlocal
-echo.
-echo Your Windows is ready! It is bootable with legacy BIOS and UEFI. Press any key to close this batch file.
-pause > nul 2>&1
-exit
-
-:"DoneBothWindowsToGo"
-endlocal
-echo.
-echo Your Windows To Go is ready! It is bootable with legacy BIOS and UEFI. Press any key to close this batch file.
+if /i "%WindowsType%"=="1" if /i "%BIOSAsk%"=="1" echo Your Windows is ready! It is bootable with legacy BIOS only. Press any key to close this batch file.
+if /i "%WindowsType%"=="1" if /i "%BIOSAsk%"=="2" echo Your Windows is ready! It is bootable with UEFI only. Press any key to close this batch file.
+if /i "%WindowsType%"=="1" if /i "%BIOSAsk%"=="3" echo Your Windows is ready! It is bootable with legacy BIOS and UEFI. Press any key to close this batch file.
+if /i "%WindowsType%"=="2" echo Your Windows To Go is ready! It is bootable with legacy BIOS and UEFI. Press any key to close this batch file.
 pause > nul 2>&1
 exit
