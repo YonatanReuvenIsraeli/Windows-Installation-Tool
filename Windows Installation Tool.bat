@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.3.0
+echo Version: 5.3.1
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -326,9 +326,9 @@ echo [3] Both.
 echo.
 set BIOS=
 set /p BIOS="Are you installing for Legacy BIOS, UEFI or both? (1-3) "
-if /i "%BIOS%"=="1" goto "SureBIOS"
-if /i "%BIOS%"=="2" goto "SureBIOS"
-if /i "%BIOS%"=="3" goto "SureBIOS"
+if /i "%BIOS%"=="1" goto "SureBIOSAsk"
+if /i "%BIOS%"=="2" goto "SureBIOSAsk"
+if /i "%BIOS%"=="3" goto "SureBIOSAsk"
 echo Invalid syntax!
 goto "BIOSAsk"
 
