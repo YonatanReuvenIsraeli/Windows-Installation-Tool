@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.1.15
+echo Version: 5.1.16
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -282,7 +282,7 @@ if /i "%Index%"=="1" goto "SureIndex3"
 if /i "%Index%"=="2" goto "SureIndex3"
 if /i "%Index%"=="3" goto "SureIndex3"
 echo Invalid syntax!
-goto "Bit2"
+goto "Index3"
 
 :"SureIndex3"
 echo.
@@ -305,7 +305,7 @@ if /i "%Index%"=="5" goto "SureIndex7"
 if /i "%Index%"=="6" goto "SureIndex7"
 if /i "%Index%"=="7" goto "SureIndex7"
 echo Invalid syntax!
-goto "Bit2"
+goto "Index7"
 
 :"SureIndex7"
 echo.
@@ -332,7 +332,7 @@ if /i "%Index%"=="9" goto "SureIndex11"
 if /i "%Index%"=="10" goto "SureIndex11"
 if /i "%Index%"=="11" goto "SureIndex11"
 echo Invalid syntax!
-goto "Bit2"
+goto "Index11"
 
 :"SureIndex11"
 echo.
