@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.1.16
+echo Version: 5.2.0
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -167,52 +167,40 @@ echo "%DriveLetter%" does not exist. Please try again.
 goto "DriveLetter"
 
 :"BitDetection"
+if exist "%DriveLetter%\sources" set Source=%DriveLetter%\sources
 if exist "%DriveLetter%\sources" goto "ESDSWMWIM"
-if exist "%DriveLetter%\x86\sources" goto "Bit1"
-if exist "%DriveLetter%\x64\sources" goto "Bit1"
+if exist "%DriveLetter%\x86\sources" goto "Bit"
+if exist "%DriveLetter%\x64\sources" goto "Bit"
 echo "%DriveLetter%" is not a Windows Disk Image!
 goto "DriveLetter"
 
-:"Bit1"
+:"Bit"
 echo.
 set Bit=
 set /p Bit="Do you want 32-bit or 64-bit version of Windows? (32/64) "
 if /i "%Bit%"=="32" goto "SureBit"
 if /i "%Bit%"=="64" goto "SureBit"
 echo Invalid syntax!
-goto "Bit1"
+goto "Bit"
 
 :"SureBit"
 echo.
 set SureBit=
 set /p SureBit="Are you sure you want a %Bit%-bit version of Windows? (Yes/No) "
-if /i "%SureBit%"=="Yes" goto "Bit2"
-if /i "%SureBit%"=="No" goto "Bit1"
+if /i "%SureBit%"=="Yes" goto "BitSources"
+if /i "%SureBit%"=="No" goto "Bit"
 echo Invalid syntax!
 goto "SureBit"
 
-:"Bit2"
-if /i "%Bit%"=="32" goto "32ESDSWMWIM"
-if /i "%Bit%"=="64" goto "64ESDSWMWIM"
-goto "ESDSWMWIM"
+:"BitSources"
+if /i "%Bit%"=="32" set Source=%DriveLetter%\x86\sources
+if /i "%Bit%"=="64" set Source=%DriveLetter%\x64\sources
 
 :"ESDSWMWIM"
-if exist "%DriveLetter%\sources\install.esd" set Install=install.esd
-if exist "%DriveLetter%\sources\install.swm" set Install=install.swm
-if exist "%DriveLetter%\sources\install.wim" set Install=install.wim
+if exist "%Source%\install.esd" set Install=install.esd
+if exist "%Source%\install.swm" set Install=install.swm
+if exist "%Source%\install.wim" set Install=install.wim
 goto "IndexSet"
-
-:"32ESDSWMWIM"
-if exist "%DriveLetter%\x86\sources\install.esd" set Install=install.esd
-if exist "%DriveLetter%\x86\sources\install.swm" set Install=install.swm
-if exist "%DriveLetter%\x86\sources\install.wim" set Install=install.wim
-goto "32DISM1"
-
-:"64ESDSWMWIM"
-if exist "%DriveLetter%\x64\sources\install.esd" set Install=install.esd
-if exist "%DriveLetter%\x64\sources\install.swm" set Install=install.swm
-if exist "%DriveLetter%\x64\sources\install.wim" set Install=install.wim
-goto "64DISM1"
 
 :"IndexSet"
 set Index=
@@ -227,10 +215,10 @@ goto "DISM1"
 if exist "Index.txt" goto "IndexExist"
 echo.
 echo Getting index details for Windows Disk Image "%DriveLetter%".
-"%windir%\System32\Dism.exe" /Get-ImageInfo /ImageFile:"%DriveLetter%\sources\%Install%" | find /c /i "Index" > "Index.txt"
+"%windir%\System32\Dism.exe" /Get-ImageInfo /ImageFile:"%Source%\%Install%" | find /c /i "Index" > "Index.txt"
 set /p IndexNumber=< "Index.txt"
 del "Index.txt" /f /q > nul 2>&1
-"%windir%\System32\Dism.exe" /Get-ImageInfo /ImageFile:"%DriveLetter%\sources\%Install%"
+"%windir%\System32\Dism.exe" /Get-ImageInfo /ImageFile:"%Source%\%Install%"
 if not "%errorlevel%"=="0" goto "DriveLetter"
 echo Got index details for Windows Disk Image "%DriveLetter%".
 if "%Index%"=="True" goto "IndexDone"
@@ -257,22 +245,6 @@ if "%IndexNumber%"=="11" goto "Index11"
 echo.
 echo Invalid Windows Disk Image!
 goto "Start"
-
-:"32DISM1"
-echo.
-echo Getting index details for Windows Disk Image "%DriveLetter%".
-"%windir%\System32\Dism.exe" /Get-ImageInfo /ImageFile:"%DriveLetter%\x86\sources\%Install%"
-if not "%errorlevel%"=="0" goto "DriveLetter"
-echo Got index details for Windows Disk Image "%DriveLetter%".
-goto "Index7"
-
-:"64DISM1"
-echo.
-echo Getting index details for Windows Disk Image "%DriveLetter%".
-"%windir%\System32\Dism.exe" /Get-ImageInfo /ImageFile:"%DriveLetter%\x64\sources\%Install%"
-if not "%errorlevel%"=="0" goto "DriveLetter"
-echo Got index details for Windows Disk Image "%DriveLetter%".
-goto "Index7"
 
 :"Index3"
 echo.
@@ -628,7 +600,7 @@ if /i "%BIOSAsk%"=="2" (echo gpt attributes=0x8000000000000001) >> "diskpart.txt
 if not "%errorlevel%"=="0" goto "DiskPartErrorDiskPartWindows"
 del "diskpart.txt" /f /q > nul 2>&1
 echo Disk %Disk% partitioned and formated.
-goto "Bit3"
+goto "DISM2"
 
 :"DiskPartExistDiskDiskPartWindows"
 set DiskPart=True
@@ -671,7 +643,7 @@ if /i not "%bootmgr%"=="Arm64" (echo active) >> "diskpart.txt"
 if not "%errorlevel%"=="0" goto "DiskPartToGoError"
 del "diskpart.txt" /f /q > nul 2>&1
 echo Disk %Disk% partitioned and formated.
-goto "Bit3"
+goto "DISM2"
 
 :"DiskPartExistDiskPartToGo"
 set DiskPart=True
@@ -687,36 +659,11 @@ echo Error formating and partitioning disk %Disk%. Disk %Disk% may not exist! Di
 pause > nul 2>&1
 goto "Disk"
 
-:"Bit3"
-if /i "%Bit%"=="32" goto "32DISM2"
-if /i "%Bit%"=="64" goto "64DISM2"
-goto "DISM2"
-
 :"DISM2"
 echo.
 if /i "%WindowsType%"=="1" echo Installing Windows.
 if /i "%WindowsType%"=="2" echo Installing Windows To Go.
-"%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%DriveLetter%\sources\%Install%" /Index:%Index% /ApplyDir:"%Windows%"
-if not "%errorlevel%"=="0" goto "BitDetection"
-if /i "%WindowsType%"=="1" echo Windows installed.
-if /i "%WindowsType%"=="2" echo Windows To Go installed.
-goto "Bootloader"
-
-:"32DISM2"
-echo.
-if /i "%WindowsType%"=="1" echo Installing Windows.
-if /i "%WindowsType%"=="2" echo Installing Windows To Go.
-"%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%DriveLetter%\x86\sources\%Install%" /Index:%Index% /ApplyDir:"%Windows%"
-if not "%errorlevel%"=="0" goto "BitDetection"
-if /i "%WindowsType%"=="1" echo Windows installed.
-if /i "%WindowsType%"=="2" echo Windows To Go installed.
-goto "Bootloader"
-
-:"64DISM2"
-echo.
-if /i "%WindowsType%"=="1" echo Installing Windows.
-if /i "%WindowsType%"=="2" echo Installing Windows To Go.
-"%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%DriveLetter%\x64\sources\%Install%" /Index:%Index% /ApplyDir:"%Windows%"
+"%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%Source%\%Install%" /Index:%Index% /ApplyDir:"%Windows%"
 if not "%errorlevel%"=="0" goto "BitDetection"
 if /i "%WindowsType%"=="1" echo Windows installed.
 if /i "%WindowsType%"=="2" echo Windows To Go installed.
