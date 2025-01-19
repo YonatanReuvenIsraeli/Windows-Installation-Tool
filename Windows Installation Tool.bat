@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.2.1
+echo Version: 5.2.2
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -167,12 +167,15 @@ echo "%DriveLetter%" does not exist. Please try again.
 goto "DriveLetter"
 
 :"BitDetection"
-if exist "%DriveLetter%\sources" set Source=%DriveLetter%\sources
-if exist "%DriveLetter%\sources" goto "ESDSWMWIM"
+if exist "%DriveLetter%\sources" goto "Sources"
 if exist "%DriveLetter%\x86\sources" goto "Bit"
 if exist "%DriveLetter%\x64\sources" goto "Bit"
 echo "%DriveLetter%" is not a Windows Disk Image!
 goto "DriveLetter"
+
+:"Sources"
+if exist "%DriveLetter%\sources" set Sources=%DriveLetter%\sources
+goto "ESDSWMWIM"
 
 :"Bit"
 echo.
@@ -193,14 +196,14 @@ echo Invalid syntax!
 goto "SureBit"
 
 :"BitSources"
-if /i "%Bit%"=="32" set Source=%DriveLetter%\x86\sources
-if /i "%Bit%"=="64" set Source=%DriveLetter%\x64\sources
+if /i "%Bit%"=="32" set Sources=%DriveLetter%\x86\sources
+if /i "%Bit%"=="64" set Sources=%DriveLetter%\x64\sources
 goto "ESDSWMWIM"
 
 :"ESDSWMWIM"
-if exist "%Source%\install.esd" set Install=install.esd
-if exist "%Source%\install.swm" set Install=install.swm
-if exist "%Source%\install.wim" set Install=install.wim
+if exist "%Sources%\install.esd" set Install=install.esd
+if exist "%Sources%\install.swm" set Install=install.swm
+if exist "%Sources%\install.wim" set Install=install.wim
 goto "IndexSet"
 
 :"IndexSet"
@@ -216,10 +219,10 @@ goto "DISM1"
 if exist "Index.txt" goto "IndexExist"
 echo.
 echo Getting index details for Windows Disk Image "%DriveLetter%".
-"%windir%\System32\Dism.exe" /Get-ImageInfo /ImageFile:"%Source%\%Install%" | find /c /i "Index" > "Index.txt"
+"%windir%\System32\Dism.exe" /Get-ImageInfo /ImageFile:"%Sources%\%Install%" | find /c /i "Index" > "Index.txt"
 set /p IndexNumber=< "Index.txt"
 del "Index.txt" /f /q > nul 2>&1
-"%windir%\System32\Dism.exe" /Get-ImageInfo /ImageFile:"%Source%\%Install%"
+"%windir%\System32\Dism.exe" /Get-ImageInfo /ImageFile:"%Sources%\%Install%"
 if not "%errorlevel%"=="0" goto "DriveLetter"
 echo Got index details for Windows Disk Image "%DriveLetter%".
 if "%Index%"=="True" goto "IndexDone"
@@ -664,7 +667,7 @@ goto "Disk"
 echo.
 if /i "%WindowsType%"=="1" echo Installing Windows.
 if /i "%WindowsType%"=="2" echo Installing Windows To Go.
-"%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%Source%\%Install%" /Index:%Index% /ApplyDir:"%Windows%"
+"%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%Sources%\%Install%" /Index:%Index% /ApplyDir:"%Windows%"
 if not "%errorlevel%"=="0" goto "BitDetection"
 if /i "%WindowsType%"=="1" echo Windows installed.
 if /i "%WindowsType%"=="2" echo Windows To Go installed.
