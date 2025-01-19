@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.2.0
+echo Version: 5.2.1
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -195,6 +195,7 @@ goto "SureBit"
 :"BitSources"
 if /i "%Bit%"=="32" set Source=%DriveLetter%\x86\sources
 if /i "%Bit%"=="64" set Source=%DriveLetter%\x64\sources
+goto "ESDSWMWIM"
 
 :"ESDSWMWIM"
 if exist "%Source%\install.esd" set Install=install.esd
