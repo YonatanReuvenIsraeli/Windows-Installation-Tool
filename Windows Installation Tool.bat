@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.2.3
+echo Version: 5.3.0
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -45,10 +45,10 @@ goto "SureWindowsType"
 
 :"Download"
 echo.
-echo [1] Download Windows 10 22H2 x86/x64 Windows Disk Image/Windows installtion media.
-echo [2] Download Windows 11 24H2 x64 Windows Disk Image/Windows installtion media.
-echo [3] Download Windows 11 24H2 Arm64 Windows Disk Image/Windows installtion media.
-echo [4] Already have downloaded Windows 10 22H2 x86/x64 Windows Disk Image/Windows installtion media or Windows 11 24H2 x64/Arm64 Windows Disk Image/Windows installtion media.
+echo [1] Download Windows 10 22H2 x86/x64 Windows Disk Image/Windows installation media.
+echo [2] Download Windows 11 24H2 x64 Windows Disk Image/Windows installation media.
+echo [3] Download Windows 11 24H2 Arm64 Windows Disk Image/Windows installation media.
+echo [4] Already have downloaded Windows 10 22H2 x86/x64 Windows Disk Image/Windows installation media or Windows 11 24H2 x64/Arm64 Windows Disk Image/Windows installation media.
 echo.
 set Download=
 set /p Download="What do you want to do? (1-4) "
@@ -62,10 +62,10 @@ goto "Download"
 :"SureDownload"
 echo.
 set SureDownload=
-if /i "%Download%"=="1" set /p SureDownload="Are you sure you want to download Windows 10 22H2 x86/x64 Windows Disk Image/Windows installtion media? (Yes/No) "
-if /i "%Download%"=="2" set /p SureDownload="Are you sure you want to download Windows 11 24H2 x64 Windows Disk Image/Windows installtion media? (Yes/No) "
-if /i "%Download%"=="3" set /p SureDownload="Are you sure you want to download Windows 11 24H2 Arm64 Windows Disk Image/Windows installtion media? (Yes/No) "
-if /i "%Download%"=="4" set /p SureDownload="Are you sure you have downloaded Windows 10 22H2 x86/x64 Windows Disk Image/Windows installtion media or Windows 11 24H2 x64/Arm64 Windows Disk Image/Windows installtion media? (Yes/No) "
+if /i "%Download%"=="1" set /p SureDownload="Are you sure you want to download Windows 10 22H2 x86/x64 Windows Disk Image/Windows installation media? (Yes/No) "
+if /i "%Download%"=="2" set /p SureDownload="Are you sure you want to download Windows 11 24H2 x64 Windows Disk Image/Windows installation media? (Yes/No) "
+if /i "%Download%"=="3" set /p SureDownload="Are you sure you want to download Windows 11 24H2 Arm64 Windows Disk Image/Windows installation media? (Yes/No) "
+if /i "%Download%"=="4" set /p SureDownload="Are you sure you have downloaded Windows 10 22H2 x86/x64 Windows Disk Image/Windows installation media or Windows 11 24H2 x64/Arm64 Windows Disk Image/Windows installation media? (Yes/No) "
 if /i "%SureDownload%"=="Yes" goto "DownloadGo"
 if /i "%SureDownload%"=="No" goto "Start"
 echo Invalid syntax!
@@ -112,14 +112,14 @@ goto "Mount"
 
 :"Mount"
 echo.
-echo Please mount your Windows Disk Image/Windows installtion media then press any key to continue.
+echo Please mount your Windows Disk Image/Windows installation media then press any key to continue.
 pause > nul 2>&1
 goto "DriveLetter"
 
 :"DriveLetter"
 echo.
 set DriveLetter=
-set /p DriveLetter="What is the drive letter of your mounted Windows Disk Image/Windows installtion media? (A:-Z:) "
+set /p DriveLetter="What is the drive letter of your mounted Windows Disk Image/Windows installation media? (A:-Z:) "
 if /i "%DriveLetter%"=="A:" goto "SureDriveLetter"
 if /i "%DriveLetter%"=="B:" goto "SureDriveLetter"
 if /i "%DriveLetter%"=="C:" goto "SureDriveLetter"
@@ -152,7 +152,7 @@ goto "DriveLetter"
 :"SureDriveLetter"
 echo.
 set SureDriveLetter=
-set /p SureDriveLetter="Are you sure "%DriveLetter%" is the drive letter of your Windows Disk Image/Windows installtion media? (Yes/No) "
+set /p SureDriveLetter="Are you sure "%DriveLetter%" is the drive letter of your Windows Disk Image/Windows installation media? (Yes/No) "
 if /i "%SureDriveLetter%"=="Yes" goto "CheckExistDriveLetter"
 if /i "%SureDriveLetter%"=="No" goto "DriveLetter"
 echo Invalid syntax!
@@ -170,7 +170,7 @@ goto "DriveLetter"
 if exist "%DriveLetter%\sources" goto "Sources"
 if exist "%DriveLetter%\x86\sources" goto "Bit"
 if exist "%DriveLetter%\x64\sources" goto "Bit"
-echo "%DriveLetter%" is not a Windows Disk Image/Windows installtion media!
+echo "%DriveLetter%" is not a Windows Disk Image/Windows installation media!
 goto "DriveLetter"
 
 :"Sources"
@@ -208,29 +208,24 @@ goto "IndexSet"
 
 :"IndexSet"
 set Index=
-goto "bootmgrSet"
-
-:"bootmgrSet"
-set bootmgr=
-if not exist "%DriveLetter%\bootmgr" set bootmgr=Arm64
 goto "DISM1"
 
 :"DISM1"
 if exist "Index.txt" goto "IndexExist"
 echo.
-echo Getting index details for Windows Disk Image/Windows installtion media "%DriveLetter%".
+echo Getting index details for Windows Disk Image/Windows installation media "%DriveLetter%".
 "%windir%\System32\Dism.exe" /Get-ImageInfo /ImageFile:"%Sources%\%Install%" | find /c /i "Index" > "Index.txt"
 set /p IndexNumber=< "Index.txt"
 del "Index.txt" /f /q > nul 2>&1
 "%windir%\System32\Dism.exe" /Get-ImageInfo /ImageFile:"%Sources%\%Install%"
 if not "%errorlevel%"=="0" goto "DriveLetter"
-echo Got index details for Windows Disk Image/Windows installtion media "%DriveLetter%".
+echo Got index details for Windows Disk Image/Windows installation media "%DriveLetter%".
 if "%Index%"=="True" goto "IndexDone"
 if "%IndexNumber%"=="3" goto "Index3"
 if "%IndexNumber%"=="7" goto "Index7"
 if "%IndexNumber%"=="11" goto "Index11"
 echo.
-echo Invalid Windows Disk Image/Windows installtion media!
+echo Invalid Windows Disk Image/Windows installation media!
 goto "Start"
 
 :"IndexExist"
@@ -247,7 +242,7 @@ if "%IndexNumber%"=="3" goto "Index3"
 if "%IndexNumber%"=="7" goto "Index7"
 if "%IndexNumber%"=="11" goto "Index11"
 echo.
-echo Invalid Windows Disk Image/Windows installtion media!
+echo Invalid Windows Disk Image/Windows installation media!
 goto "Start"
 
 :"Index3"
@@ -264,8 +259,8 @@ goto "Index3"
 echo.
 set SureIndex=
 set /p SureIndex="Are you sure you want Index %Index%? (Yes/No) "
-if /i "%SureIndex%"=="Yes" goto "AttachDisk"
-if /i "%SureIndex%"=="No" goto "Index3"
+if /i "%WindowsType%"=="1" if /i "%SureIndex%"=="Yes" goto "BIOSAsk"
+if /i "%WindowsType%"=="2" if /i "%SureIndex%"=="Yes" goto "BIOSSet"
 echo Invalid syntax!
 goto "SureIndex3"
 
@@ -287,7 +282,8 @@ goto "Index7"
 echo.
 set SureIndex=
 set /p SureIndex="Are you sure you want Index %Index%? (Yes/No) "
-if /i "%SureIndex%"=="Yes" goto "AttachDisk"
+if /i "%WindowsType%"=="1" if /i "%SureIndex%"=="Yes" goto "BIOSAsk"
+if /i "%WindowsType%"=="2" if /i "%SureIndex%"=="Yes" goto "BIOSSet"
 if /i "%SureIndex%"=="No" goto "Index7"
 echo Invalid syntax!
 goto "SureIndex7"
@@ -314,10 +310,43 @@ goto "Index11"
 echo.
 set SureIndex=
 set /p SureIndex="Are you sure you want Index %Index%? (Yes/No) "
-if /i "%SureIndex%"=="Yes" goto "AttachDisk"
+if /i "%WindowsType%"=="1" if /i "%SureIndex%"=="Yes" goto "BIOSAsk"
+if /i "%WindowsType%"=="2" if /i "%SureIndex%"=="Yes" goto "BIOSSet"
 if /i "%SureIndex%"=="No" goto "Index11"
 echo Invalid syntax!
 goto "SureIndex11"
+
+:"BIOSAsk"
+if not exist "%DriveLetter%\bootmgr" set BIOS=2
+if not exist "%DriveLetter%\bootmgr" goto "Disk"
+echo.
+echo [1] Legacy BIOS.
+echo [2] UEFI.
+echo [3] Both.
+echo.
+set BIOS=
+set /p BIOS="Are you installing for Legacy BIOS, UEFI or both? (1-3) "
+if /i "%BIOS%"=="1" goto "SureBIOS"
+if /i "%BIOS%"=="2" goto "SureBIOS"
+if /i "%BIOS%"=="3" goto "SureBIOS"
+echo Invalid syntax!
+goto "BIOSAsk"
+
+:"SureBIOSAsk"
+echo.
+set SureBIOS=
+if /i "%BIOS%"=="1" set /p SureBIOS="Are you sure you are installing for Legacy BIOS? (Yes/No) "
+if /i "%BIOS%"=="2" set /p SureBIOS="Are you sure you are installing for UEFI? (Yes/No) "
+if /i "%BIOS%"=="3" set /p SureBIOS="Are you sure you are installing for both? (Yes/No) "
+if /i "%SureBIOS%"=="Yes" goto "AttachDisk"
+if /i "%SureBIOS%"=="No" goto "BIOSAsk"
+echo Invalid syntax!
+goto "SureBIOSAsk"
+
+:"BIOSSet"
+if not exist "%DriveLetter%\bootmgr" set BIOS=2
+if exist "%DriveLetter%\bootmgr" set BIOS=3
+goto "AttachDisk"
 
 :"AttachDisk"
 echo.
@@ -403,7 +432,7 @@ echo Invalid syntax!
 goto "System"
 
 :"SameDriveLetterSystemDriveLetter"
-echo Unused drive letter ("%System%") is the same as Windows Disk Image/Windows installtion media drive letter ("%DriveLetter%")! Please try again.
+echo Unused drive letter ("%System%") is the same as Windows Disk Image/Windows installation media drive letter ("%DriveLetter%")! Please try again.
 goto "System"
 
 :"ExistSystem"
@@ -447,7 +476,7 @@ echo Invalid syntax!
 goto "Windows"
 
 :"SameDriveLetterWindowsDriveLetter"
-echo Second unused drive letter ("%Windows%") is the same as Windows Disk Image/Windows installtion media drive letter ("%DriveLetter%")! Please try again.
+echo Second unused drive letter ("%Windows%") is the same as Windows Disk Image/Windows installation media drive letter ("%DriveLetter%")! Please try again.
 goto "Windows"
 
 :"SameDriveLetterWindowsSystem"
@@ -461,7 +490,7 @@ goto "Windows"
 :"WindowsCheck"
 if /i "%DiskPartWindowsToGoError%"=="True" goto "DiskPartWindowsToGo"
 if /i "%WindowsType%"=="1" goto "RecoveryDriveLetter"
-if /i "%WindowsType%"=="2" goto "BIOSSet"
+if /i "%WindowsType%"=="2" goto "DiskPartToGo"
 
 :"RecoveryDriveLetter"
 echo.
@@ -471,37 +500,37 @@ if /i "%Recovery%"=="%DriveLetter%" goto "SameDriveLetterRecovery"
 if /i "%Recovery%"=="%System%" goto "SameDriveLetterRecoverySystem"
 if /i "%Recovery%"=="%Windows%" goto "SameDriveLetterRecoveryWindows"
 if exist "%Recovery%" goto "ExistRecoveryDriveLetter"
-if /i "%Recovery%"=="A:" goto "BIOSAsk"
-if /i "%Recovery%"=="B:" goto "BIOSAsk"
-if /i "%Recovery%"=="C:" goto "BIOSAsk"
-if /i "%Recovery%"=="D:" goto "BIOSAsk"
-if /i "%Recovery%"=="E:" goto "BIOSAsk"
-if /i "%Recovery%"=="F:" goto "BIOSAsk"
-if /i "%Recovery%"=="G:" goto "BIOSAsk"
-if /i "%Recovery%"=="H:" goto "BIOSAsk"
-if /i "%Recovery%"=="I:" goto "BIOSAsk"
-if /i "%Recovery%"=="J:" goto "BIOSAsk"
-if /i "%Recovery%"=="K:" goto "BIOSAsk"
-if /i "%Recovery%"=="L:" goto "BIOSAsk"
-if /i "%Recovery%"=="M:" goto "BIOSAsk"
-if /i "%Recovery%"=="N:" goto "BIOSAsk"
-if /i "%Recovery%"=="O:" goto "BIOSAsk"
-if /i "%Recovery%"=="P:" goto "BIOSAsk"
-if /i "%Recovery%"=="Q:" goto "BIOSAsk"
-if /i "%Recovery%"=="R:" goto "BIOSAsk"
-if /i "%Recovery%"=="S:" goto "BIOSAsk"
-if /i "%Recovery%"=="T:" goto "BIOSAsk"
-if /i "%Recovery%"=="U:" goto "BIOSAsk"
-if /i "%Recovery%"=="V:" goto "BIOSAsk"
-if /i "%Recovery%"=="W:" goto "BIOSAsk"
-if /i "%Recovery%"=="X:" goto "BIOSAsk"
-if /i "%Recovery%"=="Y:" goto "BIOSAsk"
-if /i "%Recovery%"=="Z:" goto "BIOSAsk"
+if /i "%Recovery%"=="A:" goto "fsutilCheck"
+if /i "%Recovery%"=="B:" goto "fsutilCheck"
+if /i "%Recovery%"=="C:" goto "fsutilCheck"
+if /i "%Recovery%"=="D:" goto "fsutilCheck"
+if /i "%Recovery%"=="E:" goto "fsutilCheck"
+if /i "%Recovery%"=="F:" goto "fsutilCheck"
+if /i "%Recovery%"=="G:" goto "fsutilCheck"
+if /i "%Recovery%"=="H:" goto "fsutilCheck"
+if /i "%Recovery%"=="I:" goto "fsutilCheck"
+if /i "%Recovery%"=="J:" goto "fsutilCheck"
+if /i "%Recovery%"=="K:" goto "fsutilCheck"
+if /i "%Recovery%"=="L:" goto "fsutilCheck"
+if /i "%Recovery%"=="M:" goto "fsutilCheck"
+if /i "%Recovery%"=="N:" goto "fsutilCheck"
+if /i "%Recovery%"=="O:" goto "fsutilCheck"
+if /i "%Recovery%"=="P:" goto "fsutilCheck"
+if /i "%Recovery%"=="Q:" goto "fsutilCheck"
+if /i "%Recovery%"=="R:" goto "fsutilCheck"
+if /i "%Recovery%"=="S:" goto "fsutilCheck"
+if /i "%Recovery%"=="T:" goto "fsutilCheck"
+if /i "%Recovery%"=="U:" goto "fsutilCheck"
+if /i "%Recovery%"=="V:" goto "fsutilCheck"
+if /i "%Recovery%"=="W:" goto "fsutilCheck"
+if /i "%Recovery%"=="X:" goto "fsutilCheck"
+if /i "%Recovery%"=="Y:" goto "fsutilCheck"
+if /i "%Recovery%"=="Z:" goto "fsutilCheck"
 echo Invalid syntax!
 goto "RecoveryDriveLetter"
 
 :"SameDriveLetterRecovery"
-echo Third unused drive letter ("%Recovery%") is the same as Windows Disk Image/Windows installtion media drive letter ("%DriveLetter%")! Please try again.
+echo Third unused drive letter ("%Recovery%") is the same as Windows Disk Image/Windows installation media drive letter ("%DriveLetter%")! Please try again.
 goto "RecoveryDriveLetter"
 
 :"SameDriveLetterRecoverySystem"
@@ -516,35 +545,9 @@ goto "RecoveryDriveLetter"
 echo "%Recovery%" exists! Please try again.
 goto "RecoveryDriveLetter"
 
-:"BIOSAsk"
-if /i "%DiskPartWindowsError%"=="True" goto "DiskPartWindows"
-if /i "%bootmgr%"=="Arm64" set BIOSAsk=2
-if /i "%bootmgr%"=="Arm64" goto "fsutil"
-echo.
-echo [1] Legacy BIOS.
-echo [2] UEFI.
-echo [3] Both.
-echo.
-set BIOSAsk=
-set /p BIOSAsk="Are you installing for Legacy BIOS, UEFI or both? (1-3) "
-if /i "%BIOSAsk%"=="1" goto "SureBIOSAsk"
-if /i "%BIOSAsk%"=="2" goto "SureBIOSAsk"
-if /i "%BIOSAsk%"=="3" goto "SureBIOSAsk"
-echo Invalid syntax!
-goto "BIOSAsk"
-
-:"SureBIOSAsk"
-echo.
-set SureBIOSAsk=
-if /i "%BIOSAsk%"=="1" set /p SureBIOSAsk="Are you sure you are installing for Legacy BIOS? (Yes/No) "
-if /i "%BIOSAsk%"=="2" set /p SureBIOSAsk="Are you sure you are installing for UEFI? (Yes/No) "
-if /i "%BIOSAsk%"=="3" set /p SureBIOSAsk="Are you sure you are installing for both? (Yes/No) "
-if /i "%SureBIOSAsk%"=="Yes" if /i "%BIOSAsk%"=="1" goto "DiskPartWindows"
-if /i "%SureBIOSAsk%"=="Yes" if /i "%BIOSAsk%"=="2" goto "fsutil"
-if /i "%SureBIOSAsk%"=="Yes" if /i "%BIOSAsk%"=="3" goto "DiskPartWindows"
-if /i "%SureBIOSAsk%"=="No" goto "BIOSAsk"
-echo Invalid syntax!
-goto "SureBIOSAsk"
+:"fsutilCheck"
+if "%BIOS%"=="2" goto "fsutil"
+goto "DiskPartWindows"
 
 :"fsutil"
 if exist "fsutil.txt" goto "fsutilExist"
@@ -576,18 +579,18 @@ echo.
 echo Partitioning and formating disk %Disk%.
 (echo select disk %Disk%) > "diskpart.txt"
 (echo clean) >> "diskpart.txt"
-if /i "%BIOSAsk%"=="1" (echo convert mbr) >> "diskpart.txt"
-if /i "%BIOSAsk%"=="2" (echo convert gpt) >> "diskpart.txt"
-if /i "%BIOSAsk%"=="3" (echo convert mbr) >> "diskpart.txt"
-if /i "%BIOSAsk%"=="1" (echo create partition primary size=100) >> "diskpart.txt"
-if /i "%BIOSAsk%"=="2" if /i "%fsutil%"=="0" (echo create partition efi size=100) >> "diskpart.txt"
-if /i "%BIOSAsk%"=="2" if /i "%fsutil%"=="1" (echo create partition efi size=260) >> "diskpart.txt"
-if /i "%BIOSAsk%"=="3" (echo create partition primary size=100) >> "diskpart.txt"
+if /i "%BIOS%"=="1" (echo convert mbr) >> "diskpart.txt"
+if /i "%BIOS%"=="2" (echo convert gpt) >> "diskpart.txt"
+if /i "%BIOS%"=="3" (echo convert mbr) >> "diskpart.txt"
+if /i "%BIOS%"=="1" (echo create partition primary size=100) >> "diskpart.txt"
+if /i "%BIOS%"=="2" if /i "%fsutil%"=="0" (echo create partition efi size=100) >> "diskpart.txt"
+if /i "%BIOS%"=="2" if /i "%fsutil%"=="1" (echo create partition efi size=260) >> "diskpart.txt"
+if /i "%BIOS%"=="3" (echo create partition primary size=100) >> "diskpart.txt"
 (echo format quick fs=fat32 label="System") >> "diskpart.txt"
 (echo assign letter="%System%") >> "diskpart.txt"
-if /i "%BIOSAsk%"=="1" (echo active) >> "diskpart.txt"
-if /i "%BIOSAsk%"=="3" (echo active) >> "diskpart.txt"
-if /i "%BIOSAsk%"=="2" (echo create partition msr size=16) >> "diskpart.txt"
+if /i "%BIOS%"=="1" (echo active) >> "diskpart.txt"
+if /i "%BIOS%"=="3" (echo active) >> "diskpart.txt"
+if /i "%BIOS%"=="2" (echo create partition msr size=16) >> "diskpart.txt"
 (echo create partition primary) >> "diskpart.txt"
 (echo shrink minimum=990) >> "diskpart.txt"
 (echo format quick fs=ntfs label="Windows") >> "diskpart.txt"
@@ -595,10 +598,10 @@ if /i "%BIOSAsk%"=="2" (echo create partition msr size=16) >> "diskpart.txt"
 (echo create partition primary) >> "diskpart.txt"
 (echo format quick fs=ntfs label="Recovery") >> "diskpart.txt"
 (echo assign letter="%Recovery%") >> "diskpart.txt"
-if /i "%BIOSAsk%"=="1" (echo set id=27) >> "diskpart.txt"
-if /i "%BIOSAsk%"=="2" (echo set id="de94bba4-06d1-4d40-a16a-bfd50179d6ac") >> "diskpart.txt"
-if /i "%BIOSAsk%"=="3" (echo set id=27) >> "diskpart.txt"
-if /i "%BIOSAsk%"=="2" (echo gpt attributes=0x8000000000000001) >> "diskpart.txt"
+if /i "%BIOS%"=="1" (echo set id=27) >> "diskpart.txt"
+if /i "%BIOS%"=="2" (echo set id="de94bba4-06d1-4d40-a16a-bfd50179d6ac") >> "diskpart.txt"
+if /i "%BIOS%"=="3" (echo set id=27) >> "diskpart.txt"
+if /i "%BIOS%"=="2" (echo gpt attributes=0x8000000000000001) >> "diskpart.txt"
 (echo exit) >> "diskpart.txt"
 "%windir%\System32\diskpart.exe" /s "diskpart.txt" > nul 2>&1
 if not "%errorlevel%"=="0" goto "DiskPartErrorDiskPartWindows"
@@ -620,24 +623,19 @@ echo Error formating and partitioning disk %Disk%. Disk %Disk% may not exist! Di
 pause > nul 2>&1
 goto "Disk"
 
-:"BIOSSet"
-if /i "%bootmgr%"=="Arm64" set BIOSAsk=2
-if /i not "%bootmgr%"=="Arm64" set BIOSAsk=3
-goto "DiskPartToGo"
-
 :"DiskPartToGo"
 if exist "diskpart.txt" goto "DiskPartExistDiskPartToGo"
 echo.
 echo Partitioning and formating disk %Disk%.
 (echo sel disk %Disk%) > "diskpart.txt"
 (echo clean) >> "diskpart.txt"
-if /i "%BIOSAsk%"=="3"=="Arm64" (echo convert mbr) >> "diskpart.txt"
-if /i "%BIOSAsk%"=="2" (echo convert gpt) >> "diskpart.txt"
-if /i "%BIOSAsk%"=="3" (echo create partition Primary size=350) >> "diskpart.txt"
-if /i "%BIOSAsk%"=="2" (echo create partition efi size=350) >> "diskpart.txt"
+if /i "%BIOS%"=="3" (echo convert mbr) >> "diskpart.txt"
+if /i "%BIOS%"=="2" (echo convert gpt) >> "diskpart.txt"
+if /i "%BIOS%"=="3" (echo create partition Primary size=350) >> "diskpart.txt"
+if /i "%BIOS%"=="2" (echo create partition efi size=350) >> "diskpart.txt"
 (echo format fs=fat32 label="WTG-System" quick) >> "diskpart.txt"
 (echo assign letter=%System%) >> "diskpart.txt"
-if /i not "%bootmgr%"=="Arm64" (echo active) >> "diskpart.txt"
+if /i "%BIOS%"=="3" (echo active) >> "diskpart.txt"
 (echo create partition Primary) >> "diskpart.txt"
 (echo format fs=NTFS label="WTG-Windows" quick) >> "diskpart.txt"
 (echo assign letter=%Windows%) >> "diskpart.txt"
@@ -676,9 +674,9 @@ goto "Bootloader"
 :"Bootloader"
 echo.
 echo Creating bootloader.
-if /i "%BIOSAsk%"=="1" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f BIOS > nul 2>&1
-if /i "%BIOSAsk%"=="2" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f UEFI > nul 2>&1
-if /i "%BIOSAsk%"=="3" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f ALL > nul 2>&1
+if /i "%BIOS%"=="1" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f BIOS > nul 2>&1
+if /i "%BIOS%"=="2" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f UEFI > nul 2>&1
+if /i "%BIOS%"=="3" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f ALL > nul 2>&1
 if not "%errorlevel%"=="0" goto "BootloaderError"
 goto "DiskPartBootloader"
 
@@ -731,9 +729,9 @@ if not "%errorlevel%"=="0" goto "RecoveryError"
 del "diskpart.txt" /f /q > nul 2>&1
 echo Recovery partition created.
 if /i "%DiskPart%"=="True" goto "DiskPartDone"
-if /i "%BIOSAsk%"=="1" goto "DoneBIOS"
-if /i "%BIOSAsk%"=="2" goto "DoneUEFIWindows"
-if /i "%BIOSAsk%"=="3" goto "DoneBothWindows"
+if /i "%BIOS%"=="1" goto "DoneBIOS"
+if /i "%BIOS%"=="2" goto "DoneUEFIWindows"
+if /i "%BIOS%"=="3" goto "DoneBothWindows"
 
 :"DiskPartExistRecovery"
 set DiskPart=True
@@ -746,9 +744,9 @@ echo.
 echo You can now rename or move back the file back to "diskpart.txt". Press any key to continue.
 pause > nul 2>&1
 if /i "%WindowsType%"=="2" goto "SANPolicy"
-if /i "%BIOSAsk%"=="1" goto "DoneBIOS"
-if /i "%BIOSAsk%"=="2" goto "DoneUEFIWindows"
-if /i "%BIOSAsk%"=="3" goto "DoneBothWindows"
+if /i "%BIOS%"=="1" goto "DoneBIOS"
+if /i "%BIOS%"=="2" goto "DoneUEFIWindows"
+if /i "%BIOS%"=="3" goto "DoneBothWindows"
 
 :"SANPolicy"
 echo.
@@ -858,7 +856,7 @@ echo Creating "unattended.xml" file in Sysprep folder.
 (echo     ^</settings^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
 (echo ^</unattend^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
 echo "unattended.xml" file created in Sysprep folder.
-if /i "%BIOSAsk%"=="2" goto "DoneUEFIWindowsToGo"
+if /i "%BIOS%"=="2" goto "DoneUEFIWindowsToGo"
 goto "DoneBothWindowsToGo"
 
 :"DoneBIOS"
