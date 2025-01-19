@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.3.1
+echo Version: 5.3.2
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -317,35 +317,35 @@ echo Invalid syntax!
 goto "SureIndex11"
 
 :"BIOSAsk"
-if not exist "%DriveLetter%\bootmgr" set BIOS=2
+if not exist "%DriveLetter%\bootmgr" set BIOSType=2
 if not exist "%DriveLetter%\bootmgr" goto "Disk"
 echo.
 echo [1] Legacy BIOS.
 echo [2] UEFI.
 echo [3] Both.
 echo.
-set BIOS=
-set /p BIOS="Are you installing for Legacy BIOS, UEFI or both? (1-3) "
-if /i "%BIOS%"=="1" goto "SureBIOSAsk"
-if /i "%BIOS%"=="2" goto "SureBIOSAsk"
-if /i "%BIOS%"=="3" goto "SureBIOSAsk"
+set BIOSType=
+set /p BIOSType="Are you installing for Legacy BIOS, UEFI or both? (1-3) "
+if /i "%BIOSType%"=="1" goto "SureBIOSAsk"
+if /i "%BIOSType%"=="2" goto "SureBIOSAsk"
+if /i "%BIOSType%"=="3" goto "SureBIOSAsk"
 echo Invalid syntax!
 goto "BIOSAsk"
 
 :"SureBIOSAsk"
 echo.
 set SureBIOS=
-if /i "%BIOS%"=="1" set /p SureBIOS="Are you sure you are installing for Legacy BIOS? (Yes/No) "
-if /i "%BIOS%"=="2" set /p SureBIOS="Are you sure you are installing for UEFI? (Yes/No) "
-if /i "%BIOS%"=="3" set /p SureBIOS="Are you sure you are installing for both? (Yes/No) "
-if /i "%SureBIOS%"=="Yes" goto "AttachDisk"
-if /i "%SureBIOS%"=="No" goto "BIOSAsk"
+if /i "%BIOSType%"=="1" set /p SureBIOSType="Are you sure you are installing for Legacy BIOS? (Yes/No) "
+if /i "%BIOSType%"=="2" set /p SureBIOSType="Are you sure you are installing for UEFI? (Yes/No) "
+if /i "%BIOSType%"=="3" set /p SureBIOSType="Are you sure you are installing for both? (Yes/No) "
+if /i "%SureBIOSType%"=="Yes" goto "AttachDisk"
+if /i "%SureBIOSType%"=="No" goto "BIOSAsk"
 echo Invalid syntax!
 goto "SureBIOSAsk"
 
 :"BIOSSet"
-if not exist "%DriveLetter%\bootmgr" set BIOS=2
-if exist "%DriveLetter%\bootmgr" set BIOS=3
+if exist "%DriveLetter%\bootmgr" set BIOSType=3
+if not exist "%DriveLetter%\bootmgr" set BIOSType=2
 goto "AttachDisk"
 
 :"AttachDisk"
@@ -546,7 +546,7 @@ echo "%Recovery%" exists! Please try again.
 goto "RecoveryDriveLetter"
 
 :"fsutilCheck"
-if "%BIOS%"=="2" goto "fsutil"
+if "%BIOSType%"=="2" goto "fsutil"
 goto "DiskPartWindows"
 
 :"fsutil"
@@ -579,18 +579,18 @@ echo.
 echo Partitioning and formating disk %Disk%.
 (echo select disk %Disk%) > "diskpart.txt"
 (echo clean) >> "diskpart.txt"
-if /i "%BIOS%"=="1" (echo convert mbr) >> "diskpart.txt"
-if /i "%BIOS%"=="2" (echo convert gpt) >> "diskpart.txt"
-if /i "%BIOS%"=="3" (echo convert mbr) >> "diskpart.txt"
-if /i "%BIOS%"=="1" (echo create partition primary size=100) >> "diskpart.txt"
-if /i "%BIOS%"=="2" if /i "%fsutil%"=="0" (echo create partition efi size=100) >> "diskpart.txt"
-if /i "%BIOS%"=="2" if /i "%fsutil%"=="1" (echo create partition efi size=260) >> "diskpart.txt"
-if /i "%BIOS%"=="3" (echo create partition primary size=100) >> "diskpart.txt"
+if /i "%BIOSType%"=="1" (echo convert mbr) >> "diskpart.txt"
+if /i "%BIOSType%"=="2" (echo convert gpt) >> "diskpart.txt"
+if /i "%BIOSType%"=="3" (echo convert mbr) >> "diskpart.txt"
+if /i "%BIOSType%"=="1" (echo create partition primary size=100) >> "diskpart.txt"
+if /i "%BIOSType%"=="2" if /i "%fsutil%"=="0" (echo create partition efi size=100) >> "diskpart.txt"
+if /i "%BIOSType%"=="2" if /i "%fsutil%"=="1" (echo create partition efi size=260) >> "diskpart.txt"
+if /i "%BIOSType%"=="3" (echo create partition primary size=100) >> "diskpart.txt"
 (echo format quick fs=fat32 label="System") >> "diskpart.txt"
 (echo assign letter="%System%") >> "diskpart.txt"
-if /i "%BIOS%"=="1" (echo active) >> "diskpart.txt"
-if /i "%BIOS%"=="3" (echo active) >> "diskpart.txt"
-if /i "%BIOS%"=="2" (echo create partition msr size=16) >> "diskpart.txt"
+if /i "%BIOSType%"=="1" (echo active) >> "diskpart.txt"
+if /i "%BIOSType%"=="3" (echo active) >> "diskpart.txt"
+if /i "%BIOSType%"=="2" (echo create partition msr size=16) >> "diskpart.txt"
 (echo create partition primary) >> "diskpart.txt"
 (echo shrink minimum=990) >> "diskpart.txt"
 (echo format quick fs=ntfs label="Windows") >> "diskpart.txt"
@@ -598,10 +598,10 @@ if /i "%BIOS%"=="2" (echo create partition msr size=16) >> "diskpart.txt"
 (echo create partition primary) >> "diskpart.txt"
 (echo format quick fs=ntfs label="Recovery") >> "diskpart.txt"
 (echo assign letter="%Recovery%") >> "diskpart.txt"
-if /i "%BIOS%"=="1" (echo set id=27) >> "diskpart.txt"
-if /i "%BIOS%"=="2" (echo set id="de94bba4-06d1-4d40-a16a-bfd50179d6ac") >> "diskpart.txt"
-if /i "%BIOS%"=="3" (echo set id=27) >> "diskpart.txt"
-if /i "%BIOS%"=="2" (echo gpt attributes=0x8000000000000001) >> "diskpart.txt"
+if /i "%BIOSType%"=="1" (echo set id=27) >> "diskpart.txt"
+if /i "%BIOSType%"=="2" (echo set id="de94bba4-06d1-4d40-a16a-bfd50179d6ac") >> "diskpart.txt"
+if /i "%BIOSType%"=="3" (echo set id=27) >> "diskpart.txt"
+if /i "%BIOSType%"=="2" (echo gpt attributes=0x8000000000000001) >> "diskpart.txt"
 (echo exit) >> "diskpart.txt"
 "%windir%\System32\diskpart.exe" /s "diskpart.txt" > nul 2>&1
 if not "%errorlevel%"=="0" goto "DiskPartErrorDiskPartWindows"
@@ -629,13 +629,13 @@ echo.
 echo Partitioning and formating disk %Disk%.
 (echo sel disk %Disk%) > "diskpart.txt"
 (echo clean) >> "diskpart.txt"
-if /i "%BIOS%"=="3" (echo convert mbr) >> "diskpart.txt"
-if /i "%BIOS%"=="2" (echo convert gpt) >> "diskpart.txt"
-if /i "%BIOS%"=="3" (echo create partition Primary size=350) >> "diskpart.txt"
-if /i "%BIOS%"=="2" (echo create partition efi size=350) >> "diskpart.txt"
+if /i "%BIOSType%"=="3" (echo convert mbr) >> "diskpart.txt"
+if /i "%BIOSType%"=="2" (echo convert gpt) >> "diskpart.txt"
+if /i "%BIOSType%"=="3" (echo create partition Primary size=350) >> "diskpart.txt"
+if /i "%BIOSType%"=="2" (echo create partition efi size=350) >> "diskpart.txt"
 (echo format fs=fat32 label="WTG-System" quick) >> "diskpart.txt"
 (echo assign letter=%System%) >> "diskpart.txt"
-if /i "%BIOS%"=="3" (echo active) >> "diskpart.txt"
+if /i "%BIOSType%"=="3" (echo active) >> "diskpart.txt"
 (echo create partition Primary) >> "diskpart.txt"
 (echo format fs=NTFS label="WTG-Windows" quick) >> "diskpart.txt"
 (echo assign letter=%Windows%) >> "diskpart.txt"
@@ -674,9 +674,9 @@ goto "Bootloader"
 :"Bootloader"
 echo.
 echo Creating bootloader.
-if /i "%BIOS%"=="1" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f BIOS > nul 2>&1
-if /i "%BIOS%"=="2" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f UEFI > nul 2>&1
-if /i "%BIOS%"=="3" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f ALL > nul 2>&1
+if /i "%BIOSType%"=="1" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f BIOS > nul 2>&1
+if /i "%BIOSType%"=="2" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f UEFI > nul 2>&1
+if /i "%BIOSType%"=="3" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f ALL > nul 2>&1
 if not "%errorlevel%"=="0" goto "BootloaderError"
 goto "DiskPartBootloader"
 
@@ -729,9 +729,9 @@ if not "%errorlevel%"=="0" goto "RecoveryError"
 del "diskpart.txt" /f /q > nul 2>&1
 echo Recovery partition created.
 if /i "%DiskPart%"=="True" goto "DiskPartDone"
-if /i "%BIOS%"=="1" goto "DoneBIOS"
-if /i "%BIOS%"=="2" goto "DoneUEFIWindows"
-if /i "%BIOS%"=="3" goto "DoneBothWindows"
+if /i "%BIOSType%"=="1" goto "DoneBIOS"
+if /i "%BIOSType%"=="2" goto "DoneUEFIWindows"
+if /i "%BIOSType%"=="3" goto "DoneBothWindows"
 
 :"DiskPartExistRecovery"
 set DiskPart=True
@@ -744,9 +744,9 @@ echo.
 echo You can now rename or move back the file back to "diskpart.txt". Press any key to continue.
 pause > nul 2>&1
 if /i "%WindowsType%"=="2" goto "SANPolicy"
-if /i "%BIOS%"=="1" goto "DoneBIOS"
-if /i "%BIOS%"=="2" goto "DoneUEFIWindows"
-if /i "%BIOS%"=="3" goto "DoneBothWindows"
+if /i "%BIOSType%"=="1" goto "DoneBIOS"
+if /i "%BIOSType%"=="2" goto "DoneUEFIWindows"
+if /i "%BIOSType%"=="3" goto "DoneBothWindows"
 
 :"SANPolicy"
 echo.
@@ -856,7 +856,7 @@ echo Creating "unattended.xml" file in Sysprep folder.
 (echo     ^</settings^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
 (echo ^</unattend^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
 echo "unattended.xml" file created in Sysprep folder.
-if /i "%BIOS%"=="2" goto "DoneUEFIWindowsToGo"
+if /i "%BIOSType%"=="2" goto "DoneUEFIWindowsToGo"
 goto "DoneBothWindowsToGo"
 
 :"DoneBIOS"
