@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.3.2
+echo Version: 5.3.3
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -631,12 +631,12 @@ echo Partitioning and formating disk %Disk%.
 (echo clean) >> "diskpart.txt"
 if /i "%BIOSType%"=="3" (echo convert mbr) >> "diskpart.txt"
 if /i "%BIOSType%"=="2" (echo convert gpt) >> "diskpart.txt"
-if /i "%BIOSType%"=="3" (echo create partition Primary size=350) >> "diskpart.txt"
+if /i "%BIOSType%"=="3" (echo create partition primary size=350) >> "diskpart.txt"
 if /i "%BIOSType%"=="2" (echo create partition efi size=350) >> "diskpart.txt"
 (echo format fs=fat32 label="WTG-System" quick) >> "diskpart.txt"
 (echo assign letter=%System%) >> "diskpart.txt"
 if /i "%BIOSType%"=="3" (echo active) >> "diskpart.txt"
-(echo create partition Primary) >> "diskpart.txt"
+(echo create partition primary) >> "diskpart.txt"
 (echo format fs=NTFS label="WTG-Windows" quick) >> "diskpart.txt"
 (echo assign letter=%Windows%) >> "diskpart.txt"
 (echo attributes vol set nodefaultdriveletter) >> "diskpart.txt"
