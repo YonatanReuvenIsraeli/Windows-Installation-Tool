@@ -1,5 +1,5 @@
 # Windows Installation Tool v5.3.3
-Install Windows/Windows To Go onto an external drive.
+Install Windows/Windows To Go.
 
 ## Windows Install Types
 - Standard Windows installation.
