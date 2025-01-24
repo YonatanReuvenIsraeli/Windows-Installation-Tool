@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.3.3
+echo Version: 5.3.4
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -351,7 +351,7 @@ goto "AttachDisk"
 :"AttachDisk"
 echo.
 if /i "%WindowsType%"=="1" echo Please attach an SSD or a HDD then press any key to continue.
-if /i "%WindowsType%"=="2" echo Please attach an external SSD or a WTG certifed drive then press any key to continue.
+if /i "%WindowsType%"=="2" echo Please attach an external SSD or a WTG certified drive then press any key to continue.
 pause > nul 2>&1
 goto "DiskPartSet"
 
@@ -576,7 +576,7 @@ goto "DiskPartWindows"
 :"DiskPartWindows"
 if exist "diskpart.txt" goto "DiskPartExistDiskPartWindows"
 echo.
-echo Partitioning and formating disk %Disk%.
+echo Partitioning and formatting disk %Disk%.
 (echo select disk %Disk%) > "diskpart.txt"
 (echo clean) >> "diskpart.txt"
 if /i "%BIOSType%"=="1" (echo convert mbr) >> "diskpart.txt"
@@ -606,7 +606,7 @@ if /i "%BIOSType%"=="2" (echo gpt attributes=0x8000000000000001) >> "diskpart.tx
 "%windir%\System32\diskpart.exe" /s "diskpart.txt" > nul 2>&1
 if not "%errorlevel%"=="0" goto "DiskPartErrorDiskPartWindows"
 del "diskpart.txt" /f /q > nul 2>&1
-echo Disk %Disk% partitioned and formated.
+echo Disk %Disk% partitioned and formatted.
 goto "DISM2"
 
 :"DiskPartExistDiskDiskPartWindows"
@@ -619,14 +619,14 @@ goto "DiskPartWindows"
 :"DiskPartErrorDiskPartWindows"
 del "diskpart.txt" /f /q > nul 2>&1
 set DiskPartWindowsError=True
-echo Error formating and partitioning disk %Disk%. Disk %Disk% may not exist! Disk %Disk% may be smaller than 64 GB! Press any key to try again.
+echo Error formatting and partitioning disk %Disk%. Disk %Disk% may not exist! Disk %Disk% may be smaller than 64 GB! Press any key to try again.
 pause > nul 2>&1
 goto "Disk"
 
 :"DiskPartToGo"
 if exist "diskpart.txt" goto "DiskPartExistDiskPartToGo"
 echo.
-echo Partitioning and formating disk %Disk%.
+echo Partitioning and formatting disk %Disk%.
 (echo sel disk %Disk%) > "diskpart.txt"
 (echo clean) >> "diskpart.txt"
 if /i "%BIOSType%"=="3" (echo convert mbr) >> "diskpart.txt"
@@ -644,7 +644,7 @@ if /i "%BIOSType%"=="3" (echo active) >> "diskpart.txt"
 "%windir%\System32\diskpart.exe" /s "diskpart.txt" > nul 2>&1
 if not "%errorlevel%"=="0" goto "DiskPartToGoError"
 del "diskpart.txt" /f /q > nul 2>&1
-echo Disk %Disk% partitioned and formated.
+echo Disk %Disk% partitioned and formatted.
 goto "DISM2"
 
 :"DiskPartExistDiskPartToGo"
@@ -657,7 +657,7 @@ goto "DiskPartToGo"
 :"DiskPartToGoError"
 del "diskpart.txt" /f /q > nul 2>&1
 set DiskPartToGoError=True
-echo Error formating and partitioning disk %Disk%. Disk %Disk% may not exist! Disk %Disk% may be smaller than 64 GB! Press any key to try again.
+echo Error formatting and partitioning disk %Disk%. Disk %Disk% may not exist! Disk %Disk% may be smaller than 64 GB! Press any key to try again.
 pause > nul 2>&1
 goto "Disk"
 
