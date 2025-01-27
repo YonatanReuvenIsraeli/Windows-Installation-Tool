@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.3.5
+echo Version: 5.3.6
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -67,7 +67,7 @@ if /i "%Download%"=="2" set /p SureDownload="Are you sure you want to download W
 if /i "%Download%"=="3" set /p SureDownload="Are you sure you want to download Windows 11 24H2 Arm64 Windows Disk Image/Windows installation media? (Yes/No) "
 if /i "%Download%"=="4" set /p SureDownload="Are you sure you have downloaded Windows 10 22H2 x86/x64 Windows Disk Image/Windows installation media or Windows 11 24H2 x64/Arm64 Windows Disk Image/Windows installation media? (Yes/No) "
 if /i "%SureDownload%"=="Yes" goto "DownloadGo"
-if /i "%SureDownload%"=="No" goto "Start"
+if /i "%SureDownload%"=="No" goto "Download"
 echo Invalid syntax!
 goto "SureDownload"
 
