@@ -2,7 +2,7 @@
 setlocal
 title Windows Installation Tool
 echo Program Name: Windows Installation Tool
-echo Version: 5.3.7
+echo Version: 5.3.8
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -35,7 +35,7 @@ goto "Start"
 
 :"SureWindowsType"
 echo.
-set SureWindows=
+set SureWindowsType=
 if /i "%WindowsType%"=="1" set /p SureWindowsType="Are you sure you want to install Windows? (Yes/No) "
 if /i "%WindowsType%"=="2" set /p SureWindowsType="Are you sure you want to install Windows To Go? (Yes/No) "
 if /i "%SureWindowsType%"=="Yes" goto "Download"
