@@ -1,8 +1,8 @@
 @echo off
-setlocal
 title Windows Installation Tool
+setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 5.3.8
+echo Version: 5.3.9
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
