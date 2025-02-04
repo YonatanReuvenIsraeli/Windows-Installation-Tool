@@ -1,4 +1,4 @@
-# Windows Installation Tool v5.3.8
+# Windows Installation Tool v5.3.9
 Install Windows/Windows To Go.
 
 ## Windows Install Types
