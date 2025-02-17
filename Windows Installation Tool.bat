@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 5.3.12
+echo Version: 5.3.13
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -598,10 +598,9 @@ if /i "%BIOSType%"=="2" (echo create partition msr size=16) >> "diskpart.txt"
 (echo create partition primary) >> "diskpart.txt"
 (echo format quick fs=ntfs label="Recovery") >> "diskpart.txt"
 (echo assign letter="%Recovery%") >> "diskpart.txt"
-(echo rescan) >> "diskpart.txt"
-if /i "%BIOSType%"=="1" (echo set id=27) >> "diskpart.txt"
-if /i "%BIOSType%"=="2" (echo set id="de94bba4-06d1-4d40-a16a-bfd50179d6ac") >> "diskpart.txt"
-if /i "%BIOSType%"=="3" (echo set id=27) >> "diskpart.txt"
+if /i "%BIOSType%"=="1" (echo set id=27 override) >> "diskpart.txt"
+if /i "%BIOSType%"=="2" (echo set id="de94bba4-06d1-4d40-a16a-bfd50179d6ac" override) >> "diskpart.txt"
+if /i "%BIOSType%"=="3" (echo set id=27 override) >> "diskpart.txt"
 if /i "%BIOSType%"=="2" (echo gpt attributes=0x8000000000000001) >> "diskpart.txt"
 (echo exit) >> "diskpart.txt"
 "%windir%\System32\diskpart.exe" /s "diskpart.txt" > nul 2>&1
