@@ -1,4 +1,3 @@
-
 @echo off
 title Windows Installation Tool
 setlocal
@@ -222,12 +221,7 @@ del "Index.txt" /f /q > nul 2>&1
 if not "%errorlevel%"=="0" goto "DriveLetter"
 echo Got index details for Windows Disk Image/Windows installation media "%DriveLetter%".
 if "%Index%"=="True" goto "IndexDone"
-if "%IndexNumber%"=="3" goto "Index3"
-if "%IndexNumber%"=="7" goto "Index7"
-if "%IndexNumber%"=="11" goto "Index11"
-echo.
-echo Invalid Windows Disk Image/Windows installation media!
-goto "Start"
+goto "Index"
 
 :"IndexExist"
 set Index=True
@@ -239,83 +233,35 @@ goto "DISM1"
 :"IndexDone"
 echo.
 echo You can now rename or move back the file back to "Index.txt".
-if "%IndexNumber%"=="3" goto "Index3"
-if "%IndexNumber%"=="7" goto "Index7"
-if "%IndexNumber%"=="11" goto "Index11"
-echo.
-echo Invalid Windows Disk Image/Windows installation media!
-goto "Start"
+goto "Index"
 
-:"Index3"
+:"Index"
 echo.
 set Index=
-set /p Index="Which index do you want? (1-3) "
-if /i "%Index%"=="1" goto "SureIndex3"
-if /i "%Index%"=="2" goto "SureIndex3"
-if /i "%Index%"=="3" goto "SureIndex3"
+set /p Index="Which index do you want? (1-%IndexNumber%) "
+set /a %Index%
+if not "%errorlevel%"=="0" goto "IndexError"
+if not %Index% GEQ 1 goto "NotInRangeIndex"
+if not %Index% LEQ %IndexNumber% goto "NotInRangeIndex"
 echo Invalid syntax!
-goto "Index3"
+goto "Index"
 
-:"SureIndex3"
+:"IndexError"
+ver > nul 2>&1
+goto "Index"
+
+:"NotInRangeIndex"
+echo %Index% is not in range!
+goto "Index"
+
+:"SureIndex"
 echo.
 set SureIndex=
 set /p SureIndex="Are you sure you want Index %Index%? (Yes/No) "
 if /i "%WindowsType%"=="1" if /i "%SureIndex%"=="Yes" goto "BIOSAsk"
 if /i "%WindowsType%"=="2" if /i "%SureIndex%"=="Yes" goto "BIOSSet"
 echo Invalid syntax!
-goto "SureIndex3"
-
-:"Index7"
-echo.
-set Index=
-set /p Index="Which index do you want? (1-7) "
-if /i "%Index%"=="1" goto "SureIndex7"
-if /i "%Index%"=="2" goto "SureIndex7"
-if /i "%Index%"=="3" goto "SureIndex7"
-if /i "%Index%"=="4" goto "SureIndex7"
-if /i "%Index%"=="5" goto "SureIndex7"
-if /i "%Index%"=="6" goto "SureIndex7"
-if /i "%Index%"=="7" goto "SureIndex7"
-echo Invalid syntax!
-goto "Index7"
-
-:"SureIndex7"
-echo.
-set SureIndex=
-set /p SureIndex="Are you sure you want Index %Index%? (Yes/No) "
-if /i "%WindowsType%"=="1" if /i "%SureIndex%"=="Yes" goto "BIOSAsk"
-if /i "%WindowsType%"=="2" if /i "%SureIndex%"=="Yes" goto "BIOSSet"
-if /i "%SureIndex%"=="No" goto "Index7"
-echo Invalid syntax!
-goto "SureIndex7"
-
-:"Index11"
-echo.
-set Index=
-set /p Index="Which index do you want? (1-11) "
-if /i "%Index%"=="1" goto "SureIndex11"
-if /i "%Index%"=="2" goto "SureIndex11"
-if /i "%Index%"=="3" goto "SureIndex11"
-if /i "%Index%"=="4" goto "SureIndex11"
-if /i "%Index%"=="5" goto "SureIndex11"
-if /i "%Index%"=="6" goto "SureIndex11"
-if /i "%Index%"=="7" goto "SureIndex11"
-if /i "%Index%"=="8" goto "SureIndex11"
-if /i "%Index%"=="9" goto "SureIndex11"
-if /i "%Index%"=="10" goto "SureIndex11"
-if /i "%Index%"=="11" goto "SureIndex11"
-echo Invalid syntax!
-goto "Index11"
-
-:"SureIndex11"
-echo.
-set SureIndex=
-set /p SureIndex="Are you sure you want Index %Index%? (Yes/No) "
-if /i "%WindowsType%"=="1" if /i "%SureIndex%"=="Yes" goto "BIOSAsk"
-if /i "%WindowsType%"=="2" if /i "%SureIndex%"=="Yes" goto "BIOSSet"
-if /i "%SureIndex%"=="No" goto "Index11"
-echo Invalid syntax!
-goto "SureIndex11"
+goto "SureIndex"
 
 :"BIOSAsk"
 if not exist "%DriveLetter%\bootmgr" set BIOSType=2
