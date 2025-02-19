@@ -243,8 +243,7 @@ set /a %Index%
 if not "%errorlevel%"=="0" goto "IndexError"
 if not %Index% GEQ 1 goto "NotInRangeIndex"
 if not %Index% LEQ %IndexNumber% goto "NotInRangeIndex"
-echo Invalid syntax!
-goto "Index"
+goto "SureIndex"
 
 :"IndexError"
 ver > nul 2>&1
