@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 5.3.13
+echo Version: 5.3.14
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -80,6 +80,7 @@ if /i "%Download%"=="4" goto "Mount"
 :"10"
 echo.
 echo Download Windows 10 22H2 x86/x64 Disk Image/installation media from here. ^-^-^> https://www.microsoft.com/software-download/windows10
+echo.
 echo Press any key to open the website.
 pause > nul 2>&1
 start https://www.microsoft.com/software-download/windows10
@@ -91,6 +92,7 @@ goto "Mount"
 :"11x64"
 echo.
 echo Download Windows 11 24H2 x64 Disk Image/installation media from here. ^-^-^> https://www.microsoft.com/software-download/windows11
+echo.
 echo Press any key to open the website.
 pause > nul 2>&1
 start https://www.microsoft.com/software-download/windows11
@@ -102,6 +104,7 @@ goto "Mount"
 :"11Arm64"
 echo.
 echo Download Windows 11 24H2 Arm64 Disk Image/installation media from here. ^-^-^> https://www.microsoft.com/software-download/windows11arm64
+echo.
 echo Press any key to open the website.
 pause > nul 2>&1
 start https://www.microsoft.com/software-download/windows11arm64
