@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 5.3.15
+echo Version: 6.0.0
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -401,151 +401,197 @@ goto "SureDisk"
 
 :"System"
 echo.
-set System=
-set /p System="Please enter an unused drive letter. (A:-Z:) "
-if /i "%System%"=="%DriveLetter%" goto "SameDriveLetterSystemDriveLetter"
-if exist "%System%" goto "ExistSystem"
-if /i "%System%"=="A:" goto "Windows"
-if /i "%System%"=="B:" goto "Windows"
-if /i "%System%"=="C:" goto "Windows"
-if /i "%System%"=="D:" goto "Windows"
-if /i "%System%"=="E:" goto "Windows"
-if /i "%System%"=="F:" goto "Windows"
-if /i "%System%"=="G:" goto "Windows"
-if /i "%System%"=="H:" goto "Windows"
-if /i "%System%"=="I:" goto "Windows"
-if /i "%System%"=="J:" goto "Windows"
-if /i "%System%"=="K:" goto "Windows"
-if /i "%System%"=="L:" goto "Windows"
-if /i "%System%"=="M:" goto "Windows"
-if /i "%System%"=="N:" goto "Windows"
-if /i "%System%"=="O:" goto "Windows"
-if /i "%System%"=="P:" goto "Windows"
-if /i "%System%"=="Q:" goto "Windows"
-if /i "%System%"=="R:" goto "Windows"
-if /i "%System%"=="S:" goto "Windows"
-if /i "%System%"=="T:" goto "Windows"
-if /i "%System%"=="U:" goto "Windows"
-if /i "%System%"=="V:" goto "Windows"
-if /i "%System%"=="W:" goto "Windows"
-if /i "%System%"=="X:" goto "Windows"
-if /i "%System%"=="Y:" goto "Windows"
-if /i "%System%"=="Z:" goto "Windows"
-echo Invalid syntax!
+echo Finding available drive letters.
+if not exist "A:" set System=A:
+if not exist "A:" goto "DriveLettersUnavailableSet"
+if not exist "B:" set System=B:
+if not exist "B:" goto "DriveLettersUnavailableSet"
+if not exist "C:" set System=C:
+if not exist "C:" goto "DriveLettersUnavailableSet"
+if not exist "D:" set System=D:
+if not exist "D:" goto "DriveLettersUnavailableSet"
+if not exist "E:" set System=E:
+if not exist "E:" goto "DriveLettersUnavailableSet"
+if not exist "F:" set System=F:
+if not exist "F:" goto "DriveLettersUnavailableSet"
+if not exist "G:" set System=G:
+if not exist "G:" goto "DriveLettersUnavailableSet"
+if not exist "H:" set System=H:
+if not exist "H:" goto "DriveLettersUnavailableSet"
+if not exist "I:" set System=I:
+if not exist "I:" goto "DriveLettersUnavailableSet"
+if not exist "J:" set System=J:
+if not exist "J:" goto "DriveLettersUnavailableSet"
+if not exist "K:" set System=K:
+if not exist "K:" goto "DriveLettersUnavailableSet"
+if not exist "L:" set System=L:
+if not exist "L:" goto "DriveLettersUnavailableSet"
+if not exist "M:" set System=M:
+if not exist "M:" goto "DriveLettersUnavailableSet"
+if not exist "N:" set System=N:
+if not exist "N:" goto "DriveLettersUnavailableSet"
+if not exist "O:" set System=O:
+if not exist "O:" goto "DriveLettersUnavailableSet"
+if not exist "P:" set System=P:
+if not exist "P:" goto "DriveLettersUnavailableSet"
+if not exist "Q:" set System=Q:
+if not exist "Q:" goto "DriveLettersUnavailableSet"
+if not exist "R:" set System=R:
+if not exist "R:" goto "DriveLettersUnavailableSet"
+if not exist "S:" set System=S:
+if not exist "S:" goto "DriveLettersUnavailableSet"
+if not exist "T:" set System=T:
+if not exist "T:" goto "DriveLettersUnavailableSet"
+if not exist "U:" set System=U:
+if not exist "U:" goto "DriveLettersUnavailableSet"
+if not exist "V:" set System=V:
+if not exist "V:" goto "DriveLettersUnavailableSet"
+if not exist "W:" set System=W:
+if not exist "W:" goto "DriveLettersUnavailableSet"
+if not exist "X:" set System=X:
+if not exist "X:" goto "DriveLettersUnavailableSet"
+if not exist "Y:" set System=Y:
+if not exist "Y:" goto "DriveLettersUnavailableSet"
+if not exist "Z:" set System=Z:
+if not exist "Z:" goto "DriveLettersUnavailableSet"
+echo No drive letters available! Please unmount 3 drives and then press any key to try again.
+pause > nul 2>&1
 goto "System"
 
-:"SameDriveLetterSystemDriveLetter"
-echo Unused drive letter ("%System%") is the same as Windows Disk Image/Windows installation media drive letter ("%DriveLetter%")! Please try again.
-goto "System"
-
-:"ExistSystem"
-echo "%System%" exists! Please try again.
-goto "System"
+:"DriveLettersUnavailableSet"
+set DriveLettersUnavailable=
+goto "Windows"
 
 :"Windows"
-echo.
-set Windows=
-set /p Windows="Please enter another unused drive letter. (A:-Z:) "
-if /i "%Windows%"=="%DriveLetter%" goto "SameDriveLetterWindowsDriveLetter"
-if /i "%Windows%"=="%System%" goto "SameDriveLetterWindowsSystem"
-if exist "%Windows%" goto "ExistWindows"
-if /i "%Windows%"=="A:" goto "WindowsCheck"
-if /i "%Windows%"=="B:" goto "WindowsCheck"
-if /i "%Windows%"=="C:" goto "WindowsCheck"
-if /i "%Windows%"=="D:" goto "WindowsCheck"
-if /i "%Windows%"=="E:" goto "WindowsCheck"
-if /i "%Windows%"=="F:" goto "WindowsCheck"
-if /i "%Windows%"=="G:" goto "WindowsCheck"
-if /i "%Windows%"=="H:" goto "WindowsCheck"
-if /i "%Windows%"=="I:" goto "WindowsCheck"
-if /i "%Windows%"=="J:" goto "WindowsCheck"
-if /i "%Windows%"=="K:" goto "WindowsCheck"
-if /i "%Windows%"=="L:" goto "WindowsCheck"
-if /i "%Windows%"=="M:" goto "WindowsCheck"
-if /i "%Windows%"=="N:" goto "WindowsCheck"
-if /i "%Windows%"=="O:" goto "WindowsCheck"
-if /i "%Windows%"=="P:" goto "WindowsCheck"
-if /i "%Windows%"=="Q:" goto "WindowsCheck"
-if /i "%Windows%"=="R:" goto "WindowsCheck"
-if /i "%Windows%"=="S:" goto "WindowsCheck"
-if /i "%Windows%"=="T:" goto "WindowsCheck"
-if /i "%Windows%"=="U:" goto "WindowsCheck"
-if /i "%Windows%"=="V:" goto "WindowsCheck"
-if /i "%Windows%"=="W:" goto "WindowsCheck"
-if /i "%Windows%"=="X:" goto "WindowsCheck"
-if /i "%Windows%"=="Y:" goto "WindowsCheck"
-if /i "%Windows%"=="Z:" goto "WindowsCheck"
-echo Invalid syntax!
-goto "Windows"
-
-:"SameDriveLetterWindowsDriveLetter"
-echo Second unused drive letter ("%Windows%") is the same as Windows Disk Image/Windows installation media drive letter ("%DriveLetter%")! Please try again.
-goto "Windows"
-
-:"SameDriveLetterWindowsSystem"
-echo Second unused drive letter ("%Windows%") same as First unused drive letter ("%System%"). Please try again.
-goto "Windows"
-
-:"ExistWindows"
-echo "%Windows%" exists! Please try again.
+if /i "%DriveLettersUnavailable%"=="True" echo.
+if /i "%DriveLettersUnavailable%"=="True" echo Finding available drive letters.
+set DriveLettersUnavailable=
+if not exist "A:" if /i not "%System%"=="A:" set Windows=A:
+if not exist "A:" if /i not "%System%"=="A:" goto "WindowsCheck"
+if not exist "B:" if /i not "%System%"=="B:" set Windows=B:
+if not exist "B:" if /i not "%System%"=="B:" goto "WindowsCheck"
+if not exist "C:" if /i not "%System%"=="C:" set Windows=C:
+if not exist "C:" if /i not "%System%"=="C:" goto "WindowsCheck"
+if not exist "D:" if /i not "%System%"=="D:" set Windows=D:
+if not exist "D:" if /i not "%System%"=="D:" goto "WindowsCheck"
+if not exist "E:" if /i not "%System%"=="E:" set Windows=E:
+if not exist "E:" if /i not "%System%"=="E:" goto "WindowsCheck"
+if not exist "F:" if /i not "%System%"=="F:" set Windows=F:
+if not exist "F:" if /i not "%System%"=="F:" goto "WindowsCheck"
+if not exist "G:" if /i not "%System%"=="G:" set Windows=G:
+if not exist "G:" if /i not "%System%"=="G:" goto "WindowsCheck"
+if not exist "H:" if /i not "%System%"=="H:" set Windows=H:
+if not exist "H:" if /i not "%System%"=="H:" goto "WindowsCheck"
+if not exist "I:" if /i not "%System%"=="I:" set Windows=I:
+if not exist "I:" if /i not "%System%"=="I:" goto "WindowsCheck"
+if not exist "J:" if /i not "%System%"=="J:" set Windows=J:
+if not exist "J:" if /i not "%System%"=="J:" goto "WindowsCheck"
+if not exist "K:" if /i not "%System%"=="K:" set Windows=K:
+if not exist "K:" if /i not "%System%"=="K:" goto "WindowsCheck"
+if not exist "L:" if /i not "%System%"=="L:" set Windows=L:
+if not exist "L:" if /i not "%System%"=="L:" goto "WindowsCheck"
+if not exist "M:" if /i not "%System%"=="M:" set Windows=M:
+if not exist "M:" if /i not "%System%"=="M:" goto "WindowsCheck"
+if not exist "N:" if /i not "%System%"=="N:" set Windows=N:
+if not exist "N:" if /i not "%System%"=="N:" goto "WindowsCheck"
+if not exist "O:" if /i not "%System%"=="O:" set Windows=O:
+if not exist "O:" if /i not "%System%"=="O:" goto "WindowsCheck"
+if not exist "P:" if /i not "%System%"=="P:" set Windows=P:
+if not exist "P:" if /i not "%System%"=="P:" goto "WindowsCheck"
+if not exist "Q:" if /i not "%System%"=="Q:" set Windows=Q:
+if not exist "Q:" if /i not "%System%"=="Q:" goto "WindowsCheck"
+if not exist "R:" if /i not "%System%"=="R:" set Windows=R:
+if not exist "R:" if /i not "%System%"=="R:" goto "WindowsCheck"
+if not exist "S:" if /i not "%System%"=="S:" set Windows=S:
+if not exist "S:" if /i not "%System%"=="S:" goto "WindowsCheck"
+if not exist "T:" if /i not "%System%"=="T:" set Windows=T:
+if not exist "T:" if /i not "%System%"=="T:" goto "WindowsCheck"
+if not exist "U:" if /i not "%System%"=="U:" set Windows=U:
+if not exist "U:" if /i not "%System%"=="U:" goto "WindowsCheck"
+if not exist "V:" if /i not "%System%"=="V:" set Windows=V:
+if not exist "V:" if /i not "%System%"=="V:" goto "WindowsCheck"
+if not exist "W:" if /i not "%System%"=="W:" set Windows=W:
+if not exist "W:" if /i not "%System%"=="W:" goto "WindowsCheck"
+if not exist "X:" if /i not "%System%"=="X:" set Windows=X:
+if not exist "X:" if /i not "%System%"=="X:" goto "WindowsCheck"
+if not exist "Y:" if /i not "%System%"=="Y:" set Windows=Y:
+if not exist "Y:" if /i not "%System%"=="Y:" goto "WindowsCheck"
+if not exist "Z:" if /i not "%System%"=="Z:" set Windows=Z:
+if not exist "Z:" if /i not "%System%"=="Z:" goto "WindowsCheck"
+set DriveLettersUnavailable=True
+echo Only 1 drive letters available! Please unmount 2 drives and then press any key to try again.
+pause > nul 2>&1
 goto "Windows"
 
 :"WindowsCheck"
 if /i "%WindowsType%"=="1" goto "RecoveryDriveLetter"
-if /i "%WindowsType%"=="2" goto "DiskPartWindowsToGo"
+if /i "%WindowsType%"=="2" goto "AvailableDriveLettersFound"
 
 :"RecoveryDriveLetter"
-echo.
-set Recovery=
-set /p Recovery="Please enter a third unused drive letter. (A:-Z:) "
-if /i "%Recovery%"=="%DriveLetter%" goto "SameDriveLetterRecovery"
-if /i "%Recovery%"=="%System%" goto "SameDriveLetterRecoverySystem"
-if /i "%Recovery%"=="%Windows%" goto "SameDriveLetterRecoveryWindows"
-if exist "%Recovery%" goto "ExistRecoveryDriveLetter"
-if /i "%Recovery%"=="A:" goto "fsutilCheck"
-if /i "%Recovery%"=="B:" goto "fsutilCheck"
-if /i "%Recovery%"=="C:" goto "fsutilCheck"
-if /i "%Recovery%"=="D:" goto "fsutilCheck"
-if /i "%Recovery%"=="E:" goto "fsutilCheck"
-if /i "%Recovery%"=="F:" goto "fsutilCheck"
-if /i "%Recovery%"=="G:" goto "fsutilCheck"
-if /i "%Recovery%"=="H:" goto "fsutilCheck"
-if /i "%Recovery%"=="I:" goto "fsutilCheck"
-if /i "%Recovery%"=="J:" goto "fsutilCheck"
-if /i "%Recovery%"=="K:" goto "fsutilCheck"
-if /i "%Recovery%"=="L:" goto "fsutilCheck"
-if /i "%Recovery%"=="M:" goto "fsutilCheck"
-if /i "%Recovery%"=="N:" goto "fsutilCheck"
-if /i "%Recovery%"=="O:" goto "fsutilCheck"
-if /i "%Recovery%"=="P:" goto "fsutilCheck"
-if /i "%Recovery%"=="Q:" goto "fsutilCheck"
-if /i "%Recovery%"=="R:" goto "fsutilCheck"
-if /i "%Recovery%"=="S:" goto "fsutilCheck"
-if /i "%Recovery%"=="T:" goto "fsutilCheck"
-if /i "%Recovery%"=="U:" goto "fsutilCheck"
-if /i "%Recovery%"=="V:" goto "fsutilCheck"
-if /i "%Recovery%"=="W:" goto "fsutilCheck"
-if /i "%Recovery%"=="X:" goto "fsutilCheck"
-if /i "%Recovery%"=="Y:" goto "fsutilCheck"
-if /i "%Recovery%"=="Z:" goto "fsutilCheck"
-echo Invalid syntax!
+if /i "%DriveLettersUnavailable%"=="True" echo.
+if /i "%DriveLettersUnavailable%"=="True" echo Finding an available drive letter.
+set DriveLettersUnavailable=
+if not exist "A:" if /i not "%System%"=="A:" if /i not "%Windows%"=="A:" set Recovery=A:
+if not exist "A:" if /i not "%System%"=="A:" if /i not "%Windows%"=="A:" goto "AvailableDriveLettersFound"
+if not exist "B:" if /i not "%System%"=="B:" if /i not "%Windows%"=="B:" set Recovery=B:
+if not exist "B:" if /i not "%System%"=="B:" if /i not "%Windows%"=="B:" goto "AvailableDriveLettersFound"
+if not exist "C:" if /i not "%System%"=="C:" if /i not "%Windows%"=="C:" set Recovery=C:
+if not exist "C:" if /i not "%System%"=="C:" if /i not "%Windows%"=="C:" goto "AvailableDriveLettersFound"
+if not exist "D:" if /i not "%System%"=="D:" if /i not "%Windows%"=="D:" set Recovery=D:
+if not exist "D:" if /i not "%System%"=="D:" if /i not "%Windows%"=="D:" goto "AvailableDriveLettersFound"
+if not exist "E:" if /i not "%System%"=="E:" if /i not "%Windows%"=="E:" set Recovery=E:
+if not exist "E:" if /i not "%System%"=="E:" if /i not "%Windows%"=="E:" goto "AvailableDriveLettersFound"
+if not exist "F:" if /i not "%System%"=="F:" if /i not "%Windows%"=="F:" set Recovery=F:
+if not exist "F:" if /i not "%System%"=="F:" if /i not "%Windows%"=="F:" goto "AvailableDriveLettersFound"
+if not exist "G:" if /i not "%System%"=="G:" if /i not "%Windows%"=="G:" set Recovery=G:
+if not exist "G:" if /i not "%System%"=="G:" if /i not "%Windows%"=="G:" goto "AvailableDriveLettersFound"
+if not exist "H:" if /i not "%System%"=="H:" if /i not "%Windows%"=="H:" set Recovery=H:
+if not exist "H:" if /i not "%System%"=="H:" if /i not "%Windows%"=="H:" goto "AvailableDriveLettersFound"
+if not exist "I:" if /i not "%System%"=="I:" if /i not "%Windows%"=="I:" set Recovery=I:
+if not exist "I:" if /i not "%System%"=="I:" if /i not "%Windows%"=="I:" goto "AvailableDriveLettersFound"
+if not exist "J:" if /i not "%System%"=="J:" if /i not "%Windows%"=="J:" set Recovery=J:
+if not exist "J:" if /i not "%System%"=="J:" if /i not "%Windows%"=="J:" goto "AvailableDriveLettersFound"
+if not exist "K:" if /i not "%System%"=="K:" if /i not "%Windows%"=="K:" set Recovery=K:
+if not exist "K:" if /i not "%System%"=="K:" if /i not "%Windows%"=="K:" goto "AvailableDriveLettersFound"
+if not exist "L:" if /i not "%System%"=="L:" if /i not "%Windows%"=="L:" set Recovery=L:
+if not exist "L:" if /i not "%System%"=="L:" if /i not "%Windows%"=="L:" goto "AvailableDriveLettersFound"
+if not exist "M:" if /i not "%System%"=="M:" if /i not "%Windows%"=="M:" set Recovery=M:
+if not exist "M:" if /i not "%System%"=="M:" if /i not "%Windows%"=="M:" goto "AvailableDriveLettersFound"
+if not exist "N:" if /i not "%System%"=="N:" if /i not "%Windows%"=="N:" set Recovery=N:
+if not exist "N:" if /i not "%System%"=="N:" if /i not "%Windows%"=="N:" goto "AvailableDriveLettersFound"
+if not exist "O:" if /i not "%System%"=="O:" if /i not "%Windows%"=="O:" set Recovery=O:
+if not exist "O:" if /i not "%System%"=="O:" if /i not "%Windows%"=="O:" goto "AvailableDriveLettersFound"
+if not exist "P:" if /i not "%System%"=="P:" if /i not "%Windows%"=="P:" set Recovery=P:
+if not exist "P:" if /i not "%System%"=="P:" if /i not "%Windows%"=="P:" goto "AvailableDriveLettersFound"
+if not exist "Q:" if /i not "%System%"=="Q:" if /i not "%Windows%"=="Q:" set Recovery=Q:
+if not exist "Q:" if /i not "%System%"=="Q:" if /i not "%Windows%"=="Q:" goto "AvailableDriveLettersFound"
+if not exist "R:" if /i not "%System%"=="R:" if /i not "%Windows%"=="R:" set Recovery=R:
+if not exist "R:" if /i not "%System%"=="R:" if /i not "%Windows%"=="R:" goto "AvailableDriveLettersFound"
+if not exist "S:" if /i not "%System%"=="S:" if /i not "%Windows%"=="S:" set Recovery=S:
+if not exist "S:" if /i not "%System%"=="S:" if /i not "%Windows%"=="S:" goto "AvailableDriveLettersFound"
+if not exist "T:" if /i not "%System%"=="T:" if /i not "%Windows%"=="T:" set Recovery=T:
+if not exist "T:" if /i not "%System%"=="T:" if /i not "%Windows%"=="T:" goto "AvailableDriveLettersFound"
+if not exist "U:" if /i not "%System%"=="U:" if /i not "%Windows%"=="U:" set Recovery=U:
+if not exist "U:" if /i not "%System%"=="U:" if /i not "%Windows%"=="U:" goto "AvailableDriveLettersFound"
+if not exist "V:" if /i not "%System%"=="V:" if /i not "%Windows%"=="V:" set Recovery=V:
+if not exist "V:" if /i not "%System%"=="V:" if /i not "%Windows%"=="V:" goto "AvailableDriveLettersFound"
+if not exist "W:" if /i not "%System%"=="W:" if /i not "%Windows%"=="W:" set Recovery=W:
+if not exist "W:" if /i not "%System%"=="W:" if /i not "%Windows%"=="W:" goto "AvailableDriveLettersFound"
+if not exist "X:" if /i not "%System%"=="X:" if /i not "%Windows%"=="X:" set Recovery=X:
+if not exist "X:" if /i not "%System%"=="X:" if /i not "%Windows%"=="X:" goto "AvailableDriveLettersFound"
+if not exist "Y:" if /i not "%System%"=="Y:" if /i not "%Windows%"=="Y:" set Recovery=Y:
+if not exist "Y:" if /i not "%System%"=="Y:" if /i not "%Windows%"=="Y:" goto "AvailableDriveLettersFound"
+if not exist "Z:" if /i not "%System%"=="Z:" if /i not "%Windows%"=="Z:" set Recovery=Z:
+if not exist "Z:" if /i not "%System%"=="Z:" if /i not "%Windows%"=="Z:" goto "AvailableDriveLettersFound"
+set DriveLettersUnavailable=True
+echo Only 2 drive letters available! Please unmount 1 drive and then press any key to try again.
+pause > nul 2>&1
 goto "RecoveryDriveLetter"
 
-:"SameDriveLetterRecovery"
-echo Third unused drive letter ("%Recovery%") is the same as Windows Disk Image/Windows installation media drive letter ("%DriveLetter%")! Please try again.
-goto "RecoveryDriveLetter"
-
-:"SameDriveLetterRecoverySystem"
-echo Third unused drive letter ("%Recovery%") same as first unused drive letter ("%System%"). Please try again.
-goto "RecoveryDriveLetter"
-
-:"SameDriveLetterRecoveryWindows"
-echo Third unused drive letter ("%Recovery%") same as second unused drive letter ("%Windows%"). Please try again.
-goto "RecoveryDriveLetter"
-
-:"ExistRecoveryDriveLetter"
-echo "%Recovery%" exists! Please try again.
-goto "RecoveryDriveLetter"
+:"AvailableDriveLettersFound"
+echo Available drive letters found.
+if /i "%WindowsType%"=="1" goto "fsutilCheck"
+if /i "%WindowsType%"=="2" goto "DiskPartWindowsToGo"
 
 :"fsutilCheck"
 if "%BIOSType%"=="2" goto "fsutil"
@@ -579,7 +625,8 @@ goto "DiskPartWindows"
 if exist "diskpart.txt" goto "DiskPartExistDiskPartWindows"
 echo.
 echo Partitioning and formatting disk %Disk%.
-(echo select disk %Disk%) > "diskpart.txt"
+(echo automount scrub) > "diskpart.txt"
+(echo select disk %Disk%) >> "diskpart.txt"
 (echo clean) >> "diskpart.txt"
 if /i "%BIOSType%"=="1" (echo convert mbr) >> "diskpart.txt"
 if /i "%BIOSType%"=="2" (echo convert gpt) >> "diskpart.txt"
@@ -628,7 +675,8 @@ goto "Disk"
 if exist "diskpart.txt" goto "DiskPartExistDiskPartWindowsToGo"
 echo.
 echo Partitioning and formatting disk %Disk%.
-(echo sel disk %Disk%) > "diskpart.txt"
+(echo automount scrub) > "diskpart.txt"
+(echo sel disk %Disk%) >> "diskpart.txt"
 (echo clean) >> "diskpart.txt"
 if /i "%BIOSType%"=="3" (echo convert mbr) >> "diskpart.txt"
 if /i "%BIOSType%"=="2" (echo convert gpt) >> "diskpart.txt"
