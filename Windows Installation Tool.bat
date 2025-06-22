@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 6.0.0
+echo Version: 6.0.1
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -454,7 +454,7 @@ if not exist "Y:" set System=Y:
 if not exist "Y:" goto "DriveLettersUnavailableSet"
 if not exist "Z:" set System=Z:
 if not exist "Z:" goto "DriveLettersUnavailableSet"
-echo No drive letters available! Please unmount 3 drives and then press any key to try again.
+echo No drive letters are available! Please unmount 3 drives and then press any key to try again.
 pause > nul 2>&1
 goto "System"
 
@@ -519,7 +519,7 @@ if not exist "Y:" if /i not "%System%"=="Y:" goto "WindowsCheck"
 if not exist "Z:" if /i not "%System%"=="Z:" set Windows=Z:
 if not exist "Z:" if /i not "%System%"=="Z:" goto "WindowsCheck"
 set DriveLettersUnavailable=True
-echo Only 1 drive letters available! Please unmount 2 drives and then press any key to try again.
+echo Only 1 drive letter is available! Please unmount 2 drives and then press any key to try again.
 pause > nul 2>&1
 goto "Windows"
 
@@ -584,7 +584,7 @@ if not exist "Y:" if /i not "%System%"=="Y:" if /i not "%Windows%"=="Y:" goto "A
 if not exist "Z:" if /i not "%System%"=="Z:" if /i not "%Windows%"=="Z:" set Recovery=Z:
 if not exist "Z:" if /i not "%System%"=="Z:" if /i not "%Windows%"=="Z:" goto "AvailableDriveLettersFound"
 set DriveLettersUnavailable=True
-echo Only 2 drive letters available! Please unmount 1 drive and then press any key to try again.
+echo Only 2 drive letters are available! Please unmount 1 drive and then press any key to try again.
 pause > nul 2>&1
 goto "RecoveryDriveLetter"
 
