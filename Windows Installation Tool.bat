@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 6.0.2
+echo Version: 7.0.0
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -323,24 +323,27 @@ goto "SureIndex11"
 if not exist "%DriveLetter%\bootmgr" set BIOSType=2
 if not exist "%DriveLetter%\bootmgr" goto "Disk"
 echo.
-echo [1] Legacy BIOS.
-echo [2] UEFI.
-echo [3] Both.
+echo [1] Automatically detect and use the current BIOS type.
+echo [2] Legacy BIOS.
+echo [3] UEFI.
+echo [4] Both.
 echo.
 set BIOSType=
-set /p BIOSType="Are you installing for Legacy BIOS, UEFI or both? (1-3) "
+set /p BIOSType="Are you installing for Legacy BIOS, UEFI or both? (1-4) "
 if /i "%BIOSType%"=="1" goto "SureBIOSAsk"
 if /i "%BIOSType%"=="2" goto "SureBIOSAsk"
 if /i "%BIOSType%"=="3" goto "SureBIOSAsk"
+if /i "%BIOSType%"=="4" goto "SureBIOSAsk"
 echo Invalid syntax!
 goto "BIOSAsk"
 
 :"SureBIOSAsk"
 echo.
 set SureBIOS=
-if /i "%BIOSType%"=="1" set /p SureBIOSType="Are you sure you are installing for Legacy BIOS? (Yes/No) "
-if /i "%BIOSType%"=="2" set /p SureBIOSType="Are you sure you are installing for UEFI? (Yes/No) "
-if /i "%BIOSType%"=="3" set /p SureBIOSType="Are you sure you are installing for both? (Yes/No) "
+if /i "%BIOSType%"=="1" set /p SureBIOSType="Are you sure you want to automatically detect and use the current BIOS type for this install? (Yes/No) "
+if /i "%BIOSType%"=="2" set /p SureBIOSType="Are you sure you are installing for Legacy BIOS? (Yes/No) "
+if /i "%BIOSType%"=="3" set /p SureBIOSType="Are you sure you are installing for UEFI? (Yes/No) "
+if /i "%BIOSType%"=="4" set /p SureBIOSType="Are you sure you are installing for both? (Yes/No) "
 if /i "%SureBIOSType%"=="Yes" goto "AttachDisk"
 if /i "%SureBIOSType%"=="No" goto "BIOSAsk"
 echo Invalid syntax!
@@ -722,9 +725,10 @@ goto "Bootloader"
 :"Bootloader"
 echo.
 echo Creating bootloader.
-if /i "%BIOSType%"=="1" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f BIOS > nul 2>&1
-if /i "%BIOSType%"=="2" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f UEFI > nul 2>&1
-if /i "%BIOSType%"=="3" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f ALL > nul 2>&1
+if /i "%BIOSType%"=="1" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" > nul 2>&1
+if /i "%BIOSType%"=="2" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f BIOS > nul 2>&1
+if /i "%BIOSType%"=="3" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f UEFI > nul 2>&1
+if /i "%BIOSType%"=="4" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f ALL > nul 2>&1
 if not "%errorlevel%"=="0" goto "BootloaderError"
 goto "DiskPartBootloader"
 
@@ -792,9 +796,10 @@ echo.
 echo You can now rename or move back the file back to "diskpart.txt". Press any key to continue.
 pause > nul 2>&1
 if /i "%WindowsType%"=="2" goto "SANPolicy"
-if /i "%BIOSType%"=="1" goto "DoneBIOS"
-if /i "%BIOSType%"=="2" goto "DoneUEFIWindows"
-if /i "%BIOSType%"=="3" goto "DoneBothWindows"
+if /i "%BIOSType%"=="1" goto "DoneCurrent"
+if /i "%BIOSType%"=="2" goto "DoneBIOS"
+if /i "%BIOSType%"=="3" goto "DoneUEFIWindows"
+if /i "%BIOSType%"=="4" goto "DoneBothWindows"
 
 :"SANPolicy"
 echo.
@@ -906,6 +911,13 @@ echo Creating "unattended.xml" file in Sysprep folder.
 echo "unattended.xml" file created in Sysprep folder.
 if /i "%BIOSType%"=="2" goto "DoneUEFIWindowsToGo"
 goto "DoneBothWindowsToGo"
+
+:"DoneCurrent"
+endlocal
+echo.
+echo Your Windows is ready! It is bootable with the current BIOS type only. Press any key to close this batch file.
+pause > nul 2>&1
+exit
 
 :"DoneBIOS"
 endlocal
