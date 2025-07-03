@@ -1,4 +1,4 @@
-# Windows Installation Tool v7.0.0
+# Windows Installation Tool v7.0.1
 Install Windows/Windows To Go.
 
 ## Windows Install Types
