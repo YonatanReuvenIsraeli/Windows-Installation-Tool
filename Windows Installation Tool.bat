@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 7.0.1
+echo Version: 7.0.2
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -338,7 +338,7 @@ goto "BIOSAsk"
 :"SureBIOSAsk"
 echo.
 set SureBIOS=
-if /i "%BIOSType%"=="1" set /p SureBIOSType="Are you sure you are installing for Legacy BIOS? (Yes/No) "
+if /i "%BIOSType%"=="1" set /p SureBIOSType="Are you sure you are installing for legacy BIOS? (Yes/No) "
 if /i "%BIOSType%"=="2" set /p SureBIOSType="Are you sure you are installing for UEFI? (Yes/No) "
 if /i "%BIOSType%"=="3" set /p SureBIOSType="Are you sure you are installing for both? (Yes/No) "
 if /i "%SureBIOSType%"=="Yes" goto "AttachDisk"
