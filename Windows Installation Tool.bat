@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 7.0.2
+echo Version: 7.0.3
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -325,10 +325,10 @@ if not exist "%DriveLetter%\bootmgr" goto "Disk"
 echo.
 echo [1] Legacy BIOS.
 echo [2] UEFI.
-echo [3] Both.
+echo [3] Both legacy BIOS and UEFI.
 echo.
 set BIOSType=
-set /p BIOSType="Are you installing for Legacy BIOS, UEFI or both? (1-3) "
+set /p BIOSType="Are you installing for legacy BIOS, UEFI or both legacy BIOS and UEFI? (1-3) "
 if /i "%BIOSType%"=="1" goto "SureBIOSAsk"
 if /i "%BIOSType%"=="2" goto "SureBIOSAsk"
 if /i "%BIOSType%"=="3" goto "SureBIOSAsk"
@@ -340,7 +340,7 @@ echo.
 set SureBIOS=
 if /i "%BIOSType%"=="1" set /p SureBIOSType="Are you sure you are installing for legacy BIOS? (Yes/No) "
 if /i "%BIOSType%"=="2" set /p SureBIOSType="Are you sure you are installing for UEFI? (Yes/No) "
-if /i "%BIOSType%"=="3" set /p SureBIOSType="Are you sure you are installing for both? (Yes/No) "
+if /i "%BIOSType%"=="3" set /p SureBIOSType="Are you sure you are installing for both legacy BIOS and UEFI? (Yes/No) "
 if /i "%SureBIOSType%"=="Yes" goto "AttachDisk"
 if /i "%SureBIOSType%"=="No" goto "BIOSAsk"
 echo Invalid syntax!
