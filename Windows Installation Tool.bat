@@ -240,7 +240,7 @@ goto "DISM1"
 
 :"IndexDone"
 echo.
-echo You can now rename or move back the file back to "Index.txt".
+echo You can now rename or move the file back to "Index.txt".
 if "%IndexNumber%"=="3" goto "Index3"
 if "%IndexNumber%"=="7" goto "Index7"
 if "%IndexNumber%"=="11" goto "Index11"
@@ -617,7 +617,7 @@ goto "fsutil"
 
 :"fsutilDone"
 echo.
-echo You can now rename or move back the file back to "fsutil.txt". Press any key to continue.
+echo You can now rename or move the file back to "fsutil.txt". Press any key to continue.
 pause > nul 2>&1
 goto "DiskPartWindows"
 
@@ -791,7 +791,7 @@ goto "DiskPartRecovery"
 
 :"DiskPartDone"
 echo.
-echo You can now rename or move back the file back to "diskpart.txt". Press any key to continue.
+echo You can now rename or move the file back to "diskpart.txt". Press any key to continue.
 pause > nul 2>&1
 if /i "%WindowsType%"=="2" goto "SANPolicy"
 if /i "%BIOSType%"=="2" goto "DoneBIOS"
