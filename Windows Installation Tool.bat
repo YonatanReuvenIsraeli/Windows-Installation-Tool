@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 7.0.4
+echo Version: 7.0.5
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -217,7 +217,7 @@ goto "DISM1"
 if exist "Index.txt" goto "IndexExist"
 echo.
 echo Getting index details for Windows Disk Image/Windows installation media "%DriveLetter%".
-"%windir%\System32\Dism.exe" /Get-ImageInfo /ImageFile:"%Sources%\%Install%" | find /c /i "Index" > "Index.txt"
+"%windir%\System32\Dism.exe" /Get-ImageInfo /ImageFile:"%Sources%\%Install%" | "%windir%\System32\find.exe" /c /i "Index" > "Index.txt"
 set /p IndexNumber=< "Index.txt"
 del "Index.txt" /f /q > nul 2>&1
 "%windir%\System32\Dism.exe" /Get-ImageInfo /ImageFile:"%Sources%\%Install%"
@@ -601,7 +601,7 @@ goto "DiskPartWindows"
 if exist "fsutil.txt" goto "fsutilExist"
 echo.
 echo Getting disk %Disk% details.
-"%windir%\System32\fsutil.exe" fsinfo sectorinfo \\.\PhysicalDrive%Disk% | find /i /c "PhysicalBytesPerSectorForAtomicity :                    4096" > "fsutil.txt"
+"%windir%\System32\fsutil.exe" fsinfo sectorinfo \\.\PhysicalDrive%Disk% | "%windir%\System32\find.exe" /i /c "PhysicalBytesPerSectorForAtomicity :                    4096" > "fsutil.txt"
 set /p fsutil=< "fsutil.txt"
 echo Got disk %Disk% details.
 del "fsutil.txt" /f /q > nul 2>&1
