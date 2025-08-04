@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 7.0.7
+echo Version: 7.0.8
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -809,7 +809,7 @@ echo Applying SAN policy.
 (echo         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance") >> "%Windows%\san_policy.xml"
 (echo         language="neutral") >> "%Windows%\san_policy.xml"
 (echo         name="Microsoft-Windows-PartitionManager") >> "%Windows%\san_policy.xml"
-(echo         processorArchitecture="amd64") >> "%Windows%\san_policy.xml"
+(echo         processorArchitecture="x86") >> "%Windows%\san_policy.xml"
 (echo         publicKeyToken="31bf3856ad364e35") >> "%Windows%\san_policy.xml"
 (echo         versionScope="nonSxS") >> "%Windows%\san_policy.xml"
 (echo         ^>) >> "%Windows%\san_policy.xml"
@@ -820,7 +820,7 @@ echo Applying SAN policy.
 (echo         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance") >> "%Windows%\san_policy.xml"
 (echo         language="neutral") >> "%Windows%\san_policy.xml"
 (echo         name="Microsoft-Windows-PartitionManager") >> "%Windows%\san_policy.xml"
-(echo         processorArchitecture="x86") >> "%Windows%\san_policy.xml"
+(echo         processorArchitecture="amd64") >> "%Windows%\san_policy.xml"
 (echo         publicKeyToken="31bf3856ad364e35") >> "%Windows%\san_policy.xml"
 (echo         versionScope="nonSxS") >> "%Windows%\san_policy.xml"
 (echo         ^>) >> "%Windows%\san_policy.xml"
