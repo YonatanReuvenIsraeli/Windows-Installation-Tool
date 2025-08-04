@@ -1,4 +1,4 @@
-# Windows Installation Tool v7.0.7
+# Windows Installation Tool v7.0.8
 Install Windows/Windows To Go.
 
 ## Standard Windows Installation
