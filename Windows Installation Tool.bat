@@ -919,4 +919,3 @@ echo.
 echo Your Windows To Go is ready! It is bootable with legacy BIOS and UEFI. Press any key to close this batch file.
 pause > nul 2>&1
 exit
-
