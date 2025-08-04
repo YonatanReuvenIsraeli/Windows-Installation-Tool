@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 7.0.5
+echo Version: 7.0.6
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -801,20 +801,9 @@ if /i "%BIOSType%"=="4" goto "DoneBothWindows"
 :"SANPolicy"
 echo.
 echo Applying SAN policy.
-(echo ^<?xml version="1.0" encoding="utf-8" standalone="yes"?^>) >> "%Windows%\san_policy.xml"
+(echo ^<?xml version="1.0" encoding="utf-8" standalone="yes"?^>) > "%Windows%\san_policy.xml"
 (echo ^<unattend xmlns="urn:schemas-microsoft-com:unattend"^>) >> "%Windows%\san_policy.xml"
 (echo   ^<settings pass="offlineServicing"^>) >> "%Windows%\san_policy.xml"
-(echo     ^<component) >> "%Windows%\san_policy.xml"
-(echo         xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State") >> "%Windows%\san_policy.xml"
-(echo         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance") >> "%Windows%\san_policy.xml"
-(echo         language="neutral") >> "%Windows%\san_policy.xml"
-(echo         name="Microsoft-Windows-PartitionManager") >> "%Windows%\san_policy.xml"
-(echo         processorArchitecture="arm64") >> "%Windows%\san_policy.xml"
-(echo         publicKeyToken="31bf3856ad364e35") >> "%Windows%\san_policy.xml"
-(echo         versionScope="nonSxS") >> "%Windows%\san_policy.xml"
-(echo         ^>) >> "%Windows%\san_policy.xml"
-(echo       ^<SanPolicy^>4^</SanPolicy^>) >> "%Windows%\san_policy.xml"
-(echo     ^</component^>) >> "%Windows%\san_policy.xml"
 (echo     ^<component) >> "%Windows%\san_policy.xml"
 (echo         xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State") >> "%Windows%\san_policy.xml"
 (echo         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance") >> "%Windows%\san_policy.xml"
@@ -837,6 +826,17 @@ echo Applying SAN policy.
 (echo         ^>) >> "%Windows%\san_policy.xml"
 (echo       ^<SanPolicy^>4^</SanPolicy^>) >> "%Windows%\san_policy.xml"
 (echo     ^</component^>) >> "%Windows%\san_policy.xml"
+(echo     ^<component) >> "%Windows%\san_policy.xml"
+(echo         xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State") >> "%Windows%\san_policy.xml"
+(echo         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance") >> "%Windows%\san_policy.xml"
+(echo         language="neutral") >> "%Windows%\san_policy.xml"
+(echo         name="Microsoft-Windows-PartitionManager") >> "%Windows%\san_policy.xml"
+(echo         processorArchitecture="arm64") >> "%Windows%\san_policy.xml"
+(echo         publicKeyToken="31bf3856ad364e35") >> "%Windows%\san_policy.xml"
+(echo         versionScope="nonSxS") >> "%Windows%\san_policy.xml"
+(echo         ^>) >> "%Windows%\san_policy.xml"
+(echo       ^<SanPolicy^>4^</SanPolicy^>) >> "%Windows%\san_policy.xml"
+(echo     ^</component^>) >> "%Windows%\san_policy.xml"
 (echo   ^</settings^>) >> "%Windows%\san_policy.xml"
 (echo ^</unattend^>) >> "%Windows%\san_policy.xml"
 DISM /Image:%Windows% /Apply-Unattend:%Windows%\san_policy.xml
@@ -852,55 +852,31 @@ goto "SANPolicy"
 :"Unattended"
 echo.
 echo Creating "unattended.xml" file in Sysprep folder.
-(echo ^<?xml version="1.0" encoding="utf-8"?^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo ^<?xml version="1.0" encoding="utf-8"?^>) > %Windows%\Windows\System32\Sysprep\unattend.xml
 (echo ^<unattend xmlns="urn:schemas-microsoft-com:unattend"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
 (echo     ^<settings pass="oobeSystem"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo         ^<component name="Microsoft-Windows-Shell-Setup" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="Arm64" xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo             ^<OOBE^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo                 ^<HideEULAPage^>true^</HideEULAPage^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo                 ^<ProtectYourPC^>1^</ProtectYourPC^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo                 ^<NetworkLocation^>Work^</NetworkLocation^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo             ^</OOBE^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo         ^</component^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo         ^<component name="Microsoft-Windows-International-Core" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="Arm64"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           ^<InputLocale^>en-US^</InputLocale^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           ^<SystemLocale^>en-US^</SystemLocale^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           ^<UILanguage^>en-US^</UILanguage^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           ^<UserLocale^>en-US^</UserLocale^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo         ^</component^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo         ^<component name="Microsoft-Windows-WinRE-RecoveryAgent" processorArchitecture="arm64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo         ^<component name="Microsoft-Windows-WinRE-RecoveryAgent") >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           processorArchitecture="x86") >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           publicKeyToken="31bf3856ad364e35" language="neutral") >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           versionScope="nonSxS") >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State") >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
 (echo             ^<UninstallWindowsRE^>true^</UninstallWindowsRE^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
 (echo         ^</component^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo         ^<component name="Microsoft-Windows-Shell-Setup" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="AMD64" xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo             ^<OOBE^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo                 ^<HideEULAPage^>true^</HideEULAPage^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo                 ^<ProtectYourPC^>1^</ProtectYourPC^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo                 ^<NetworkLocation^>Work^</NetworkLocation^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo             ^</OOBE^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo         ^</component^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo         ^<component name="Microsoft-Windows-International-Core" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="AMD64"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           ^<InputLocale^>en-US^</InputLocale^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           ^<SystemLocale^>en-US^</SystemLocale^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           ^<UILanguage^>en-US^</UILanguage^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           ^<UserLocale^>en-US^</UserLocale^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo         ^</component^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo         ^<component name="Microsoft-Windows-WinRE-RecoveryAgent" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo        ^<component name="Microsoft-Windows-WinRE-RecoveryAgent") >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           processorArchitecture="amd64") >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           publicKeyToken="31bf3856ad364e35" language="neutral") >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           versionScope="nonSxS") >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State") >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
 (echo             ^<UninstallWindowsRE^>true^</UninstallWindowsRE^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
 (echo         ^</component^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo         ^<component name="Microsoft-Windows-Shell-Setup" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="X86" xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo             ^<OOBE^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo                 ^<HideEULAPage^>true^</HideEULAPage^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo                 ^<ProtectYourPC^>1^</ProtectYourPC^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo                 ^<NetworkLocation^>Work^</NetworkLocation^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo             ^</OOBE^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo         ^</component^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo         ^<component name="Microsoft-Windows-International-Core" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" processorArchitecture="x86"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           ^<InputLocale^>en-US^</InputLocale^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           ^<SystemLocale^>en-US^</SystemLocale^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           ^<UILanguage^>en-US^</UILanguage^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           ^<UserLocale^>en-US^</UserLocale^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo         ^</component^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo         ^<component name="Microsoft-Windows-WinRE-RecoveryAgent" processorArchitecture="x86" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="https://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo        ^<component name="Microsoft-Windows-WinRE-RecoveryAgent") >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           processorArchitecture="arm64") >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           publicKeyToken="31bf3856ad364e35" language="neutral") >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           versionScope="nonSxS") >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State") >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
 (echo             ^<UninstallWindowsRE^>true^</UninstallWindowsRE^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
 (echo         ^</component^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
 (echo     ^</settings^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
