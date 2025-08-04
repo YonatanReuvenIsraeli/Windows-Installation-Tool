@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 7.0.6
+echo Version: 7.0.7
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -852,35 +852,35 @@ goto "SANPolicy"
 :"Unattended"
 echo.
 echo Creating "unattended.xml" file in Sysprep folder.
-(echo ^<?xml version="1.0" encoding="utf-8"?^>) > %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo ^<unattend xmlns="urn:schemas-microsoft-com:unattend"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo     ^<settings pass="oobeSystem"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo         ^<component name="Microsoft-Windows-WinRE-RecoveryAgent") >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           processorArchitecture="x86") >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           publicKeyToken="31bf3856ad364e35" language="neutral") >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           versionScope="nonSxS") >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State") >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo             ^<UninstallWindowsRE^>true^</UninstallWindowsRE^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo         ^</component^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo        ^<component name="Microsoft-Windows-WinRE-RecoveryAgent") >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           processorArchitecture="amd64") >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           publicKeyToken="31bf3856ad364e35" language="neutral") >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           versionScope="nonSxS") >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State") >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo             ^<UninstallWindowsRE^>true^</UninstallWindowsRE^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo         ^</component^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo        ^<component name="Microsoft-Windows-WinRE-RecoveryAgent") >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           processorArchitecture="arm64") >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           publicKeyToken="31bf3856ad364e35" language="neutral") >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           versionScope="nonSxS") >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State") >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo             ^<UninstallWindowsRE^>true^</UninstallWindowsRE^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo         ^</component^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo     ^</settings^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
-(echo ^</unattend^>) >> %Windows%\Windows\System32\Sysprep\unattend.xml
+(echo ^<?xml version="1.0" encoding="utf-8"?^>) > "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ^<unattend xmlns="urn:schemas-microsoft-com:unattend"^>) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo     ^<settings pass="oobeSystem"^>) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo         ^<component name="Microsoft-Windows-WinRE-RecoveryAgent") >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo           processorArchitecture="x86") >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo           publicKeyToken="31bf3856ad364e35" language="neutral") >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo           versionScope="nonSxS") >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo           xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State") >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo             ^<UninstallWindowsRE^>true^</UninstallWindowsRE^>) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo         ^</component^>) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo        ^<component name="Microsoft-Windows-WinRE-RecoveryAgent") >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo           processorArchitecture="amd64") >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo           publicKeyToken="31bf3856ad364e35" language="neutral") >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo           versionScope="nonSxS") >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo           xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State") >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo             ^<UninstallWindowsRE^>true^</UninstallWindowsRE^>) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo         ^</component^>) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo        ^<component name="Microsoft-Windows-WinRE-RecoveryAgent") >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo           processorArchitecture="arm64") >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo           publicKeyToken="31bf3856ad364e35" language="neutral") >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo           versionScope="nonSxS") >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo           xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State") >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"^>) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo             ^<UninstallWindowsRE^>true^</UninstallWindowsRE^>) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo         ^</component^>) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo     ^</settings^>) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ^</unattend^>) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
 echo "unattended.xml" file created in Sysprep folder.
 if /i "%BIOSType%"=="2" goto "DoneUEFIWindowsToGo"
 goto "DoneBothWindowsToGo"
@@ -919,3 +919,4 @@ echo.
 echo Your Windows To Go is ready! It is bootable with legacy BIOS and UEFI. Press any key to close this batch file.
 pause > nul 2>&1
 exit
+
