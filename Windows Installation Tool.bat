@@ -2,14 +2,14 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 7.0.9
+echo Version: 7.0.10
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
 echo Sponsor: https://github.com/sponsors/YonatanReuvenIsraeli
 "%windir%\System32\net.exe" session > nul 2>&1
 if not "%errorlevel%"=="0" goto "NotAdministrator"
-goto "Download"
+goto "Start"
 
 :"NotAdministrator"
 echo.
@@ -20,6 +20,28 @@ goto "Close"
 :"Close"
 endlocal
 exit
+
+:"Start"
+echo.
+echo [1] Install Windows.
+echo [2] Install Windows To Go.
+echo.
+set WindowsType=
+set /p WindowsType="What do you want to do? (1-2) "
+if /i "%WindowsType%"=="1" goto "SureWindowsType"
+if /i "%WindowsType%"=="2" goto "SureWindowsType"
+echo Invalid syntax!
+goto "Start"
+
+:"SureWindowsType"
+echo.
+set SureWindowsType=
+if /i "%WindowsType%"=="1" set /p SureWindowsType="Are you sure you want to install Windows? (Yes/No) "
+if /i "%WindowsType%"=="2" set /p SureWindowsType="Are you sure you want to install Windows To Go? (Yes/No) "
+if /i "%SureWindowsType%"=="Yes" goto "Download"
+if /i "%SureWindowsType%"=="No" goto "Start"
+echo Invalid syntax!
+goto "SureWindowsType"
 
 :"Download"
 echo.
@@ -240,7 +262,8 @@ goto "Index3"
 echo.
 set SureIndex=
 set /p SureIndex="Are you sure you want Index %Index%? (Yes/No) "
-if /i "%SureIndex%"=="Yes" goto "BIOSAsk"
+if /i "%WindowsType%"=="1" if /i "%SureIndex%"=="Yes" goto "BIOSAsk"
+if /i "%WindowsType%"=="2" if /i "%SureIndex%"=="Yes" goto "BIOSSet"
 echo Invalid syntax!
 goto "SureIndex3"
 
@@ -262,7 +285,8 @@ goto "Index7"
 echo.
 set SureIndex=
 set /p SureIndex="Are you sure you want Index %Index%? (Yes/No) "
-if /i "%SureIndex%"=="Yes" goto "BIOSAsk"
+if /i "%WindowsType%"=="1" if /i "%SureIndex%"=="Yes" goto "BIOSAsk"
+if /i "%WindowsType%"=="2" if /i "%SureIndex%"=="Yes" goto "BIOSSet"
 if /i "%SureIndex%"=="No" goto "Index7"
 echo Invalid syntax!
 goto "SureIndex7"
@@ -289,7 +313,8 @@ goto "Index11"
 echo.
 set SureIndex=
 set /p SureIndex="Are you sure you want Index %Index%? (Yes/No) "
-if /i "%SureIndex%"=="Yes" goto "BIOSAsk"
+if /i "%WindowsType%"=="1" if /i "%SureIndex%"=="Yes" goto "BIOSAsk"
+if /i "%WindowsType%"=="2" if /i "%SureIndex%"=="Yes" goto "BIOSSet"
 if /i "%SureIndex%"=="No" goto "Index11"
 echo Invalid syntax!
 goto "SureIndex11"
@@ -321,9 +346,15 @@ if /i "%SureBIOSType%"=="No" goto "BIOSAsk"
 echo Invalid syntax!
 goto "SureBIOSAsk"
 
+:"BIOSSet"
+if exist "%DriveLetter%\bootmgr" set BIOSType=3
+if not exist "%DriveLetter%\bootmgr" set BIOSType=2
+goto "AttachDisk"
+
 :"AttachDisk"
 echo.
-echo Please attach an SSD or a HDD then press any key to continue.
+if /i "%WindowsType%"=="1" echo Please attach an SSD or a HDD then press any key to continue.
+if /i "%WindowsType%"=="2" echo Please attach an external SSD or a WTG certified drive then press any key to continue.
 pause > nul 2>&1
 goto "DiskPartSet"
 
@@ -436,61 +467,65 @@ if /i "%DriveLettersUnavailable%"=="True" echo.
 if /i "%DriveLettersUnavailable%"=="True" echo Finding available drive letters.
 set DriveLettersUnavailable=
 if not exist "A:" if /i not "%System%"=="A:" set Windows=A:
-if not exist "A:" if /i not "%System%"=="A:" goto "RecoveryDriveLetter"
+if not exist "A:" if /i not "%System%"=="A:" goto "WindowsCheck"
 if not exist "B:" if /i not "%System%"=="B:" set Windows=B:
-if not exist "B:" if /i not "%System%"=="B:" goto "RecoveryDriveLetter"
+if not exist "B:" if /i not "%System%"=="B:" goto "WindowsCheck"
 if not exist "C:" if /i not "%System%"=="C:" set Windows=C:
-if not exist "C:" if /i not "%System%"=="C:" goto "RecoveryDriveLetter"
+if not exist "C:" if /i not "%System%"=="C:" goto "WindowsCheck"
 if not exist "D:" if /i not "%System%"=="D:" set Windows=D:
-if not exist "D:" if /i not "%System%"=="D:" goto "RecoveryDriveLetter"
+if not exist "D:" if /i not "%System%"=="D:" goto "WindowsCheck"
 if not exist "E:" if /i not "%System%"=="E:" set Windows=E:
-if not exist "E:" if /i not "%System%"=="E:" goto "RecoveryDriveLetter"
+if not exist "E:" if /i not "%System%"=="E:" goto "WindowsCheck"
 if not exist "F:" if /i not "%System%"=="F:" set Windows=F:
-if not exist "F:" if /i not "%System%"=="F:" goto "RecoveryDriveLetter"
+if not exist "F:" if /i not "%System%"=="F:" goto "WindowsCheck"
 if not exist "G:" if /i not "%System%"=="G:" set Windows=G:
-if not exist "G:" if /i not "%System%"=="G:" goto "RecoveryDriveLetter"
+if not exist "G:" if /i not "%System%"=="G:" goto "WindowsCheck"
 if not exist "H:" if /i not "%System%"=="H:" set Windows=H:
-if not exist "H:" if /i not "%System%"=="H:" goto "RecoveryDriveLetter"
+if not exist "H:" if /i not "%System%"=="H:" goto "WindowsCheck"
 if not exist "I:" if /i not "%System%"=="I:" set Windows=I:
-if not exist "I:" if /i not "%System%"=="I:" goto "RecoveryDriveLetter"
+if not exist "I:" if /i not "%System%"=="I:" goto "WindowsCheck"
 if not exist "J:" if /i not "%System%"=="J:" set Windows=J:
-if not exist "J:" if /i not "%System%"=="J:" goto "RecoveryDriveLetter"
+if not exist "J:" if /i not "%System%"=="J:" goto "WindowsCheck"
 if not exist "K:" if /i not "%System%"=="K:" set Windows=K:
-if not exist "K:" if /i not "%System%"=="K:" goto "RecoveryDriveLetter"
+if not exist "K:" if /i not "%System%"=="K:" goto "WindowsCheck"
 if not exist "L:" if /i not "%System%"=="L:" set Windows=L:
-if not exist "L:" if /i not "%System%"=="L:" goto "RecoveryDriveLetter"
+if not exist "L:" if /i not "%System%"=="L:" goto "WindowsCheck"
 if not exist "M:" if /i not "%System%"=="M:" set Windows=M:
-if not exist "M:" if /i not "%System%"=="M:" goto "RecoveryDriveLetter"
+if not exist "M:" if /i not "%System%"=="M:" goto "WindowsCheck"
 if not exist "N:" if /i not "%System%"=="N:" set Windows=N:
-if not exist "N:" if /i not "%System%"=="N:" goto "RecoveryDriveLetter"
+if not exist "N:" if /i not "%System%"=="N:" goto "WindowsCheck"
 if not exist "O:" if /i not "%System%"=="O:" set Windows=O:
-if not exist "O:" if /i not "%System%"=="O:" goto "RecoveryDriveLetter"
+if not exist "O:" if /i not "%System%"=="O:" goto "WindowsCheck"
 if not exist "P:" if /i not "%System%"=="P:" set Windows=P:
-if not exist "P:" if /i not "%System%"=="P:" goto "RecoveryDriveLetter"
+if not exist "P:" if /i not "%System%"=="P:" goto "WindowsCheck"
 if not exist "Q:" if /i not "%System%"=="Q:" set Windows=Q:
-if not exist "Q:" if /i not "%System%"=="Q:" goto "RecoveryDriveLetter"
+if not exist "Q:" if /i not "%System%"=="Q:" goto "WindowsCheck"
 if not exist "R:" if /i not "%System%"=="R:" set Windows=R:
-if not exist "R:" if /i not "%System%"=="R:" goto "RecoveryDriveLetter"
+if not exist "R:" if /i not "%System%"=="R:" goto "WindowsCheck"
 if not exist "S:" if /i not "%System%"=="S:" set Windows=S:
-if not exist "S:" if /i not "%System%"=="S:" goto "RecoveryDriveLetter"
+if not exist "S:" if /i not "%System%"=="S:" goto "WindowsCheck"
 if not exist "T:" if /i not "%System%"=="T:" set Windows=T:
-if not exist "T:" if /i not "%System%"=="T:" goto "RecoveryDriveLetter"
+if not exist "T:" if /i not "%System%"=="T:" goto "WindowsCheck"
 if not exist "U:" if /i not "%System%"=="U:" set Windows=U:
-if not exist "U:" if /i not "%System%"=="U:" goto "RecoveryDriveLetter"
+if not exist "U:" if /i not "%System%"=="U:" goto "WindowsCheck"
 if not exist "V:" if /i not "%System%"=="V:" set Windows=V:
-if not exist "V:" if /i not "%System%"=="V:" goto "RecoveryDriveLetter"
+if not exist "V:" if /i not "%System%"=="V:" goto "WindowsCheck"
 if not exist "W:" if /i not "%System%"=="W:" set Windows=W:
-if not exist "W:" if /i not "%System%"=="W:" goto "RecoveryDriveLetter"
+if not exist "W:" if /i not "%System%"=="W:" goto "WindowsCheck"
 if not exist "X:" if /i not "%System%"=="X:" set Windows=X:
-if not exist "X:" if /i not "%System%"=="X:" goto "RecoveryDriveLetter"
+if not exist "X:" if /i not "%System%"=="X:" goto "WindowsCheck"
 if not exist "Y:" if /i not "%System%"=="Y:" set Windows=Y:
-if not exist "Y:" if /i not "%System%"=="Y:" goto "RecoveryDriveLetter"
+if not exist "Y:" if /i not "%System%"=="Y:" goto "WindowsCheck"
 if not exist "Z:" if /i not "%System%"=="Z:" set Windows=Z:
-if not exist "Z:" if /i not "%System%"=="Z:" goto "RecoveryDriveLetter"
+if not exist "Z:" if /i not "%System%"=="Z:" goto "WindowsCheck"
 set DriveLettersUnavailable=True
 echo Only 1 drive letter is available! Please unmount 2 drives and then press any key to try again.
 pause > nul 2>&1
 goto "Windows"
+
+:"WindowsCheck"
+if /i "%WindowsType%"=="1" goto "RecoveryDriveLetter"
+if /i "%WindowsType%"=="2" goto "AvailableDriveLettersFound"
 
 :"RecoveryDriveLetter"
 if /i "%DriveLettersUnavailable%"=="True" echo.
@@ -555,7 +590,8 @@ goto "RecoveryDriveLetter"
 
 :"AvailableDriveLettersFound"
 echo Available drive letters found.
-goto "fsutilCheck"
+if /i "%WindowsType%"=="1" goto "fsutilCheck"
+if /i "%WindowsType%"=="2" goto "DiskPartWindowsToGo"
 
 :"fsutilCheck"
 if "%BIOSType%"=="2" goto "fsutil"
@@ -637,12 +673,52 @@ echo Error formatting and partitioning disk %Disk%. Disk %Disk% may not exist! D
 pause > nul 2>&1
 goto "Disk"
 
+:"DiskPartWindowsToGo"
+if exist "diskpart.txt" goto "DiskPartExistDiskPartWindowsToGo"
+echo.
+echo Partitioning and formatting disk %Disk%.
+(echo automount scrub) > "diskpart.txt"
+(echo sel disk %Disk%) >> "diskpart.txt"
+(echo clean) >> "diskpart.txt"
+if /i "%BIOSType%"=="3" (echo convert mbr) >> "diskpart.txt"
+if /i "%BIOSType%"=="2" (echo convert gpt) >> "diskpart.txt"
+if /i "%BIOSType%"=="3" (echo create partition primary size=350) >> "diskpart.txt"
+if /i "%BIOSType%"=="2" (echo create partition efi size=350) >> "diskpart.txt"
+(echo format fs=fat32 label="WTG-System" quick) >> "diskpart.txt"
+(echo assign letter=%System%) >> "diskpart.txt"
+if /i "%BIOSType%"=="3" (echo active) >> "diskpart.txt"
+(echo create partition primary) >> "diskpart.txt"
+(echo format fs=NTFS label="WTG-Windows" quick) >> "diskpart.txt"
+(echo assign letter=%Windows%) >> "diskpart.txt"
+(echo attributes vol set nodefaultdriveletter) >> "diskpart.txt"
+(echo exit) >> "diskpart.txt"
+"%windir%\System32\diskpart.exe" /s "diskpart.txt" > nul 2>&1
+if not "%errorlevel%"=="0" goto "DiskPartWindowsToGoError"
+del "diskpart.txt" /f /q > nul 2>&1
+echo Disk %Disk% partitioned and formatted.
+goto "DISM2"
+
+:"DiskPartExistDiskPartWindowsToGo"
+set DiskPart=True
+echo.
+echo Please temporarily rename to something else or temporarily move to another location "diskpart.txt" in order for this batch file to proceed. "diskpart.txt" is not a system file. "diskpart.txt" is located in the folder "%cd%". Press any key to continue when "diskpart.txt" is renamed to something else or moved to another location. This batch file will let you know when you can rename it back to its original name or move it back to its original location.
+pause > nul 2>&1
+goto "DiskPartWindowsToGo"
+
+:"DiskPartWindowsToGoError"
+del "diskpart.txt" /f /q > nul 2>&1
+echo Error formatting and partitioning disk %Disk%. Disk %Disk% may not exist! Disk %Disk% may be smaller than 64 GB! Press any key to try again.
+pause > nul 2>&1
+goto "Disk"
+
 :"DISM2"
 echo.
-echo Installing Windows.
+if /i "%WindowsType%"=="1" echo Installing Windows.
+if /i "%WindowsType%"=="2" echo Installing Windows To Go.
 "%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%Sources%\%Install%" /Index:%Index% /ApplyDir:"%Windows%"
 if not "%errorlevel%"=="0" goto "BitDetection"
-echo Windows installed.
+if /i "%WindowsType%"=="1" echo Windows installed.
+if /i "%WindowsType%"=="2" echo Windows To Go installed.
 goto "Bootloader"
 
 :"Bootloader"
@@ -669,6 +745,8 @@ if exist "diskpart.txt" goto "DiskPartExistBootloader"
 if not "%errorlevel%"=="0" goto "BootloaderError"
 del "diskpart.txt" /f /q > nul 2>&1
 echo Bootloader created.
+if /i "%WindowsType%"=="2" if /i "%DiskPart%"=="True" goto "DiskPartDone"
+if /i "%WindowsType%"=="2" goto "SANPolicy"
 goto "Recovery"
 
 :"DiskPartExistBootloader"
@@ -702,8 +780,8 @@ del "diskpart.txt" /f /q > nul 2>&1
 echo Recovery partition created.
 if /i "%DiskPart%"=="True" goto "DiskPartDone"
 if /i "%BIOSType%"=="1" goto "DoneBIOS"
-if /i "%BIOSType%"=="2" goto "DoneUEFI"
-if /i "%BIOSType%"=="3" goto "DoneBoth"
+if /i "%BIOSType%"=="2" goto "DoneUEFIWindows"
+if /i "%BIOSType%"=="3" goto "DoneBothWindows"
 
 :"DiskPartExistRecovery"
 set DiskPart=True
@@ -715,9 +793,97 @@ goto "DiskPartRecovery"
 echo.
 echo You can now rename or move the file back to "diskpart.txt". Press any key to continue.
 pause > nul 2>&1
+if /i "%WindowsType%"=="2" goto "SANPolicy"
 if /i "%BIOSType%"=="1" goto "DoneBIOS"
-if /i "%BIOSType%"=="2" goto "DoneUEFI"
-if /i "%BIOSType%"=="3" goto "DoneBoth"
+if /i "%BIOSType%"=="2" goto "DoneUEFIWindows"
+if /i "%BIOSType%"=="3" goto "DoneBothWindows"
+
+:"SANPolicy"
+echo.
+echo Applying SAN policy.
+(echo ) > "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+(echo ) >> "%Windows%\san_policy.xml"
+"%windir%\System32\Dism.exe" /Image:"%Windows%" /Apply-Unattend:"%Windows%\san_policy.xml"
+if not "%errorlevel%"=="0" goto "SANError"
+echo SAN policy applied.
+goto "Unattended"
+
+:"SANError"
+echo There has been an error! Press any key to try again.
+pause > nul 2>&1
+goto "SANPolicy"
+
+:"Unattended"
+echo.
+echo Creating "unattended.xml" file in Sysprep folder.
+(echo ) > "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
+echo "unattended.xml" file created in Sysprep folder.
+if /i "%BIOSType%"=="2" goto "DoneUEFIWindowsToGo"
+goto "DoneBothWindowsToGo"
 
 :"DoneBIOS"
 endlocal
@@ -726,16 +892,30 @@ echo Your Windows is ready! It is bootable with legacy BIOS only. Press any key 
 pause > nul 2>&1
 exit
 
-:"DoneUEFI"
+:"DoneUEFIWindows"
 endlocal
 echo.
 echo Your Windows is ready! It is bootable with UEFI only. Press any key to close this batch file.
 pause > nul 2>&1
 exit
 
-:"DoneBoth"
+:"DoneUEFIWindowsToGo"
+endlocal
+echo.
+echo Your Windows To Go is ready! It is bootable with UEFI only. Press any key to close this batch file.
+pause > nul 2>&1
+exit
+
+:"DoneBothWindows"
 endlocal
 echo.
 echo Your Windows is ready! It is bootable with legacy BIOS and UEFI. Press any key to close this batch file.
+pause > nul 2>&1
+exit
+
+:"DoneBothWindowsToGo"
+endlocal
+echo.
+echo Your Windows To Go is ready! It is bootable with legacy BIOS and UEFI. Press any key to close this batch file.
 pause > nul 2>&1
 exit
