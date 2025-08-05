@@ -739,4 +739,3 @@ echo.
 echo Your Windows is ready! It is bootable with legacy BIOS and UEFI. Press any key to close this batch file.
 pause > nul 2>&1
 exit
-
