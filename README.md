@@ -1,4 +1,4 @@
-# Windows Installation Tool v7.0.9
+# Windows Installation Tool v7.0.10
 Install Windows/Windows To Go.
 
 ## Supported Drives
