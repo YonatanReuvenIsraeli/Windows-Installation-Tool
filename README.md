@@ -7,7 +7,7 @@ Install Windows/Windows To Go.
 > - Scroll to the first "san_policy.xml" file and copy it line by line from line 804-841.
 > - Lines 829-839 copy what you have put in for 818-828 but on line 834 change `amd64` to `arm64`.
 > - On every line you copy put a `^` before every `>` and `<` that is in the code you put in.
-> - Put it in between the `(echo ` and `)`.
+> - Put the code in between the `(echo ` and `)`.
 > - Remember to include all spaces!
 
 > [!WARNING]
@@ -16,7 +16,7 @@ Install Windows/Windows To Go.
 > - Scroll to the second "san_policy.xml" file and copy it line by line from line 855-883
 > - Lines 874-881 copy what you have put in for 866-873 but on line 875 change `amd64` to `arm64`.
 > - On every line you copy put a `^` before every `>` and `<` that is in the code you put in.
-> - Put it in between the `(echo ` and `)`.
+> - Put the code in between the `(echo ` and `)`.
 > - Remember to include all spaces!
 
 ## Supported Drives
