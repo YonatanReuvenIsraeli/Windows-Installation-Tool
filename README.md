@@ -2,7 +2,7 @@
 Install Windows/Windows To Go.
 
 > [!WARNING]
-> **DUE TO MICROSOFT'S COPYRIGHT LIMITATIONS, THIS BATCH FILE NEED TO BE MODIFIED BEFORE IT CAN BE USED! YOU MUST FOLLOW MICROSOFT'S TERMS OF USE ON THEIR CODE!**.
+> ## DUE TO MICROSOFT'S COPYRIGHT LIMITATIONS, THIS BATCH FILE NEED TO BE MODIFIED BEFORE IT CAN BE USED! YOU MUST FOLLOW MICROSOFT'S TERMS OF USE ON THEIR CODE!.
 > - Get the necessary modifications from here https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/deployment/windows-to-go/deploy-windows-to-go.
 > - Scroll to the first "san_policy.xml" file and copy it line by line from line 804-841.
 > - Lines 829-839 copy what you have put in for 818-828 but on line 834 change `amd64` to `arm64`.
@@ -11,7 +11,7 @@ Install Windows/Windows To Go.
 > - Remember to include all spaces!
 
 > [!WARNING]
-> **DUE TO MICROSOFT'S COPYRIGHT LIMITATIONS, THIS BATCH FILE NEED TO BE MODIFIED BEFORE IT CAN BE USED! YOU MUST FOLLOW MICROSOFT'S TERMS OF USE ON THEIR CODE!**.
+> ## DUE TO MICROSOFT'S COPYRIGHT LIMITATIONS, THIS BATCH FILE NEED TO BE MODIFIED BEFORE IT CAN BE USED! YOU MUST FOLLOW MICROSOFT'S TERMS OF USE ON THEIR CODE!.
 > - Get the necessary modifications from here https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/deployment/windows-to-go/deploy-windows-to-go.
 > - Scroll to the second "san_policy.xml" file and copy it line by line from line 855-883
 > - Lines 874-881 copy what you have put in for 866-873 but on line 875 change `amd64` to `arm64`.
