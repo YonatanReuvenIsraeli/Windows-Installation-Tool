@@ -2,7 +2,7 @@
 Install Windows/Windows To Go.
 
 > [!WARNING]
-> ## DUE TO MICROSOFT'S COPYRIGHT LIMITATIONS, THIS BATCH FILE NEED TO BE MODIFIED BEFORE IT CAN BE USED! YOU MUST FOLLOW MICROSOFT'S TERMS OF USE ON THEIR CODE!
+> ## DUE TO MICROSOFT'S COPYRIGHT LIMITATIONS, THIS BATCH FILE NEED TO BE MODIFIED BEFORE IT CAN BE USED! YOU MUST FOLLOW MICROSOFT'S TERMS OF USE!
 > ### Follow these steps in order.
 > **1.** Get the necessary modifications from https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/deployment/windows-to-go/deploy-windows-to-go.  
 > **2.** Scroll to the first "san_policy.xml" file and copy it line by line into lines 804-841 but skip lines 829-839. Put the code in between the `(echo ` and `)`. Remember to include all spaces!  
