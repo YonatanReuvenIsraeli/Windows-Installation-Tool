@@ -22,5 +22,6 @@ Install Windows/Windows To Go.
 
 ## Notes
 - 3 unused drive letters are needed for standard Windows installation.
+- 2 unused drive letters are needed for Windows To Go installation.
 - This batch file may clear your auto-mount points.
 - On some versions of Windows 10 22H2, do to a `"%windir%\System32\ReAgentc.exe"` bug, the recovery partition files creation will fail.
