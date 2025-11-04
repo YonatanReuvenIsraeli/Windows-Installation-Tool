@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 7.0.12
+echo Version: 7.0.13
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -646,17 +646,17 @@ if /i "%BIOSType%"=="3" (echo create partition primary size=100) >> "diskpart.tx
 if /i "%BIOSType%"=="1" (echo format quick fs=ntfs label="System" override) >> "diskpart.txt"
 if /i "%BIOSType%"=="2" (echo format quick fs=fat32 label="System" override) >> "diskpart.txt"
 if /i "%BIOSType%"=="3" (echo format quick fs=fat32 label="System" override) >> "diskpart.txt"
-(echo assign letter="%System%") >> "diskpart.txt"
+(echo assign letter=%System%) >> "diskpart.txt"
 if /i "%BIOSType%"=="1" (echo active) >> "diskpart.txt"
 if /i "%BIOSType%"=="3" (echo active) >> "diskpart.txt"
 if /i "%BIOSType%"=="2" (echo create partition msr size=16) >> "diskpart.txt"
 (echo create partition primary) >> "diskpart.txt"
 (echo shrink minimum=990) >> "diskpart.txt"
 (echo format quick fs=ntfs label="Windows" override) >> "diskpart.txt"
-(echo assign letter="%Windows%") >> "diskpart.txt"
+(echo assign letter=%Windows%) >> "diskpart.txt"
 (echo create partition primary) >> "diskpart.txt"
 (echo format quick fs=ntfs label="Recovery" override) >> "diskpart.txt"
-(echo assign letter="%Recovery%") >> "diskpart.txt"
+(echo assign letter=%Recovery%) >> "diskpart.txt"
 if /i "%BIOSType%"=="1" (echo set id=27 override) >> "diskpart.txt"
 if /i "%BIOSType%"=="2" (echo set id="de94bba4-06d1-4d40-a16a-bfd50179d6ac" override) >> "diskpart.txt"
 if /i "%BIOSType%"=="3" (echo set id=27 override) >> "diskpart.txt"
