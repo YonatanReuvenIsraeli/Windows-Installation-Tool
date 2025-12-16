@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 7.0.14
+echo Version: 7.0.15
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -668,7 +668,7 @@ del "diskpart.txt" /f /q > nul 2>&1
 echo Disk %Disk% partitioned and formatted.
 goto "DISM2"
 
-:"DiskPartExistDiskDiskPartWindows"
+:"DiskPartExistDiskPartWindows"
 set DiskPart=True
 echo.
 echo Please temporarily rename to something else or temporarily move to another location "diskpart.txt" in order for this batch file to proceed. "diskpart.txt" is not a system file. "diskpart.txt" is located in the folder "%cd%". Press any key to continue when "diskpart.txt" is renamed to something else or moved to another location. This batch file will let you know when you can rename it back to its original name or move it back to its original location.
