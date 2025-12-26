@@ -1,4 +1,4 @@
-# Windows Installation Tool v7.0.15
+# Windows Installation Tool v7.0.16
 Install Windows/Windows To Go.
 
 > [!WARNING]
