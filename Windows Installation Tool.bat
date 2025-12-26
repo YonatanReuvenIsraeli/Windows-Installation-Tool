@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 7.0.15
+echo Version: 7.0.16
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -376,7 +376,7 @@ echo.
 echo Finding disks attached to this PC.
 (echo list disk) > "diskpart.txt"
 (echo exit) >> "diskpart.txt"
-"%windir%\System32\diskpart.exe" /s "diskpart.txt" 2>&1
+"%windir%\System32\diskpart.exe" /s "diskpart.txt"
 if not "%errorlevel%"=="0" goto "DiskError"
 del "diskpart.txt" /f /q > nul 2>&1
 echo Disks attached to this PC found.
