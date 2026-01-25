@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 7.0.16
+echo Version: 7.0.17
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -640,8 +640,8 @@ if /i "%BIOSType%"=="1" (echo convert mbr) >> "diskpart.txt"
 if /i "%BIOSType%"=="2" (echo convert gpt) >> "diskpart.txt"
 if /i "%BIOSType%"=="3" (echo convert mbr) >> "diskpart.txt"
 if /i "%BIOSType%"=="1" (echo create partition primary size=100) >> "diskpart.txt"
-if /i "%BIOSType%"=="2" if /i "%fsutil%"=="0" (echo create partition efi size=100) >> "diskpart.txt"
-if /i "%BIOSType%"=="2" if /i "%fsutil%"=="1" (echo create partition efi size=260) >> "diskpart.txt"
+if /i "%BIOSType%"=="2" if /i "%fsutil%"=="0" (echo create partition efi size=200) >> "diskpart.txt"
+if /i "%BIOSType%"=="2" if /i "%fsutil%"=="1" (echo create partition efi size=300) >> "diskpart.txt"
 if /i "%BIOSType%"=="3" (echo create partition primary size=100) >> "diskpart.txt"
 if /i "%BIOSType%"=="1" (echo format quick fs=ntfs label="System" override) >> "diskpart.txt"
 if /i "%BIOSType%"=="2" (echo format quick fs=fat32 label="System" override) >> "diskpart.txt"
