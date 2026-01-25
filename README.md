@@ -16,13 +16,13 @@ Install Windows/Windows To Go.
 - Supports all USB drives, but a external SSD or WTG certified drive is strongly recommended.
 
 ## Windows Installation Types
-- **Standard Windows Installation** Supports Windows 10 x86/x64, Windows 11 x64/Arm64.
-- **Windows To Go Installation** Supports Windows 10 x86/x64, Windows 11 x64.
+- **Standard Windows Installation:** Supports Windows 10 x86/x64, Windows 11 x64/Arm64.
+- **Windows To Go Installation:** Supports Windows 10 x86/x64, Windows 11 x64.
 
 ## Windows Compatibility
-- **Windows 10 x86/x64** Home, Home N, Home Single Language, Education, Education N, Pro and Pro N editions.
-- **Windows 11 x64** Home, Home N, Home Single Language, Education, Education N, Pro, Pro N, Pro Education, Pro Education N, Pro for Workstations and Pro for Workstations N editions.  
-- **Windows 11 Arm64** Home, Home Single Language and Pro.
+- **Windows 10 x86/x64:** Home, Home N, Home Single Language, Education, Education N, Pro and Pro N editions.
+- **Windows 11 x64:** Home, Home N, Home Single Language, Education, Education N, Pro, Pro N, Pro Education, Pro Education N, Pro for Workstations and Pro for Workstations N editions.  
+- **Windows 11 Arm64:** Home, Home Single Language and Pro.
 
 ## Notes
 - 3 unused drive letters are needed for standard Windows installation.
