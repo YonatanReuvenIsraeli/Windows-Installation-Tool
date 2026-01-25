@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 8.0.0
+echo Version: 8.0.1
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -856,17 +856,6 @@ echo Applying SAN policy.
 (echo ) >> "%Windows%\san_policy.xml"
 (echo ) >> "%Windows%\san_policy.xml"
 (echo ) >> "%Windows%\san_policy.xml"
-(echo ) >> "%Windows%\san_policy.xml"
-(echo ) >> "%Windows%\san_policy.xml"
-(echo ) >> "%Windows%\san_policy.xml"
-(echo ) >> "%Windows%\san_policy.xml"
-(echo ) >> "%Windows%\san_policy.xml"
-(echo ) >> "%Windows%\san_policy.xml"
-(echo ) >> "%Windows%\san_policy.xml"
-(echo ) >> "%Windows%\san_policy.xml"
-(echo ) >> "%Windows%\san_policy.xml"
-(echo ) >> "%Windows%\san_policy.xml"
-(echo ) >> "%Windows%\san_policy.xml"
 "%windir%\System32\Dism.exe" /Image:"%Windows%" /Apply-Unattend:"%Windows%\san_policy.xml"
 if not "%errorlevel%"=="0" goto "SANError"
 echo SAN policy applied.
@@ -881,14 +870,6 @@ goto "SANPolicy"
 echo.
 echo Creating "unattended.xml" file in Sysprep folder.
 (echo ) > "%Windows%\Windows\System32\Sysprep\unattend.xml"
-(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
-(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
-(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
-(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
-(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
-(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
-(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
-(echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
 (echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
 (echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
 (echo ) >> "%Windows%\Windows\System32\Sysprep\unattend.xml"
