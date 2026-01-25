@@ -14,7 +14,7 @@ Install Windows/Windows To Go.
 
 ## Supported Drives
 - Supports all USB drives, but a external SSD or WTG certified drive is strongly recommended.
-- 
+
 ## Windows Installation Types
 - **Standard Windows Installation** Supports Windows 10 x86/x64, Windows 11 x64/Arm64.
 - **Windows To Go Installation** Supports Windows 10 x86/x64, Windows 11 x64.
