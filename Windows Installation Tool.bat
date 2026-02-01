@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 8.0.1
+echo Version: 8.0.2
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -306,7 +306,7 @@ goto "Index3"
 :"SureIndex3"
 echo.
 set SureIndex=
-set /p SureIndex="Are you sure you want Index %Index%? (Yes/No) "
+set /p SureIndex="Are you sure you want index %Index%? (Yes/No) "
 if /i "%WindowsType%"=="1" if /i "%SureIndex%"=="Yes" goto "BIOSAsk"
 if /i "%WindowsType%"=="2" if /i "%SureIndex%"=="Yes" goto "AttachDisk"
 echo Invalid syntax!
@@ -329,7 +329,7 @@ goto "Index7"
 :"SureIndex7"
 echo.
 set SureIndex=
-set /p SureIndex="Are you sure you want Index %Index%? (Yes/No) "
+set /p SureIndex="Are you sure you want index %Index%? (Yes/No) "
 if /i "%WindowsType%"=="1" if /i "%SureIndex%"=="Yes" goto "BIOSAsk"
 if /i "%WindowsType%"=="2" if /i "%SureIndex%"=="Yes" goto "AttachDisk"
 if /i "%SureIndex%"=="No" goto "Index7"
@@ -357,7 +357,7 @@ goto "Index11"
 :"SureIndex11"
 echo.
 set SureIndex=
-set /p SureIndex="Are you sure you want Index %Index%? (Yes/No) "
+set /p SureIndex="Are you sure you want index %Index%? (Yes/No) "
 if /i "%WindowsType%"=="1" if /i "%SureIndex%"=="Yes" goto "BIOSAsk"
 if /i "%WindowsType%"=="2" if /i "%SureIndex%"=="Yes" goto "AttachDisk"
 if /i "%SureIndex%"=="No" goto "Index11"
