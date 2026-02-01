@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 8.0.2
+echo Version: 8.0.3
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -745,7 +745,8 @@ goto "Disk"
 echo.
 if /i "%WindowsType%"=="1" echo Installing Windows.
 if /i "%WindowsType%"=="2" echo Installing Windows To Go.
-"%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%Sources%\%Install%" /Index:%Index% /ApplyDir:"%Windows%"
+if /i not "%Install%"=="install.swm" "%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%Sources%\%Install%" /Index:%Index% /ApplyDir:"%Windows%"
+if /i "%Install%"=="install.swm" "%windir%\System32\Dism.exe" /Apply-Image /ImageFile:"%Sources%\%Install%" /SWMFile:"%Sources%\install*.swm" /Index:%Index% /ApplyDir:"%Windows%"
 if not "%errorlevel%"=="0" goto "BitDetection"
 if /i "%WindowsType%"=="1" echo Windows installed.
 if /i "%WindowsType%"=="2" echo Windows To Go installed.
