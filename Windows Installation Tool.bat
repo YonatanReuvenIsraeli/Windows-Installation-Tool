@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 8.0.6
+echo Version: 8.0.7
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -366,7 +366,7 @@ goto "SureIndex11"
 
 :"BIOSAsk"
 if not exist "%DriveLetter%\bootmgr" set BIOSType=2
-if not exist "%DriveLetter%\bootmgr" goto "Disk"
+if not exist "%DriveLetter%\bootmgr" goto "AttachDisk"
 echo.
 echo [1] Legacy BIOS.
 echo [2] UEFI.
