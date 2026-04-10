@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 8.0.7
+echo Version: 8.0.8
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -215,9 +215,8 @@ echo "%DriveLetter%" does not exist. Please try again.
 goto "DriveLetter"
 
 :"BitDetection"
-if exist "%DriveLetter%\sources" goto "Sources"
-if exist "%DriveLetter%\x86\sources" goto "Bit"
-if exist "%DriveLetter%\x64\sources" goto "Bit"
+if exist "%DriveLetter%\sources" if not exist "%DriveLetter%\x86\sources" if not exist "%DriveLetter%\x64\sources" goto "Sources"
+if exist "%DriveLetter%\x86\sources" if exist "%DriveLetter%\x64\sources" if not exist "%DriveLetter%\sources" goto "Bit"
 echo "%DriveLetter%" is not a Windows Disk Image/Windows installation media!
 goto "DriveLetter"
 
