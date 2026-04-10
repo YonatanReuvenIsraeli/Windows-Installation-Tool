@@ -1,4 +1,4 @@
-# Windows Installation Tool v8.0.7
+# Windows Installation Tool v8.0.8
 Install Windows/Windows To Go.
 
 > [!WARNING]
