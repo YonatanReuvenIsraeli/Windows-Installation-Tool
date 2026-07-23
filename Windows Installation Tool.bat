@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 8.0.8
+echo Version: 8.0.9
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -389,8 +389,8 @@ goto "SureBIOSAsk"
 
 :"AttachDisk"
 echo.
-if /i "%WindowsType%"=="1" echo Please attach an SSD or a HDD then press any key to continue.
-if /i "%WindowsType%"=="2" echo Please attach an external SSD or a WTG certified drive then press any key to continue.
+if /i "%WindowsType%"=="1" echo Please attach an SSD or a HDD and then press any key to continue.
+if /i "%WindowsType%"=="2" echo Please attach an external SSD or a WTG certified drive and then press any key to continue.
 pause > nul 2>&1
 goto "DiskPartSet"
 
