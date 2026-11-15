@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 8.0.9
+echo Version: 8.1.0
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -754,9 +754,9 @@ goto "Bootloader"
 :"Bootloader"
 echo.
 echo Creating bootloader.
-if /i "%BIOSType%"=="1" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f BIOS > nul 2>&1
-if /i "%BIOSType%"=="2" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f UEFI > nul 2>&1
-if /i "%BIOSType%"=="3" "%windir%\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f ALL > nul 2>&1
+if /i "%BIOSType%"=="1" "%Windows%\Windows\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f BIOS > nul 2>&1
+if /i "%BIOSType%"=="2" "%Windows%\Windows\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f UEFI > nul 2>&1
+if /i "%BIOSType%"=="3" "%Windows%\Windows\System32\bcdboot.exe" "%Windows%\Windows" /s "%System%" /f ALL > nul 2>&1
 if not "%errorlevel%"=="0" goto "BootloaderError"
 goto "DiskPartBootloader"
 
@@ -788,10 +788,16 @@ goto "DiskPartBootloader"
 :"Recovery"
 echo.
 echo Creating recovery partition files.
-md "%Recovery%\Recovery\WindowsRE" > nul 2>&1
-copy "%Windows%\Windows\System32\Recovery\Winre.wim" "%Recovery%\Recovery\WindowsRE\Winre.wim" /y /v > nul 2>&1
-"%windir%\System32\ReAgentc.exe" /setreimage /path "%Recovery%\Recovery\WindowsRE" /target "%Windows%\Windows" > nul 2>&1
+if not exist "%Recovery%\Recovery\WindowsRE" md "%Recovery%\Recovery\WindowsRE" > nul 2>&1
+"%windir%\System32\xcopy.exe" "%Windows%\Windows\System32\Recovery\Winre.wim" "%Recovery%\Recovery\WindowsRE\Winre.wim" /h /y /k /r /c /q > nul 2>&1
+"%Windows%\Windows\System32\ReAgentc.exe" /setreimage /path "%Recovery%\Recovery\WindowsRE" /target "%Windows%\Windows" > nul 2>&1
+if not "%errorlevel%"=="0" goto "RecoveryError"
 goto "DiskPartRecovery"
+
+:"RecoveryError"
+echo Error creating the recovery partition files! Press any key to try again.
+pause > nul 2>&1
+goto "Recovery"
 
 :"DiskPartRecovery"
 if exist "diskpart.txt" goto "DiskPartExistRecovery"
