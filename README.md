@@ -1,4 +1,4 @@
-# Windows Installation Tool v8.1.2
+# Windows Installation Tool v8.1.3
 Install Windows/Windows To Go.
 
 > [!WARNING]
@@ -29,4 +29,4 @@ Install Windows/Windows To Go.
 - 3 unused drive letters are needed for standard Windows installation.
 - 2 unused drive letters are needed for Windows To Go installation.
 - This batch file may clear your auto-mount points.
-- Supports Windows Disk Image/Windows installation media with ESD, SWM and WIM images.
+- Supports Windows Disk Image/Windows installation media with ESD, SWM and WIM images
