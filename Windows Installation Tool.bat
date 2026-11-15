@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 8.1.0
+echo Version: 8.1.1
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -55,8 +55,8 @@ goto "SureWindowsType"
 :"DownloadWindows"
 echo.
 echo [1] Download Windows 10 22H2 x86/x64 Windows Disk Image/Windows installation media.
-echo [2] Download Windows 11 25H2 x64 Windows Disk Image/Windows installation media.
-echo [3] Download Windows 11 25H2 Arm64 Windows Disk Image/Windows installation media.
+echo [2] Download Windows 11 26H2 x64 Windows Disk Image/Windows installation media.
+echo [3] Download Windows 11 26H2 Arm64 Windows Disk Image/Windows installation media.
 echo [4] Already have downloaded Windows 10 22H2 x86/x64 Windows Disk Image/Windows installation media or Windows 11 25H2 x64/Arm64 Windows Disk Image/Windows installation media.
 echo.
 set Download=
