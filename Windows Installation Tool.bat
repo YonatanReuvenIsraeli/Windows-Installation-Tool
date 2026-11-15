@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 8.1.1
+echo Version: 8.1.2
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -57,7 +57,7 @@ echo.
 echo [1] Download Windows 10 22H2 x86/x64 Windows Disk Image/Windows installation media.
 echo [2] Download Windows 11 26H2 x64 Windows Disk Image/Windows installation media.
 echo [3] Download Windows 11 26H2 Arm64 Windows Disk Image/Windows installation media.
-echo [4] Already have downloaded Windows 10 22H2 x86/x64 Windows Disk Image/Windows installation media or Windows 11 25H2 x64/Arm64 Windows Disk Image/Windows installation media.
+echo [4] Already have downloaded Windows 10 22H2 x86/x64 Windows Disk Image/Windows installation media or Windows 11 26H2 x64/Arm64 Windows Disk Image/Windows installation media.
 echo.
 set Download=
 set /p Download="What do you want to do? (1-4) "
@@ -72,9 +72,9 @@ goto "DownloadWindows"
 echo.
 set SureDownload=
 if /i "%Download%"=="1" set /p SureDownload="Are you sure you want to download Windows 10 22H2 x86/x64 Windows Disk Image/Windows installation media? (Yes/No) "
-if /i "%Download%"=="2" set /p SureDownload="Are you sure you want to download Windows 11 25H2 x64 Windows Disk Image/Windows installation media? (Yes/No) "
-if /i "%Download%"=="3" set /p SureDownload="Are you sure you want to download Windows 11 25H2 Arm64 Windows Disk Image/Windows installation media? (Yes/No) "
-if /i "%Download%"=="4" set /p SureDownload="Are you sure you have downloaded Windows 10 22H2 x86/x64 Windows Disk Image/Windows installation media or Windows 11 25H2 x64/Arm64 Windows Disk Image/Windows installation media? (Yes/No) "
+if /i "%Download%"=="2" set /p SureDownload="Are you sure you want to download Windows 11 26H2 x64 Windows Disk Image/Windows installation media? (Yes/No) "
+if /i "%Download%"=="3" set /p SureDownload="Are you sure you want to download Windows 11 26H2 Arm64 Windows Disk Image/Windows installation media? (Yes/No) "
+if /i "%Download%"=="4" set /p SureDownload="Are you sure you have downloaded Windows 10 22H2 x86/x64 Windows Disk Image/Windows installation media or Windows 11 26H2 x64/Arm64 Windows Disk Image/Windows installation media? (Yes/No) "
 if /i "%SureDownload%"=="Yes" goto "DownloadGoWindows"
 if /i "%SureDownload%"=="No" goto "DownloadWindows"
 echo Invalid syntax!
@@ -89,8 +89,8 @@ if /i "%Download%"=="4" goto "Mount"
 :"DownloadWindowsToGo"
 echo.
 echo [1] Download Windows 10 22H2 x86/x64 Windows Disk Image/Windows installation media.
-echo [2] Download Windows 11 25H2 x64 Windows Disk Image/Windows installation media.
-echo [3] Already have downloaded Windows 10 22H2 x86/x64 Windows Disk Image/Windows installation media or Windows 11 25H2 x64 Windows Disk Image/Windows installation media.
+echo [2] Download Windows 11 26H2 x64 Windows Disk Image/Windows installation media.
+echo [3] Already have downloaded Windows 10 22H2 x86/x64 Windows Disk Image/Windows installation media or Windows 11 26H2 x64 Windows Disk Image/Windows installation media.
 echo.
 set Download=
 set /p Download="What do you want to do? (1-3) "
@@ -104,8 +104,8 @@ goto "DownloadWindowsToGo"
 echo.
 set SureDownload=
 if /i "%Download%"=="1" set /p SureDownload="Are you sure you want to download Windows 10 22H2 x86/x64 Windows Disk Image/Windows installation media? (Yes/No) "
-if /i "%Download%"=="2" set /p SureDownload="Are you sure you want to download Windows 11 25H2 x64 Windows Disk Image/Windows installation media? (Yes/No) "
-if /i "%Download%"=="3" set /p SureDownload="Are you sure you have downloaded Windows 10 22H2 x86/x64 Windows Disk Image/Windows installation media or Windows 11 25H2 x64 Windows Disk Image/Windows installation media? (Yes/No) "
+if /i "%Download%"=="2" set /p SureDownload="Are you sure you want to download Windows 11 26H2 x64 Windows Disk Image/Windows installation media? (Yes/No) "
+if /i "%Download%"=="3" set /p SureDownload="Are you sure you have downloaded Windows 10 22H2 x86/x64 Windows Disk Image/Windows installation media or Windows 11 26H2 x64 Windows Disk Image/Windows installation media? (Yes/No) "
 if /i "%SureDownload%"=="Yes" goto "DownloadGoWindowsToGo"
 if /i "%SureDownload%"=="No" goto "DownloadWindowsToGo"
 echo Invalid syntax!
@@ -130,25 +130,25 @@ goto "Mount"
 
 :"11x64"
 echo.
-echo Download Windows 11 25H2 x64 Disk Image/installation media from here. ^-^-^> https://www.microsoft.com/software-download/windows11
+echo Download Windows 11 26H2 x64 Disk Image/installation media from here. ^-^-^> https://www.microsoft.com/software-download/windows11
 echo.
 echo Press any key to open the website.
 pause > nul 2>&1
 start https://www.microsoft.com/software-download/windows11
 echo.
-echo Press any key to continue once you have downloaded the Windows 11 25H2 x64 Disk Image.
+echo Press any key to continue once you have downloaded the Windows 11 26H2 x64 Disk Image.
 pause > nul 2>&1
 goto "Mount"
 
 :"11Arm64"
 echo.
-echo Download Windows 11 25H2 Arm64 Disk Image/installation media from here. ^-^-^> https://www.microsoft.com/software-download/windows11arm64
+echo Download Windows 11 26H2 Arm64 Disk Image/installation media from here. ^-^-^> https://www.microsoft.com/software-download/windows11arm64
 echo.
 echo Press any key to open the website.
 pause > nul 2>&1
 start https://www.microsoft.com/software-download/windows11arm64
 echo.
-echo Press any key to continue once you have downloaded the Windows 11 25H2 Arm64 Disk Image.
+echo Press any key to continue once you have downloaded the Windows 11 26H2 Arm64 Disk Image.
 pause > nul 2>&1
 goto "Mount"
 
