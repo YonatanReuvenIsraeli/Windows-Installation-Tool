@@ -2,7 +2,7 @@
 title Windows Installation Tool
 setlocal
 echo Program Name: Windows Installation Tool
-echo Version: 8.1.2
+echo Version: 8.1.3
 echo License: GNU General Public License v3.0
 echo Developer: @YonatanReuvenIsraeli
 echo GitHub: https://github.com/YonatanReuvenIsraeli
@@ -789,7 +789,7 @@ goto "DiskPartBootloader"
 echo.
 echo Creating recovery partition files.
 if not exist "%Recovery%\Recovery\WindowsRE" md "%Recovery%\Recovery\WindowsRE" > nul 2>&1
-"%windir%\System32\xcopy.exe" "%Windows%\Windows\System32\Recovery\Winre.wim" "%Recovery%\Recovery\WindowsRE\Winre.wim" /h /y /k /r /c /q > nul 2>&1
+"%windir%\System32\xcopy.exe" "%Windows%\Windows\System32\Recovery\Winre.wim" "%Recovery%\Recovery\WindowsRE" /h /y /k /r /c /q > nul 2>&1
 "%Windows%\Windows\System32\ReAgentc.exe" /setreimage /path "%Recovery%\Recovery\WindowsRE" /target "%Windows%\Windows" > nul 2>&1
 if not "%errorlevel%"=="0" goto "RecoveryError"
 goto "DiskPartRecovery"
